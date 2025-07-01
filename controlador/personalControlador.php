@@ -28,14 +28,6 @@ class ControladorPersonal
   {
     require "../modelo/personalModelo.php";
 
-    //qr de direccion
-    $direccion_img=$_FILES["dirPersonal"];
-
-    $nomImagenDir = $direccion_img["name"];
-    $archImagenDir = $direccion_img["tmp_name"];
-
-    move_uploaded_file($archImagenDir, "../assest/dist/img/personal/" . $nomImagenDir);
-
     //imagen del personal
     $personal_img=$_FILES["imgPersonal"];
 
@@ -49,10 +41,9 @@ class ControladorPersonal
       "patPersonal" => $_POST["patPersonal"],
       "matPersonal" => $_POST["matPersonal"],
       "ciPersonal" => $_POST["ciPersonal"],
-      "depPersonal" => $_POST["depPersonal"],
       "cargoPersonal" => $_POST["cargoPersonal"],
       "telPersonal" => $_POST["telPersonal"],
-      "dirPersonal" => $nomImagenDir,
+      "dirPersonal" => $_POST["dirPersonal"],
       "ciudadPersonal" => $_POST["ciudadPersonal"],
       "imgPersonal" => $nomImagenPer,
       "fechaInicio" => $_POST["fechaInicio"],
@@ -77,18 +68,6 @@ class ControladorPersonal
   {
     require "../modelo/personalModelo.php";
 
-    //qr de direccion
-    $direccion_img=$_FILES["dirPersonal"];
-    if ($direccion_img["name"] == "") {
-      $nomImagenDir = $_POST["dirPerAntiguo"];
-    } else {
-
-      $nomImagenDir = $direccion_img["name"];
-      $archImagenDir = $direccion_img["tmp_name"];
-
-      move_uploaded_file($archImagenDir, "../assest/dist/img/personal/" . $nomImagenDir);
-
-    }
 
     //imagen del personal
     $personal_img=$_FILES["imgPersonal"];
@@ -110,10 +89,9 @@ class ControladorPersonal
       "patPersonal" => $_POST["patPersonal"],
       "matPersonal" => $_POST["matPersonal"],
       "ciPersonal" => $_POST["ciPersonal"],
-      "depPersonal" => $_POST["depPersonal"],
       "cargoPersonal" => $_POST["cargoPersonal"],
       "telPersonal" => $_POST["telPersonal"],
-      "dirPersonal" => $nomImagenDir,
+      "dirPersonal" => $_POST["dirPersonal"],
       "ciudadPersonal" => $_POST["ciudadPersonal"],
       "imgPersonal" => $nomImagenPer,
       "fechaInicio" => $_POST["fechaInicio"],

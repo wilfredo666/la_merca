@@ -26,59 +26,61 @@ $personal = ControladorPersonal::ctrInfoPersonal($id);
       <label for="">Apellido Materno</label>
       <input type="text" class="form-control" id="matPersonal" name="matPersonal" value="<?php echo $personal['ap_materno']; ?>">
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-4">
       <label for="">C.I.</label>
       <input type="text" class="form-control" id="ciPersonal" name="ciPersonal" value="<?php echo $personal['ci_personal']; ?>">
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-4">
       <label for="">Teléfono(s)</label>
       <input type="text" class="form-control" id="telPersonal" name="telPersonal" value="<?php echo $personal['telefono']; ?>">
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-4">
       <label for="">Ciudad</label>
       <input type="text" class="form-control" id="ciudadPersonal" name="ciudadPersonal" value="<?php echo $personal['ciudad_personal']; ?>">
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-4">
       <label for="">Estado <span class="text-muted">(Si aun trabaja o no )</span></label>
       <select name="estadoPersonal" id="estadoPersonal" class="form-control">
         <option value="1" <?php if ($personal["estado_personal"] == 1) : ?> selected <?php endif; ?>>Activo</option>
-        <option value="0" <?php if ($personal["estado_personal"] == 0) : ?> selected <?php endif; ?>>Inactivo</option>
+        <option value="0" <?php if ($personal["estado_personal"] == 0) : ?> selected <?php endif; ?>>Retirado</option>
       </select>
     </div>
-    <div class="form-group col-md-3">
-      <label for="">Departamento<span class="text-muted"> (Area de trabajo)</span></label>
-      <input type="text" class="form-control" id="depPersonal" name="depPersonal" value="<?php echo $personal['departamento']; ?>">
-    </div>
-    <div class="form-group col-md-3">
-      <label for="">Cargo</label>
-      <input type="text" class="form-control" id="cargoPersonal" name="cargoPersonal" value="<?php echo $personal['cargo']; ?>">
-    </div>
 
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-4">
       <label for="">Fecha de inicio</label>
       <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"  value="<?php echo $personal['fecha_inicio']; ?>">
     </div>
 
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-4">
       <label for="">Salario (Bs)</label>
       <input type="number" class="form-control" id="salarioPersonal" name="salarioPersonal"  value="<?php echo $personal['salario_personal']; ?>">
     </div>
 
-    <div class="form-group col-md-3">
-      <label for="">Dirección <span class="text-muted">(Cargar QR de la ubicacion)</span></label>
-      <input type="file" class="form-control" id="dirPersonal" name="dirPersonal" onchange="previsualizarID()" accept="image/png, image/jpeg">
-      <input type="hidden" id="dirPerAntiguo" name="dirPerAntiguo" value="<?php echo $personal['direccion']; ?>">
+    <div class="form-group col-md-4">
+      <label for="">Dirección</label>
+       <input type="text" class="form-control" id="dirPersonal" name="dirPersonal" value="<?php echo $personal['direccion']; ?>">
     </div>
-    <div class="form-group col-md-3 text-center">
-      <img class="img-thumbnail previsualizarID" src="assest/dist/img/personal/<?php echo $personal['direccion']; ?>" alt="" width="100">
+    <div class="form-group col-md-4">
+      <label for="">Cargo</label>
+      <input type="text" class="form-control" id="cargoPersonal" name="cargoPersonal" value="<?php echo $personal['cargo']; ?>">
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-8">
       <label for="">Imagen <span class="text-muted">(Cargar foto de la persona)</span></label>
       <input type="file" class="form-control" id="imgPersonal" name="imgPersonal" onchange="previsualizarIP()" accept="image/png, image/jpeg">
       <input type="hidden" id="imgPerAntiguo" name="imgPerAntiguo" value="<?php echo $personal['imagen_personal']; ?>">
     </div>
-    <div class="form-group col-md-3 text-center">
+    <div class="form-group col-md-4 text-center">
+           <?php
+      if($personal['imagen_personal']==""){
+      ?>
+      <img class="img-thumbnail previsualizarIP" src="assest/dist/img/user.jpg" alt="" width="100">
+      <?php
+      }else{
+      ?>
       <img class="img-thumbnail previsualizarIP" src="assest/dist/img/personal/<?php echo $personal['imagen_personal']; ?>" alt="" width="100">
+      <?php
+      }
+      ?>
     </div>
 
     <div class="col-md-12">

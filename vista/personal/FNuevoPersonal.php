@@ -31,18 +31,14 @@
       <input type="text" class="form-control" id="ciudadPersonal" name="ciudadPersonal">
     </div>
     <div class="form-group col-md-6">
-      <label for="">Dirección <span class="text-muted">(Cargar QR de la ubicacion)</span></label>
-      <input type="file" class="form-control" id="dirPersonal" name="dirPersonal" accept="image/png, image/jpeg">
+      <label for="">Dirección</label>
+      <input type="text" class="form-control" id="dirPersonal" name="dirPersonal">
     </div>    
     <div class="form-group col-md-6">
       <label for="">Imagen <span class="text-muted">(Cargar foto de la persona)</span></label>
       <input type="file" class="form-control" id="imgPersonal" name="imgPersonal">
     </div>
-    <div class="form-group col-md-3">
-      <label for="">Departamento</label><span class="text-muted"> (Area de trabajo)</span>
-      <input type="text" class="form-control" id="depPersonal" name="depPersonal">
-    </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-6">
       <label for="">Cargo</label>
       <input type="text" class="form-control" id="cargoPersonal" name="cargoPersonal">
     </div>
@@ -96,6 +92,9 @@
           },
           ciPersonal: {
             required: true,
+          },
+          dirPersonal: {
+            required: true,
           }
         },
         errorElement: 'span',
@@ -117,7 +116,4 @@
 
   })
 
-  $('.select2bs4').select2({
-    theme: 'bootstrap4'
-  })
 </script>

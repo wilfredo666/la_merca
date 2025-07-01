@@ -41,9 +41,7 @@
           <td>
             <?php if($value["estado_almacen"]==1){
             ?>
-
-            <span href="#" 
-               class="badge bg-success estadoUsuario">
+            <span href="#" class="badge bg-success">
               Activo
             </span>
             <?php

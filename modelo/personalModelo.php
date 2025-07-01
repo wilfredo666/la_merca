@@ -18,7 +18,6 @@ class ModeloPersonal{
     $patPersonal=$data["patPersonal"];
     $matPersonal=$data["matPersonal"];
     $ciPersonal=$data["ciPersonal"];
-    $depPersonal=$data["depPersonal"];
     $cargoPersonal=$data["cargoPersonal"];
     $telPersonal=$data["telPersonal"];
     $dirPersonal=$data["dirPersonal"];
@@ -30,15 +29,16 @@ class ModeloPersonal{
     $telefonoRef = $data["telefonoRef"];
     $direccionRef = $data["direccionRef"];
 
-    $stmt=Conexion::conectar()->prepare("insert into personal(ci_personal, ap_paterno, ap_materno, nombre, cargo, direccion, telefono, departamento, ciudad_personal, imagen_personal, fecha_inicio, salario_personal, persona_referencia, telefono_referencia, direccion_referencia) values('$ciPersonal', '$patPersonal', '$matPersonal',  '$nomPersonal', '$cargoPersonal', '$dirPersonal', '$telPersonal', '$depPersonal', '$ciudadPersonal', '$imgPersonal', '$fechaInicio', '$salarioPersonal', '$personaRef', '$telefonoRef', '$direccionRef')");
+    $stmt=Conexion::conectar()->prepare("insert into personal(ci_personal, ap_paterno, ap_materno, nombre, cargo, direccion, telefono, ciudad_personal, imagen_personal, fecha_inicio, salario_personal, persona_referencia, telefono_referencia, direccion_referencia) values('$ciPersonal', '$patPersonal', '$matPersonal',  '$nomPersonal', '$cargoPersonal', '$dirPersonal', '$telPersonal', '$ciudadPersonal', '$imgPersonal', '$fechaInicio', '$salarioPersonal', '$personaRef', '$telefonoRef', '$direccionRef')");
 
     if($stmt->execute()){
+      $stmt = null;
       return "ok";
     }else{
+      $stmt = null;
       return "error";
     }
-    $stmt->close();
-    $stmt->null;
+    
   }
 
   static public function mdlInfoPersonal($id){
@@ -56,7 +56,6 @@ class ModeloPersonal{
     $patPersonal=$data["patPersonal"];
     $matPersonal=$data["matPersonal"];
     $ciPersonal=$data["ciPersonal"];
-    $depPersonal=$data["depPersonal"];
     $cargoPersonal=$data["cargoPersonal"];
     $telPersonal=$data["telPersonal"];
     $dirPersonal=$data["dirPersonal"];
@@ -68,7 +67,7 @@ class ModeloPersonal{
     $telefonoRef = $data["telefonoRef"];
     $direccionRef = $data["direccionRef"];
 
-    $stmt=Conexion::conectar()->prepare("update personal set nombre='$nomPersonal', ap_paterno='$patPersonal',  ap_materno='$matPersonal', ci_personal='$ciPersonal', departamento='$depPersonal', cargo='$cargoPersonal', direccion='$dirPersonal', telefono='$telPersonal', estado_personal='$estadoPersonal', ciudad_personal='$ciudadPersonal', imagen_personal='$imgPersonal', fecha_inicio='$fechaInicio', salario_personal='$salarioPersonal', persona_referencia='$personaRef', telefono_referencia='$telefonoRef', direccion_referencia='$direccionRef'  where id_personal=$idPersonal");
+    $stmt=Conexion::conectar()->prepare("update personal set nombre='$nomPersonal', ap_paterno='$patPersonal',  ap_materno='$matPersonal', ci_personal='$ciPersonal', cargo='$cargoPersonal', direccion='$dirPersonal', telefono='$telPersonal', estado_personal='$estadoPersonal', ciudad_personal='$ciudadPersonal', imagen_personal='$imgPersonal', fecha_inicio='$fechaInicio', salario_personal='$salarioPersonal', persona_referencia='$personaRef', telefono_referencia='$telefonoRef', direccion_referencia='$direccionRef'  where id_personal=$idPersonal");
 
     if($stmt->execute()){
       return "ok";

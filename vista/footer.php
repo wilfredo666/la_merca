@@ -36,6 +36,7 @@
 <script src="assest/js/usuario.js"></script>
 <script src="assest/js/personal.js"></script>
 <script src="assest/js/proveedor.js"></script>
+<script src="assest/js/almacen.js"></script>
 
 <!--===============
 seccion de modals
@@ -54,6 +55,17 @@ seccion de modals
 <div class="modal fade" id="modal-lg">
   <div class="modal-dialog modal-lg">
     <div class="modal-content" id="content-lg">
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-xl">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" id="content-xl">
 
     </div>
     <!-- /.modal-content -->

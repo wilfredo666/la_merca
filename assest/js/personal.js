@@ -1,5 +1,5 @@
 function MNuevoPersonal() {
-  $("#modal-xl").modal("show")
+  $("#modal-lg").modal("show")
 
   var obj = ""
   $.ajax({
@@ -7,7 +7,7 @@ function MNuevoPersonal() {
     url: "vista/personal/FNuevoPersonal.php",
     data: obj,
     success: function (data) {
-      $("#content-xl").html(data)
+      $("#content-lg").html(data)
     }
   })
 }
@@ -48,7 +48,7 @@ function RegPersonal() {
 }
 
 function MEditPersonal(id) {
-  $("#modal-xl").modal("show")
+  $("#modal-lg").modal("show")
 
   var obj = ""
   $.ajax({
@@ -56,7 +56,7 @@ function MEditPersonal(id) {
     url: "vista/personal/FEditPersonal.php?id=" + id,
     data: obj,
     success: function (data) {
-      $("#content-xl").html(data)
+      $("#content-lg").html(data)
     }
   })
 }

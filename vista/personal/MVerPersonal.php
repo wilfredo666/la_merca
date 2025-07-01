@@ -6,6 +6,11 @@ $id = $_GET["id"];
 $personal = ControladorPersonal::ctrInfoPersonal($id);
 
 ?>
+<style>
+  .col-md-6{
+    margin-top:15px;
+  }
+</style>
 <div class="modal-header bg-dark">
   <h4 class="modal-title font-weight-light">Información de Personal</h4>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -14,76 +19,49 @@ $personal = ControladorPersonal::ctrInfoPersonal($id);
 </div>
 <div class="modal-body">
   <div class="row">
-    <div class="col-sm-8">
-      <table class="table">
-        <tr>
-          <th>Nombre(s)</th>
-          <td><?php echo $personal["nombre"]; ?></td>
-        </tr>
 
-        <tr>
-          <th>Apellido Paterno</th>
-          <td><?php echo $personal["ap_paterno"]; ?></td>
-        </tr>
-
-        <tr>
-          <th>Apellido Materno</th>
-          <td><?php echo $personal["ap_materno"]; ?></td>
-        </tr>
-
-        <tr>
-          <th>Cédula Identidad</th>
-          <td><?php echo $personal["ci_personal"]; ?></td>
-        </tr>
-
-        <tr>
-          <th>Cargo Personal</th>
-          <td><?php echo $personal["cargo"]; ?></td>
-        </tr>
-
-        <tr>
-          <th>Telefono(s)</th>
-          <td><?php echo $personal["telefono"]; ?></td>
-        </tr>
-
-        <tr>
-          <th>Fecha de inicio</th>
-          <td><?php echo $personal["fecha_inicio"]; ?></td>
-        </tr>
-        <tr>
-          <th>Salario</th>
-          <td><?php echo $personal["salario_personal"]; ?></td>
-        </tr>
-        <tr>
-          <th>Ciudad</th>
-          <td><?php echo $personal["ciudad_personal"]; ?></td>
-        </tr>
-        <tr>
-          <th>Estado Personal</th>
-          <?php
-          if ($personal["estado_personal"] == 1) {
-          ?>
-          <td><span class="badge badge-success">Activo</span></td>
-          <?php
-          } else {
-          ?>
-          <td><span class="badge badge-danger">Inactivo</span></td>
-          <?php
-          }
-          ?>
-        </tr>
-
-      </table>
-
-    </div>
-    <div class="col-sm-4 text-center">
+    <div class="col-sm-12 text-center">
+      <?php
+      if($personal['imagen_personal']==""){
+      ?>
+      <img class="img-thumbnail" src="assest/dist/img/user.jpg" alt="" width="200">
+      <?php
+      }else{
+      ?>
       <img class="img-thumbnail" src="assest/dist/img/personal/<?php echo $personal['imagen_personal']; ?>" alt="" width="200">
+      <?php
+      }
+      ?>
 
-     <hr>
-      
-      <img class="img-thumbnail" src="assest/dist/img/personal/<?php echo $personal['direccion']; ?>" alt="" width="200">
-      <p>UBIACION</p>
     </div>
+
+    <div class="col-md-6"><i class="fas fa-id-card me-2 text-secondary"></i><strong> C.I.:</strong> <?php echo $personal["ci_personal"]; ?></div>
+    <div class="col-md-6"><i class="fas fa-phone-alt me-2 text-secondary"></i><strong> Telefono:</strong> <?php echo $personal["telefono"]; ?></div>
+    <div class="col-md-6"><i class="fas fa-user me-2 text-secondary"></i><strong> Nombre(s):</strong> <?php echo $personal["nombre"]; ?></div>
+    <div class="col-md-6"><i class="fas fa-user-tag me-2 text-secondary"></i><strong> Apellido Paterno:</strong> <?php echo $personal["ap_paterno"]; ?></div>
+    <div class="col-md-6"><i class="fas fa-user-tag me-2 text-secondary"></i><strong> Apellido Materno:</strong> <?php echo $personal["ap_materno"]; ?></div>
+    <div class="col-md-6"><i class="fas fa-calendar me-2 text-secondary"></i><strong> Fecha de inicio:</strong> <?php echo $personal["fecha_inicio"]; ?></div>
+    <div class="col-md-6"><i class="fas fa-briefcase me-2 text-secondary"></i><strong> Cargo:</strong> <?php echo $personal["cargo"]; ?></div>
+
+    <div class="col-md-6"><i class="fas fa-money-bill-wave-alt me-2 text-secondary"></i><strong> Salario:</strong> <?php echo $personal["salario_personal"]; ?></div>
+
+    <div class="col-md-6"><i class="fas fa-building me-2 text-secondary"></i><strong> Ciudad:</strong> <?php echo $personal["ciudad_personal"]; ?></div>
+
+    <div class="col-md-6"><i class="fas fa-check-circle me-2 text-success"></i><strong> Estado:</strong>   <?php
+      if ($personal["estado_personal"] == 1) {
+      ?>
+      <td><span class="badge badge-success">Activo</span></td>
+      <?php
+      } else {
+      ?>
+      <td><span class="badge badge-danger">Inactivo</span></td>
+      <?php
+      }
+      ?></div>
+
+    <div class="col-md-6"><i class="fas fa-map-marker-alt me-2 text-secondary"></i><strong> Dirección:</strong> <?php echo $personal["direccion"]; ?></div>
+
+
     <div class="col-sm-12">
       <table class="table">
         <tr>
@@ -92,9 +70,7 @@ $personal = ControladorPersonal::ctrInfoPersonal($id);
         <tr>
           <th>Nombre(s)</th>
 
-
           <th>Telefono(s)</th>
-
 
           <th>Direccion</th>
 
