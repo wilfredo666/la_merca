@@ -41,7 +41,8 @@ session_start();
     <link rel="icon" href="<?php echo $base_url; ?>assest/dist/img/logotipo.png">
 
     <link href="https://cdn.jsdelivr.net/npm/fontawesome-4.7@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="assest/plugins/daterangepicker/daterangepicker.css">
     <style>
       table {
         /*font-size: 14px;*/
@@ -86,6 +87,8 @@ session_start();
           "VPersonal",
           "VProveedor",
           "VAlmacen",
+          "VProducto",
+          "VCliente",
           "inicio",
           "permisos",
         ];

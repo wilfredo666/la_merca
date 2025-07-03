@@ -21,6 +21,9 @@ function habilitado($idPermiso)
         <li class="nav-item d-none d-sm-inline-block">
           <a class="nav-link" href="inicio" role="button">Inicio</a>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <b class="nav-link"><b>Almacen 1</b></b>
+        </li>
       </ul>
 
       <!-- Right navbar links -->
@@ -106,6 +109,34 @@ function habilitado($idPermiso)
               </ul>
             </li>
             <?php } ?>
+            <?php if (habilitado(2) != null) {
+            ?>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-handshake"></i>
+                <p>
+                  Clientes
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="VCliente" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Lista de clientes</p>
+                  </a>
+                </li>
+
+                <!-- <li class="nav-item">
+<a href="FNuevoCliente" class="nav-link">
+<i class="far fa-circle nav-icon text-info"></i>
+<p>Registrar Cliente</p>
+</a>
+</li> -->
+              </ul>
+            </li>
+            <?php } ?>
+
 
             <?php if (habilitado(6) != null) {
             ?>
@@ -137,29 +168,38 @@ function habilitado($idPermiso)
               </a>
             </li>
 
-            <li class="nav-header text-info">OTROS</li>
-
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-file-alt"></i>
+              <a href="VProducto" class="nav-link">
+                <i class="nav-icon fas fa-box"></i>
                 <p>
-                  Reportes
-                  <i class="right fas fa-angle-left"></i>
+                  Productos
                 </p>
               </a>
-
-
-              <ul class="nav nav-treeview">
-
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Reporte 1</p>
-                  </a>
-                </li>
-
-              </ul>
             </li>
+
+            <!--<li class="nav-header text-info">OTROS</li>
+
+<li class="nav-item">
+<a href="#" class="nav-link">
+<i class="nav-icon fas fa-file-alt"></i>
+<p>
+Reportes
+<i class="right fas fa-angle-left"></i>
+</p>
+</a>
+
+
+<ul class="nav nav-treeview">
+
+<li class="nav-item">
+<a href="#" class="nav-link">
+<i class="far fa-circle nav-icon text-info"></i>
+<p>Reporte 1</p>
+</a>
+</li>
+
+</ul>
+</li>-->
 
             <li class="nav-item">
               <a href="salir" class="nav-link text-cyan">

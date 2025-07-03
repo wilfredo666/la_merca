@@ -32,11 +32,18 @@
 <script src="assest/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="assest/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="assest/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- date-range-picker -->
+<script src="assest/plugins/moment/moment.min.js"></script>
+<script src="assest/plugins/daterangepicker/daterangepicker.js"></script>
 
 <script src="assest/js/usuario.js"></script>
 <script src="assest/js/personal.js"></script>
 <script src="assest/js/proveedor.js"></script>
 <script src="assest/js/almacen.js"></script>
+<script src="assest/js/categoria.js"></script>
+<script src="assest/js/producto.js"></script>
+<script src="assest/js/cliente.js"></script>
+<script src="assest/js/reporte.js"></script>
 
 <!--===============
 seccion de modals
@@ -115,6 +122,70 @@ seccion de modals
     $('#DataTable td').css('padding', '5px');
     //$('#DataTable td').css('text-align', 'center'); 
   });
+
+  $(function() {
+    $("#DataTable_producto").DataTable({
+      "processing": true,
+      //"serverSide": true,
+      ajax: {
+        url: "vista/producto/ajaxProducto.php",
+        dataSrc: "data"
+      },
+      columns:[
+        {data: 'cod_producto'},
+        {data: 'nombre_producto'},
+        {data: 'categoria'},
+        {data: 'marca'},
+        {data: 'precio'},
+        {data: '0'},
+        { 
+          data: 'id_producto',
+          render: function(data, type, row) {
+            return `<div class="btn-group">
+<button class="btn btn-sm btn-info" onclick="MVerProducto(${row.id_producto})">
+<i class="fas fa-eye"></i>
+  </button>
+<button class="btn btn-sm btn-secondary" onclick="MEditProducto(${row.id_producto})">
+<i class="fas fa-edit"></i>
+  </button>
+<button class="btn btn-sm btn-danger" onclick="MEliProducto(${row.id_producto})">
+<i class="fas fa-trash"></i>
+  </button>
+  </div>`;
+          }
+        }
+      ],
+      "paging": true,
+      "ordering": false,
+      "pageLength": 15,
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print"],
+      language: {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+          "first": "Primero",
+          "last": "Ultimo",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+      }
+    }).buttons().container().appendTo('#DataTable_producto_wrapper .col-md-6:eq(0)');
+
+  });
+
 
 </script>
 
