@@ -89,6 +89,8 @@ session_start();
           "VAlmacen",
           "VProducto",
           "VCliente",
+          "VVentas",
+          "FormVenta",
           "inicio",
           "permisos",
         ];

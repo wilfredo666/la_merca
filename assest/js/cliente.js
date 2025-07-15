@@ -47,6 +47,7 @@ function RegCliente() {
     }
   })
 }
+
 function MEditCliente(id) {
   $("#modal-default").modal("show")
 
@@ -97,7 +98,6 @@ function EditCliente() {
     }
   })
 }
-
 
 function MVerCliente(id) {
   $("#modal-default").modal("show")
@@ -155,29 +155,6 @@ function MEliCliente(id) {
       })
 
     }
-  })
-}
-
-function Comprobarcliente() {
-  let logincliente = document.getElementById("logincliente").value
-  var obj = {
-    login: logincliente
-  }
-  $.ajax({
-    type: "POST",
-    data: obj,
-    url: "controlador/clienteControlador.php?ctrBuscliente",
-    success: function (data) {
-      if (data == "1") {
-        $("#error-login").addClass("text-danger")
-        document.getElementById("error-login").innerHTML = "cliente en uso, intente con otro"
-        $("#guardar").attr("disabled", true)
-      } else {
-        document.getElementById("error-login").innerHTML = ""
-        $("#guardar").removeAttr("disabled")
-      }
-    }
-
   })
 }
 

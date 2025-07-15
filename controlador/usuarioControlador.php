@@ -22,7 +22,12 @@ class ControladorUsuario
     if (isset($_POST["usuario"])) {
       $usuario = $_POST["usuario"];
       $password = $_POST["password"];
+      $almacen = explode("-",$_POST["almacen"]);
+      
+      $nomAlmacen = $almacen[0];
+      $idAlmacen = $almacen[1];
 
+      //comprobando validez y disponibilidad del usuario
       $respuesta = ModeloUsuario::mdlAccesoUsuario($usuario);
 
       if ($respuesta == false) {
@@ -37,10 +42,23 @@ class ControladorUsuario
         $_SESSION["idUsuario"] = $respuesta["id_usuario"];
         $_SESSION["categoria"] = $respuesta["categoria"];
 
-
-        echo '<script>
+        //comprobando si el usuario tiene acceso al almacen
+        $accAlmacen=ModeloUsuario::mdlAccesoAlmacen($respuesta["id_usuario"], $nomAlmacen);
+        if($accAlmacen["permiso"]==1){
+          
+          //guardando informacion de almacen en sesion
+          $almacen=ControladorAlmacen::ctrInfoAlmacen($idAlmacen);
+          $_SESSION["idAlmacen"] = $almacen["id_almacen"];
+          $_SESSION["nomAlmacen"] = $almacen["nombre_almacen"];
+          $_SESSION["descAlmacen"] = $almacen["descripcion"];
+          
+          echo '<script>
                  window.location="inicio";
                 </script>';
+        }else{
+          echo "<p class='text-danger text-center bg-red mt-1 rounded-pill'>Error de acceso, intente de nuevo</p>";
+        }
+
       } else {
 
         echo "<p class='text-danger text-center bg-red mt-1 rounded-pill'>Error de acceso, intente de nuevo</p>";
@@ -107,17 +125,17 @@ class ControladorUsuario
     $respuesta = ModeloUsuario::mdlEliUsuario($id);
     echo $respuesta;
   }
-  
+
   static public function ctrCambioEstado(){
     require_once "../modelo/usuarioModelo.php";
-    
+
     $estado =$_POST["est"];
     $id =$_POST["id"];
-    
+
     $respuesta=ModeloUsuario::mdlCambioEstado($estado, $id);
 
     echo $respuesta;
-    
+
   }
 
   static public function ctrCantidadUsuarios()

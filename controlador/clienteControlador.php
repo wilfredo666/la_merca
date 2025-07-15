@@ -49,8 +49,6 @@ class ControladorCliente{
     require "../modelo/clienteModelo.php";
     $id = $_POST["id"];
     $respuesta=ModeloCliente::mdlInfoCliente($id);
-    /* var_dump($respuesta); */
-    /* return $respuesta; */
     echo json_encode($respuesta);
   }
 

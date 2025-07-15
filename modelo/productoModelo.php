@@ -120,4 +120,14 @@ class ModeloProducto{
     return $resultado;
   }
 
+    static public function mdlBusProducto($cod){
+    $stmt=Conexion::conectar()->prepare("SELECT * FROM producto WHERE cod_producto='$cod'");
+    $stmt->execute();
+
+    $respuesta = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt->closeCursor();
+
+    return $respuesta;
+  }
 }

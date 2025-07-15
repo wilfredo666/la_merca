@@ -11,7 +11,19 @@ class ModeloUsuario
     return $stmt->fetch();
   }
 
-
+//comprobar acceso almacen
+  static public function mdlAccesoAlmacen($idUsuario, $almacen){
+    //preguntando el id del permiso segun el almacen
+    $stmt1 = Conexion::conectar()->prepare("SELECT id_permiso FROM permiso WHERE desc_permiso='$almacen'");
+    $stmt1->execute();
+    $resultado= $stmt1->fetch();
+    $idPermiso=$resultado["id_permiso"];
+    
+    $stmt = Conexion::conectar()->prepare("SELECT count(*) as permiso FROM permiso_usuario WHERE id_usuario=$idUsuario AND id_permiso= $idPermiso");
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+  
   static public function mdlInfoUsuarios()
   {
     $stmt = Conexion::conectar()->prepare("SELECT * FROM usuario");

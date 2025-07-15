@@ -5,6 +5,7 @@ if (isset($ruta["query"])) {
   if (
     $ruta["query"] == "ctrRegProducto" ||
     $ruta["query"] == "ctrEditProducto" ||
+    $ruta["query"] == "ctrBusProducto" ||
     $ruta["query"] == "ctrEliProducto"
   ) {
     $metodo = $ruta["query"];
@@ -115,5 +116,14 @@ class ControladorProducto
 
     $respuesta = ModeloProducto::mdlEliProducto($id);
     echo $respuesta;
+  }
+  
+  static public function ctrBusProducto(){
+    require_once "../modelo/productoModelo.php";
+
+    $codProducto =$_POST["codProducto"];
+    $respuesta=ModeloProducto::mdlBusProducto($codProducto);
+
+    echo json_encode($respuesta);
   }
 }

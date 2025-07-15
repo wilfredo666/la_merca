@@ -44,6 +44,7 @@
 <script src="assest/js/producto.js"></script>
 <script src="assest/js/cliente.js"></script>
 <script src="assest/js/reporte.js"></script>
+<script src="assest/js/salida.js"></script>
 
 <!--===============
 seccion de modals
@@ -186,6 +187,53 @@ seccion de modals
 
   });
 
+</script>
+
+
+<script>
+  //validacion para la nota de venta
+  $(function() {
+    $.validator.setDefaults({
+
+      submitHandler: function() {
+        if(arregloCarrito.length === 0){
+          $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
+            .insertAfter("#listaDetalle");
+          return false;
+
+        }
+        $("#tablaError").html("")
+        RegNotaVenta()
+      }
+    })
+    $(document).ready(function() {
+      $("#FormNotaVenta").validate({
+        rules: {
+          nitCliente: {
+            required: true
+          },
+          rsCliente: {
+            required: true,
+          }
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+          error.addClass('invalid-feedback')
+          element.closest('.form-group').append(error)
+        },
+
+        highlight: function(element, errorClass, validClass) {
+          $(element).addClass('is-invalid')
+        },
+
+        unhighlight: function(element, errorClass, validClass) {
+          $(element).removeClass('is-invalid')
+        }
+
+      })
+    })
+
+  })
 
 </script>
 

@@ -22,7 +22,7 @@ function habilitado($idPermiso)
           <a class="nav-link" href="inicio" role="button">Inicio</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <b class="nav-link"><b>Almacen 1</b></b>
+          <b class="nav-link"><b><?php echo $_SESSION["nomAlmacen"]." - ".$_SESSION["descAlmacen"];?></b></b>
         </li>
       </ul>
 
@@ -113,7 +113,7 @@ function habilitado($idPermiso)
             ?>
             <li class="nav-item">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-handshake"></i>
+                <i class="nav-icon fas fa-user-tie"></i>
                 <p>
                   Clientes
                   <i class="right fas fa-angle-left"></i>
@@ -126,13 +126,6 @@ function habilitado($idPermiso)
                     <p>Lista de clientes</p>
                   </a>
                 </li>
-
-                <!-- <li class="nav-item">
-<a href="FNuevoCliente" class="nav-link">
-<i class="far fa-circle nav-icon text-info"></i>
-<p>Registrar Cliente</p>
-</a>
-</li> -->
               </ul>
             </li>
             <?php } ?>
@@ -142,7 +135,7 @@ function habilitado($idPermiso)
             ?>
             <li class="nav-item">
               <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-user-circle"></i>
+                <i class="nav-icon fa fa-handshake"></i>
                 <p>
                   Proveedores
                   <i class="right fas fa-angle-left"></i>
@@ -158,6 +151,31 @@ function habilitado($idPermiso)
               </ul>
             </li>
             <?php } ?>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>
+                  Ventas
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="FormVenta" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Emitir venta</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="VVentas" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Lista Ventas</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
 
             <li class="nav-item">
               <a href="VAlmacen" class="nav-link">

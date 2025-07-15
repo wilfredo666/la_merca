@@ -27,6 +27,24 @@
               </div>
             </div>
           </div>
+          <div class="input-group mb-3">
+           <select name="almacen" id="almacen" class="form-control">
+             <option value="">Seleccionar Almacen</option>
+            <?php
+             $registros = ControladorAlmacen::ctrMostrarRegistros();
+             foreach ($registros as $value) {
+               ?>
+               <option value="<?php echo $value["nombre_almacen"]."-".$value["id_almacen"]; ?>"><?php echo $value["nombre_almacen"]." - ".$value["descripcion"]; ?></option>
+               <?php
+             }
+             ?>
+           </select>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-store"></span>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-4">
             </div>
