@@ -15,8 +15,9 @@
       <thead>
         <tr>
           <th>Razon Social</th>
-          <th>N.I.T.</th>
-          <th>Descuento(%)</th>
+          <th>NIT/CI</th>
+          <th>Dirección</th>
+          <th>Ciudad</th>
           <th>Contactos</th>
           <!-- <th>Estado</th> -->
           <td>
@@ -35,7 +36,8 @@
         <tr>
           <td><?php echo $value["razon_social_cliente"]; ?></td>
           <td><?php echo $value["nit_ci_cliente"]; ?></td>
-          <td><?php echo $value["descuento"]; ?></td>
+          <td><?php echo $value["direccion_cliente"]; ?></td>
+          <td><?php echo $value["ciudad_cliente"]; ?></td>
           <td><?php echo $value["telefono_cliente"]; ?></td>
 
 

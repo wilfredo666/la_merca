@@ -98,7 +98,7 @@
                     <i class="fas fa-search"></i>
                   </button>
                 </div>
-                
+
               </div>
               <datalist id="listaProductos">
                 <?php
@@ -182,7 +182,25 @@
         </div>
 
         <div class="card-footer">
-          <button class="btn btn-success">Guardar</button>
+          <div class="row">
+           <div class="col-sm-2">
+             <button class="btn btn-success">Guardar</button>
+           </div>
+            <div class="col-sm-2">
+              <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" id="disponible" name="estado" value="1" checked>
+                <label for="disponible" class="custom-control-label">Efectivo</label>
+              </div>
+            </div>
+            <div class="col-sm-2">
+
+              <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" id="nodisponible" name="estado" value="0">
+                <label for="nodisponible" class="custom-control-label">QR</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6"></div>
         </div>
       </div>
     </form>

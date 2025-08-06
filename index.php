@@ -9,6 +9,7 @@ require_once "controlador/categoriaControlador.php";
 require_once "controlador/clienteControlador.php";
 require_once "controlador/productoControlador.php";
 require_once "controlador/salidaControlador.php";
+require_once "controlador/ingresoControlador.php";
 
 /* modelos */
 require_once "modelo/usuarioModelo.php";
@@ -19,6 +20,7 @@ require_once "modelo/categoriaModelo.php";
 require_once "modelo/clienteModelo.php";
 require_once "modelo/productoModelo.php";
 require_once "modelo/salidaModelo.php";
+require_once "modelo/ingresoModelo.php";
 
 $plantilla=new ControladorPlantilla();
 $plantilla->ctrPlantilla();

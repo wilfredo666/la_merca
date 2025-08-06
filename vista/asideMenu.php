@@ -5,6 +5,7 @@ function habilitado($idPermiso)
   $permiso = ControladorUsuario::ctrUsuarioPermiso($id, $idPermiso);
   return $permiso;
 }
+
 ?>
 
 <body class="hold-transition sidebar-mini">
@@ -23,6 +24,9 @@ function habilitado($idPermiso)
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <b class="nav-link"><b><?php echo $_SESSION["nomAlmacen"]." - ".$_SESSION["descAlmacen"];?></b></b>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <b class="nav-link"><i class="fas fa-calendar me-2 text-danger"></i> <?php echo $fechaActual;?></b>
         </li>
       </ul>
 
@@ -111,6 +115,31 @@ function habilitado($idPermiso)
             <?php } ?>
             <?php if (habilitado(2) != null) {
             ?>
+            <li class="nav-header text-info">COMERCIAL</li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>
+                  Ventas
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="FormVenta" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Emitir venta</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="VVentas" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Lista Ventas</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user-tie"></i>
@@ -152,31 +181,8 @@ function habilitado($idPermiso)
             </li>
             <?php } ?>
 
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cash-register"></i>
-                <p>
-                  Ventas
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="FormVenta" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Emitir venta</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="VVentas" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Lista Ventas</p>
-                  </a>
-                </li>
 
-              </ul>
-            </li>
-
+            <li class="nav-header text-info">KARDEX</li>
             <li class="nav-item">
               <a href="VAlmacen" class="nav-link">
                 <i class="nav-icon fas fa-store"></i>
@@ -194,6 +200,82 @@ function habilitado($idPermiso)
                 </p>
               </a>
             </li>
+
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fas fa-arrow-left"></i>
+                <p>
+                  Ingresos
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="FormOtrosIngresos" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Nuevo Ingreso</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="VOtrosIngresos" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Detalle Ingresos</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fas fa-arrow-right"></i>
+                <p>
+                  Salidas
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="FSalidaOtros" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Nueva Salida</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="RNotaSalidaOtros" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Detalle Salidas</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-dolly"></i>
+                <p>
+                  Traspasos
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="FormTraspaso" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Nuevo Traspaso</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Detalle Traspasos</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
+
 
             <!--<li class="nav-header text-info">OTROS</li>
 

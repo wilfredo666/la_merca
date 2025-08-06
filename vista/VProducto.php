@@ -15,9 +15,10 @@
       <thead>
         <tr>
           <th>Cod. Producto</th>
+          <th>Imagen</th>
           <th>Nombre</th>
+          <th>Descripción</th>
           <th>Categoria</th>
-          <th>Marca</th>
           <th>Precio</th>
           <th>Stock</th>
           <td>

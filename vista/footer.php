@@ -45,6 +45,7 @@
 <script src="assest/js/cliente.js"></script>
 <script src="assest/js/reporte.js"></script>
 <script src="assest/js/salida.js"></script>
+<script src="assest/js/ingreso.js"></script>
 
 <!--===============
 seccion de modals
@@ -127,18 +128,28 @@ seccion de modals
   $(function() {
     $("#DataTable_producto").DataTable({
       "processing": true,
-      //"serverSide": true,
       ajax: {
         url: "vista/producto/ajaxProducto.php",
         dataSrc: "data"
       },
       columns:[
         {data: 'cod_producto'},
+         {
+        data: 'imagen_producto',
+        render: function(data, type, row) {
+          
+          if(data==""){
+             return `<img src="assest/dist/img/producto/product_default.png" alt="Imagen" style="width: 50px; height: auto;">`;
+             }else{
+               return `<img src="assest/dist/img/producto/${data}" alt="Imagen" style="width: 50px; height: auto;">`;
+             }
+        }
+      },
         {data: 'nombre_producto'},
+        {data: 'descripcion_prod'},
         {data: 'categoria'},
-        {data: 'marca'},
         {data: 'precio'},
-        {data: '0'},
+        {data: 'stock'},
         { 
           data: 'id_producto',
           render: function(data, type, row) {
@@ -184,6 +195,7 @@ seccion de modals
         }
       }
     }).buttons().container().appendTo('#DataTable_producto_wrapper .col-md-6:eq(0)');
+    $('#DataTable_producto td').css('padding', '5px');
 
   });
 
@@ -198,11 +210,9 @@ seccion de modals
       submitHandler: function() {
         if(arregloCarrito.length === 0){
           $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
-            .insertAfter("#listaDetalle");
+            .appendTo("#listaDetalle");
           return false;
-
         }
-        $("#tablaError").html("")
         RegNotaVenta()
       }
     })
@@ -213,6 +223,48 @@ seccion de modals
             required: true
           },
           rsCliente: {
+            required: true,
+          }
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+          error.addClass('invalid-feedback')
+          element.closest('.form-group').append(error)
+        },
+
+        highlight: function(element, errorClass, validClass) {
+          $(element).addClass('is-invalid')
+        },
+
+        unhighlight: function(element, errorClass, validClass) {
+          $(element).removeClass('is-invalid')
+        }
+
+      })
+    })
+
+  })
+
+ //validacion para la nota de ingreso
+  $(function() {
+    $.validator.setDefaults({
+
+      submitHandler: function() {
+        if(arregloCarritoNI.length === 0){
+          $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
+            .appendTo("#listaDetalleNI");
+          return false;
+        }
+        RegNotaIngreso()
+      }
+    })
+    $(document).ready(function() {
+      $("#FIngresoOtros").validate({
+        rules: {
+          conceptoNI: {
+            required: true
+          },
+          almacen_destino: {
             required: true,
           }
         },

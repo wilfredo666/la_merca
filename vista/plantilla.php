@@ -75,6 +75,9 @@ session_start();
 
   <body>
     <?php
+    date_default_timezone_set("America/La_Paz");
+    $fechaActual= date("Y-m-d");
+
     //comprobamos las sesiones
     if (isset($_SESSION["ingreso"]) && $_SESSION["ingreso"] == "ok") {
       include "asideMenu.php";
@@ -93,6 +96,11 @@ session_start();
           "FormVenta",
           "inicio",
           "permisos",
+          "FSalidaOtros",
+          "RNotaSalidaOtros",
+          "FormTraspaso",
+          "FormOtrosIngresos",
+          "VOtrosIngresos",
         ];
 
         if (in_array($_GET["ruta"], $rutas_validas)) {

@@ -4,7 +4,25 @@ class ModeloProducto{
 
 
   static public function mdlInfoProductos(){
-    $stmt=Conexion::conectar()->prepare("select * from producto");
+    session_start();
+    $idAlmacen=$_SESSION["idAlmacen"];
+    $stmt=Conexion::conectar()->prepare("SELECT
+    p.id_producto,
+    p.cod_producto,
+    p.imagen_producto,
+    p.nombre_producto,
+    p.descripcion_prod,
+    p.categoria,
+    p.precio,
+    COALESCE(SUM(CASE WHEN m.tipo = 'ingreso' AND m.id_almacen = $idAlmacen THEN m.cantidad ELSE 0 END), 0) -
+    COALESCE(SUM(CASE WHEN m.tipo = 'salida' AND m.id_almacen = $idAlmacen THEN m.cantidad ELSE 0 END), 0) AS stock
+FROM
+    producto p
+LEFT JOIN
+    movimiento m ON p.id_producto = m.id_producto
+GROUP BY
+    p.id_producto, p.cod_producto, p.imagen_producto, p.nombre_producto,
+    p.descripcion_prod, p.categoria, p.precio");
     $stmt->execute();
 
     $resultado= $stmt->fetchAll();
