@@ -49,7 +49,7 @@
             <div class="form-group col-md-3">
               <label for="">NIT/CI</label>
               <div class="input-group">
-                <input type="text" class="form-control" list="listaClientes" name="nitCliente" id="nitCliente">
+                <input type="text" class="form-control" list="listaClientes" name="nitCliente" id="nitCliente" value="0">
                 <input type="hidden" id="idCliente" name="idCliente">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" type="button" onclick="busCliente()">
@@ -72,7 +72,7 @@
 
             <div class="form-group col-md-3">
               <label for="">Razon Social</label>
-              <input type="text" class="form-control" name="rsCliente" id="rsCliente">
+              <input type="text" class="form-control" name="rsCliente" id="rsCliente" value="Sin Nombre">
             </div>
 
             <div class="form-group col-md-4">
@@ -188,15 +188,15 @@
            </div>
             <div class="col-sm-2">
               <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" id="disponible" name="estado" value="1" checked>
-                <label for="disponible" class="custom-control-label">Efectivo</label>
+                <input class="custom-control-input" type="radio" name="metodoPago" id="efectivo" checked>
+                <label for="efectivo" class="custom-control-label">Efectivo</label>
               </div>
             </div>
+            
             <div class="col-sm-2">
-
               <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" id="nodisponible" name="estado" value="0">
-                <label for="nodisponible" class="custom-control-label">QR</label>
+                <input class="custom-control-input" type="radio" name="metodoPago" id="qr" onclick="mostrarQr()">
+                <label for="qr" class="custom-control-label">QR</label>
               </div>
             </div>
           </div>

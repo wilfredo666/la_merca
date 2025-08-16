@@ -56,6 +56,7 @@ function busProducto(){
       document.getElementById("conceptoPro").value = data["nombre_producto"]
       document.getElementById("uniMedida").value = data["unidad_medida"]
       document.getElementById("preUnitario").value = data["precio"]
+      document.getElementById("cantProducto").value=1
 
     }
   })
@@ -72,7 +73,7 @@ function calcularPrePro(){
 
 }
 
-//**** carrito ******
+//**** carrito nota de venta ******
 var arregloCarrito=[]
 var listaDetalle=document.getElementById("listaDetalle")
 function agregarCarrito(){
@@ -102,7 +103,7 @@ function agregarCarrito(){
   // borrar formulario carrito
   document.getElementById("codProducto").value=""
   document.getElementById("conceptoPro").value=""
-  document.getElementById("cantProducto").value=0
+  document.getElementById("cantProducto").value=1
   document.getElementById("uniMedida").value=""
 
   document.getElementById("preUnitario").value=""
@@ -211,3 +212,288 @@ function MVerNotaVenta(id) {
     }
   })
 }
+
+//**** carrito de nota de salida ******
+var arregloCarritoNS=[]
+var totalCarritoNS = 0
+var listaDetalleNS=document.getElementById("listaDetalleNS")
+function agregarCarritoNS(){
+
+  let idProducto = parseInt(document.getElementById("idProducto").value)
+  let codProducto = document.getElementById("codProducto").value
+  let conceptoPro = document.getElementById("conceptoPro").value
+  let cantProducto = parseInt(document.getElementById("cantProducto").value)
+  let preUnitario = parseFloat(document.getElementById("preUnitario").value)
+  let preTotal = parseFloat(cantProducto * preUnitario)
+
+  let objetoDetalle = {
+    idProducto:idProducto,
+    codigoProducto:codProducto,
+    descripcion:conceptoPro,
+    cantidad:cantProducto,
+    precioUnitario:preUnitario,
+    subtotal:preTotal
+  }
+
+  arregloCarritoNS.push(objetoDetalle)
+
+  dibujarTablaCarritoNS()
+
+  // borrar formulario carrito
+  document.getElementById("codProducto").value=""
+  document.getElementById("conceptoPro").value=""
+  document.getElementById("cantProducto").value=0
+  document.getElementById("preUnitario").value=""
+}
+
+function dibujarTablaCarritoNS(){
+  listaDetalleNS.innerHTML = ""
+
+  arregloCarritoNS.forEach(
+    (detalle)=>{
+      let fila=document.createElement("tr")
+
+      fila.innerHTML='<td>'+detalle.descripcion+'</td>'+
+        '<td>'+detalle.precioUnitario+'</td>'+
+        '<td>'+detalle.cantidad+'</td>'+
+        '<td>'+detalle.subtotal+'</td>'
+
+      let tdEliminar = document.createElement("td")
+      let botonEliminar = document.createElement("button")
+      botonEliminar.classList.add("btn", "btn-danger", "btn-sm")
+      botonEliminar.innerHTML="<i class='fas fa-trash'></i>"
+      botonEliminar.onclick=()=>{
+        eliminarCarritoNS(detalle.codigoProducto)
+      }
+
+      tdEliminar.appendChild(botonEliminar)
+      fila.appendChild(tdEliminar)
+
+      listaDetalleNS.appendChild(fila)
+    })
+
+  calcularTotalNS()
+}
+
+function eliminarCarritoNS(cod){
+  arregloCarritoNS = arregloCarritoNS.filter((detalle)=>{
+    if(cod!=detalle.codigoProducto){
+      return detalle
+    }
+  })
+
+  dibujarTablaCarritoNS()
+  calcularTotalNS()
+}
+
+function calcularTotalNS(){
+totalCarritoNS = 0
+  for(var i=0; i<arregloCarritoNS.length; i++){
+    totalCarritoNS = totalCarritoNS + parseFloat(arregloCarritoNS[i].subtotal)
+  }
+}
+
+function RegNotaSalida(){
+  var formData = new FormData($("#FSalidaOtros")[0])
+  formData.append("carritoNS", JSON.stringify(arregloCarritoNS));
+  formData.append("totalNS", totalCarritoNS);
+
+
+  $.ajax({
+    type: "POST",
+    url: "controlador/salidaControlador.php?ctrRegNotaSalida",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data) {
+
+      if (data == "ok") {
+        Swal.fire({
+          icon: 'success',
+          showConfirmButton: false,
+          title: 'Nota de Salida registrada',
+          timer: 1000
+        })
+        setTimeout(function () {
+          location.reload()
+        }, 1200)
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Erro de registro!!!',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    }
+  })
+}
+
+function MVerNotaSalida(id) {
+  $("#modal-xl").modal("show")
+  var obj = ""
+  $.ajax({
+    type: "POST",
+    url: "vista/salida/MverNotaSalida.php?id=" + id,
+    data: obj,
+    success: function (data) {
+      $("#content-xl").html(data)
+    }
+  })
+}
+
+function MEliNotaSalida(id) {
+  var obj = {
+    id: id
+  }
+
+  Swal.fire({
+    title: 'Esta seguro de eliminar esta nota de salida?',
+    showDenyButton: true,
+    showCancelButton: false,
+    confirmButtonText: 'Confirmar',
+    denyButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        data: obj,
+        url: "controlador/salidaControlador.php?ctrEliNotaSalida",
+        success: function (data) {
+
+          if (data == "ok") {
+            Swal.fire({
+              icon: 'success',
+              showConfirmButton: false,
+              title: 'Nota de Salida eliminada',
+              timer: 1000
+            })
+            setTimeout(function () {
+              location.reload()
+            }, 1200)
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!!!',
+              text: 'La Nota no puede ser eliminada',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        }
+      })
+
+
+
+    }
+  })
+}
+
+function FormQrPago(){
+  $("#modal-default").modal("show")
+
+  var obj=""
+  $.ajax({
+    type:"POST",
+    url:"vista/venta/FormQrPago.php",
+    data:obj,
+    success:function(data){
+      $("#content-default").html(data)
+    }
+  })
+}
+
+function previsualizarQr() {
+  let inputFile = document.getElementById("imgQrPago");
+  let imagen = inputFile.files[0];
+
+  if (!imagen) return;
+
+  // Mostrar nombre del archivo en el label
+  $(".custom-file-label").text(imagen.name);
+
+  // Validación de formato
+  if (imagen.type !== "image/png" && imagen.type !== "image/jpeg" && imagen.type !== "image/jpg") {
+    $("#imgQrPago").val("");
+    $(".custom-file-label").text("Elegir archivo");
+    Swal.fire({
+      icon: "error",
+      showConfirmButton: true,
+      title: "La imagen debe ser formato PNG, JPG o JPEG"
+    });
+    return;
+  }
+
+  // Validación de tamaño
+  if (imagen.size > 10000000) { // 10 MB
+    $("#imgQrPago").val("");
+    $(".custom-file-label").text("Elegir archivo");
+    Swal.fire({
+      icon: "error",
+      showConfirmButton: true,
+      title: "La imagen no debe superar los 10MB"
+    });
+    return;
+  }
+
+  // Previsualizar imagen
+  let datosImagen = new FileReader();
+  datosImagen.onload = function (event) {
+    $(".previsualizarQr").attr("src", event.target.result);
+  };
+  datosImagen.readAsDataURL(imagen);
+}
+
+function EditQr(){
+
+    var formData= new FormData($("#FormEditQr")[0])
+
+    $.ajax({
+      type:"POST",
+      url:"controlador/salidaControlador.php?ctrEditQr",
+      data:formData,
+      cache:false,
+      contentType:false,
+      processData:false,
+      success:function(data){
+
+        if(data=="ok"){
+          Swal.fire({
+            icon: 'success',
+            showConfirmButton: false,
+            title: 'QR Actualizado',
+            timer: 1000
+          })
+          setTimeout(function(){
+            location.reload()
+          },1200)
+        }else{
+          Swal.fire({
+            icon:'error',
+            title:'Error!',
+            text:'Error de actualizacion',
+            showConfirmButton: false,
+            timer:1500
+          })
+        }
+      }
+    })
+}
+
+function mostrarQr(){
+  $("#modal-default").modal("show")
+
+  var obj=""
+  $.ajax({
+    type:"POST",
+    url:"vista/venta/imgQrPago.php",
+    data:obj,
+    success:function(data){
+      $("#content-default").html(data)
+    }
+  })
+}
+
+

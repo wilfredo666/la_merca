@@ -15,6 +15,7 @@ function busProductoIngreso(){
       document.getElementById("idProducto").value = data["id_producto"]
       document.getElementById("conceptoPro").value = data["nombre_producto"]
       document.getElementById("preUnitario").value = data["costo"]
+      document.getElementById("cantProducto").value = 1
 
     }
   })

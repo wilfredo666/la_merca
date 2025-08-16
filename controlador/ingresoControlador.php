@@ -20,7 +20,7 @@ class ControladorIngreso{
 
   static public function ctrInfoIngresos(){
     
-    $respuesta=Modeloingreso::mdlInfoIngresos($_SESSION["idAlmacen"]);
+    $respuesta=ModeloIngreso::mdlInfoIngresos($_SESSION["idAlmacen"]);
     return $respuesta;
   }
 
@@ -59,12 +59,6 @@ class ControladorIngreso{
     }
   }
 
-  static public function ctrUltimoCufd(){
-    require_once "../modelo/ingresoModelo.php";
-
-    $resultado=Modeloingreso::mdlUltimoCufd();
-    echo json_encode($resultado);
-  }
 
   static public function ctrCantidadIngresos(){
     $respuesta=Modeloingreso::mdlCantidadIngresos();

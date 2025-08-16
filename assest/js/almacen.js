@@ -39,7 +39,7 @@ function RegAlmacen(){
           Swal.fire({
             icon:'error',
             title:'Error!',
-            text:'El almacen ya esta en uso',
+            text:'El almacen no se puede registrar',
             showConfirmButton: false,
             timer:1500
           })
@@ -166,7 +166,7 @@ $(document).on('click', '.estadoAlmacen', function(e) {
 
   $.ajax({
     type:"POST",
-    url:"controlador/AlmacenControlador.php?ctrCambioEstado",
+    url:"controlador/almacenControlador.php?ctrCambioEstado",
     data:obj,
     success: function(data){
 
@@ -195,7 +195,7 @@ function actualizarPermiso(idAlmacen, idPermiso) {
 
   $.ajax({
     type: "POST",
-    url: "controlador/AlmacenControlador.php?ctrActualizarPermiso",
+    url: "controlador/almacenControlador.php?ctrActualizarPermiso",
     data: obj,
     success: function(data) {
     }

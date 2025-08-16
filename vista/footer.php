@@ -134,17 +134,17 @@ seccion de modals
       },
       columns:[
         {data: 'cod_producto'},
-         {
-        data: 'imagen_producto',
-        render: function(data, type, row) {
-          
-          if(data==""){
-             return `<img src="assest/dist/img/producto/product_default.png" alt="Imagen" style="width: 50px; height: auto;">`;
-             }else{
-               return `<img src="assest/dist/img/producto/${data}" alt="Imagen" style="width: 50px; height: auto;">`;
-             }
-        }
-      },
+        {
+          data: 'imagen_producto',
+          render: function(data, type, row) {
+
+            if(data==""){
+              return `<img src="assest/dist/img/producto/product_default.png" alt="Imagen" style="width: 50px; height: auto;">`;
+            }else{
+              return `<img src="assest/dist/img/producto/${data}" alt="Imagen" style="width: 50px; height: auto;">`;
+            }
+          }
+        },
         {data: 'nombre_producto'},
         {data: 'descripcion_prod'},
         {data: 'categoria'},
@@ -245,47 +245,67 @@ seccion de modals
 
   })
 
- //validacion para la nota de ingreso
+  // Validación para Nota de Ingreso
   $(function() {
-    $.validator.setDefaults({
-
+    $("#FIngresoOtros").validate({
+      rules: {
+        conceptoNI: { required: true },
+        almacen_destino: { required: true }
+      },
+      errorElement: 'span',
+      errorPlacement: function(error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function(element) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function(element) {
+        $(element).removeClass('is-invalid');
+      },
       submitHandler: function() {
-        if(arregloCarritoNI.length === 0){
-          $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
-            .appendTo("#listaDetalleNI");
+        if (arregloCarritoNI.length === 0) {
+          if (!$("#tablaError").length) {
+            $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
+              .appendTo("#listaDetalleNI");
+          }
           return false;
         }
-        RegNotaIngreso()
+        RegNotaIngreso();
       }
-    })
-    $(document).ready(function() {
-      $("#FIngresoOtros").validate({
-        rules: {
-          conceptoNI: {
-            required: true
-          },
-          almacen_destino: {
-            required: true,
+    });
+  });
+
+  // Validación para Nota de Salida
+  $(function() {
+    $("#FSalidaOtros").validate({
+      rules: {
+        conceptoNS: { required: true },
+        almacen_origen: { required: true }
+      },
+      errorElement: 'span',
+      errorPlacement: function(error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function(element) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function(element) {
+        $(element).removeClass('is-invalid');
+      },
+      submitHandler: function() {
+        if (arregloCarritoNS.length === 0) {
+          if (!$("#tablaError").length) {
+            $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
+              .appendTo("#listaDetalleNS");
           }
-        },
-        errorElement: 'span',
-        errorPlacement: function(error, element) {
-          error.addClass('invalid-feedback')
-          element.closest('.form-group').append(error)
-        },
-
-        highlight: function(element, errorClass, validClass) {
-          $(element).addClass('is-invalid')
-        },
-
-        unhighlight: function(element, errorClass, validClass) {
-          $(element).removeClass('is-invalid')
+          return false;
         }
-
-      })
-    })
-
-  })
+        RegNotaSalida();
+      }
+    });
+  });
 
 </script>
 

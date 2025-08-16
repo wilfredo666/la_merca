@@ -14,12 +14,12 @@
       }
     </style>
     <!--encabezado-->
-    <form id="FIngresoOtros">
+    <form id="FSalidaOtros">
       <div class="row">
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header bg-info">
-              <h4 class="card-title" style="font-size:20px;"><i class="fas fa-arrow-left"></i> NOTA DE INGRESO</h4>
+              <h4 class="card-title" style="font-size:20px;"><i class="fas fa-arrow-right"></i> NOTA DE SALIDA</h4>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -83,7 +83,7 @@
                   <div class="form-group col-md-1">
                     <label for="">&nbsp;</label>
                     <div class="input-group form-group">
-                      <span class="btn btn-block btn-info btn-sm" onclick="agregarCarritoNI()">
+                      <span class="btn btn-block btn-info btn-sm" onclick="agregarCarritoNS()">
                         <i class="fas fa-plus"></i>
                       </span>
                     </div>
@@ -101,7 +101,7 @@
                           <!-- <th>&nbsp;</th> -->
                         </tr>
                       </thead>
-                      <tbody class="text-center" id="listaDetalleNI">
+                      <tbody class="text-center" id="listaDetalleNS">
                       </tbody>
                     </table>
                   </div>
@@ -116,18 +116,17 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Concepto</label>
-                    <select class="form-control" name="conceptoNI" id="conceptoNI">
+                    <select class="form-control" name="conceptoNS" id="conceptoNS">
                       <option value=""></option>
                       <option value="ajuste">Por Ajuste</option>
-                      <option value="adquisicion">Por Adquisición</option>
-                      <option value="devolucion">Por devolución</option>
+                      <option value="marketing">Marketing</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label>Almacen Destino</label>
-                    <select class="form-control" name="almacen_destino" id="almacen_destino">
+                    <label>Almacen Origen</label>
+                    <select class="form-control" name="almacen_origen" id="almacen_origen">
                       <option value=""></option>
 
                       <?php
@@ -158,7 +157,7 @@
                 <i class="fas fa-times"></i> Anular
               </button>
 
-              <button id="btnGuardarNI" class="btn btn-success float-right">
+              <button id="btnGuardarNS" class="btn btn-success float-right">
                 <i class="fas fa-download"></i> Guardar
               </button>
             </div>

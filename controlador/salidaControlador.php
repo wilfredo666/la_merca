@@ -7,6 +7,9 @@ if(isset($ruta["query"])){
      $ruta["query"] == "ctrEliFactura" ||
      $ruta["query"] == "ctrNumFactura" ||
      $ruta["query"] == "ctrAnularFactura" ||
+     $ruta["query"] == "ctrRegNotaSalida" ||
+     $ruta["query"] == "ctrEliNotaSalida" ||
+     $ruta["query"] == "ctrEditQr" ||
      $ruta["query"] == "ctrReporteVentas"){
 
     $metodo = $ruta["query"];
@@ -56,12 +59,6 @@ class ControladorSalida{
     }
   }
 
-  static public function ctrUltimoCufd(){
-    require_once "../modelo/salidaModelo.php";
-
-    $resultado=ModeloSalida::mdlUltimoCufd();
-    echo json_encode($resultado);
-  }
 
   static public function ctrCantidadFacturas(){
     $respuesta=ModeloSalida::mdlCantidadFacturas();
@@ -81,6 +78,64 @@ class ControladorSalida{
     $respuesta=ModeloSalida::mdlReporteVentas($fechaInicial, $fechaFinal);
     echo json_encode($respuesta);
   }
+
+  static public function ctrRegNotaSalida(){
+    require_once "../modelo/salidaModelo.php";
+
+    $respuesta=ModeloSalida::mdlRegNotaSalida();
+
+    echo $respuesta;
+  }
+
+  static public function ctrInfoSalida($id){
+    $respuesta=ModeloSalida::mdlInfoSalida($id);
+    return $respuesta;
+  }
+
+  static public function ctrEliNotaSalida(){
+    require_once "../modelo/salidaModelo.php";
+
+    $id =$_POST["id"];
+    $respuesta=ModeloSalida::mdlEliNotaSalida($id);
+
+    echo $respuesta;
+  }
+
+  static public function ctrInfoSalidas(){
+
+    $respuesta=ModeloSalida::mdlInfoSalidas($_SESSION["idAlmacen"]);
+    return $respuesta;
+  }
+
+  static public function ctrInfoUltimoQr(){
+    $respuesta=ModeloSalida::mdlInfoUltimoQr();
+    return $respuesta;
+  }
+
+  static public function ctrEditQr(){
+    require_once "../modelo/salidaModelo.php";
+
+    if(isset($_FILES["imgQrPago"]) && $_FILES["imgQrPago"]["error"] === 0){
+      $imagen = $_FILES["imgQrPago"];
+      $nomImagen = uniqid()."_".$imagen["name"]; // evita nombres repetidos
+      $archImagen = $imagen["tmp_name"];
+
+      if(move_uploaded_file($archImagen, "../assest/dist/img/" . $nomImagen)){
+        $data = array(
+          "id" => $_POST["id"],
+          "imgQr" => $nomImagen
+        );
+
+        $respuesta = ModeloSalida::mdlEditQr($data);
+        echo $respuesta;
+      } else {
+        echo "error_subida";
+      }
+    } else {
+      echo "sin_imagen";
+    }
+  }
+
 
 }
 

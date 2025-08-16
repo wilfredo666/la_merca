@@ -2,14 +2,6 @@
 require_once "conexion.php";
 class ModeloIngreso{
 
-  /* static public function mdlNumNotaIngreso(){
-    $stmt=Conexion::conectar()->prepare("select max(id_venta) from venta");
-    $stmt->execute();
-    $resul = $stmt->fetch();
-    $stmt->closeCursor();
-    return $resul;
-  }
-*/
   static public function mdlRegNotaIngreso() {
     date_default_timezone_set("America/La_Paz");
     session_start();
@@ -146,6 +138,16 @@ WHERE id_otros_ingresos = $id");
       return "error";
     }
   }
+  
+    /* static public function mdlNumNotaIngreso(){
+    $stmt=Conexion::conectar()->prepare("select max(id_venta) from venta");
+    $stmt->execute();
+    $resul = $stmt->fetch();
+    $stmt->closeCursor();
+    return $resul;
+  }
+*/
+  
  /*
   static public function mdlCantidadNotaIngresos(){
     $stmt=Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM NotaIngreso");

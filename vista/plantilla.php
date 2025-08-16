@@ -101,6 +101,8 @@ session_start();
           "FormTraspaso",
           "FormOtrosIngresos",
           "VOtrosIngresos",
+          "FormOtrasSalidas",
+          "VOtrasSalidas",
         ];
 
         if (in_array($_GET["ruta"], $rutas_validas)) {

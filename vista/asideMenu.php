@@ -137,6 +137,12 @@ function habilitado($idPermiso)
                     <p>Lista Ventas</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <span class="nav-link" onclick="FormQrPago()" style="cursor:pointer">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>QR de Venta</p>
+                  </span>
+                </li>
 
               </ul>
             </li>
@@ -236,13 +242,13 @@ function habilitado($idPermiso)
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="FSalidaOtros" class="nav-link">
+                  <a href="FormOtrasSalidas" class="nav-link">
                     <i class="far fa-circle nav-icon text-info"></i>
                     <p>Nueva Salida</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="RNotaSalidaOtros" class="nav-link">
+                  <a href="VOtrasSalidas" class="nav-link">
                     <i class="far fa-circle nav-icon text-info"></i>
                     <p>Detalle Salidas</p>
                   </a>
