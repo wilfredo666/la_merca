@@ -77,6 +77,7 @@ GROUP BY
     $stmt = Conexion::conectar()->prepare("
     UPDATE producto SET 
         nombre_producto = :nombre_producto,
+        cod_producto  = :codProducto,
         descripcion_prod = :descripcion_prod,
         imagen_producto = :imagen_producto,
         unidad_medida = :unidad_medida,
@@ -91,6 +92,7 @@ GROUP BY
     ");
 
     $stmt->bindParam(":id_producto", $data["id_producto"], PDO::PARAM_STR);
+    $stmt->bindParam(":codProducto", $data["codProducto"], PDO::PARAM_STR);
     $stmt->bindParam(":nombre_producto", $data["nomProducto"], PDO::PARAM_STR);
     $stmt->bindParam(":descripcion_prod", $data["descProducto"], PDO::PARAM_STR);
     $stmt->bindParam(":imagen_producto", $data["imgProducto"], PDO::PARAM_STR);

@@ -93,6 +93,7 @@ class ControladorProducto
 
     $data = array(
       "id_producto" => $_POST["idProducto"],
+      "codProducto" => $_POST["codProducto"],
       "categoriaProducto" => $_POST["categoriaProducto"],
       "unidad_medida" => $_POST["unidad_medida"],
       "nomProducto" => $_POST["nomProducto"],

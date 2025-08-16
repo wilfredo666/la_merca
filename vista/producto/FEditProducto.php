@@ -17,7 +17,7 @@ $producto = ControladorProducto::ctrInfoProducto($id);
   <div class="modal-body row">
     <div class="form-group col-md-4">
       <label for="">Cód. Producto</label>
-      <input type="text" class="form-control" id="codProducto" name="codProducto" value="<?php echo $producto["cod_producto"];?>" readonly>
+      <input type="text" class="form-control" id="codProducto" name="codProducto" value="<?php echo $producto["cod_producto"];?>">
       <input type="hidden" name="idProducto" value="<?php echo $producto["id_producto"];?>">
     </div>
         <div class="form-group col-md-4">
