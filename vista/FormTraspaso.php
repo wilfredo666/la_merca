@@ -3,10 +3,6 @@
   </section>
   <section class="content">
     <style>
-      td,
-      th {
-        border: #E7E7E7 1px solid;
-      }
 
       .card-header {
         background-color: transparent;
@@ -17,8 +13,8 @@
         border-top-right-radius: 0.25rem;
       }
     </style>
-    <!--encabezado-->
-    <form id="FSalidaOtros">
+
+    <form id="FNotaTraspaso">
       <div class="row">
         <div class="col-sm-12">
           <div class="card card-info">
@@ -37,11 +33,11 @@
             <div class="card-body row pb-0 mb-0">
               <!--carrito de productos-->
               <div class="col-md-9">
-                
+
                 <h5 class="text-primary" style="margin-bottom: 10px;">
-            <i class="fas fa-box"></i>
-            Carrito
-          </h5>
+                  <i class="fas fa-box"></i>
+                  Carrito
+                </h5>
                 <div class="row">
                   <div class="form-group col-md-3">
                     <label for="">Cod. Producto</label>
@@ -49,7 +45,7 @@
                       <input type="text" class="form-control" name="codProducto" id="codProducto" list="listaProductos">
                       <input type="hidden" name="idProducto" id="idProducto">
                       <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onclick="busProducto()">
+                        <button class="btn btn-outline-secondary" type="button" onclick="busProductoTs()">
                           <i class="fas fa-search"></i>
                         </button>
                       </div>
@@ -78,16 +74,18 @@
                       <input type="text" class="form-control" name="stock" id="stock" placeholder="0" readonly>
                     </div>
                   </div>
+
                   <div class="col-md-1">
                     <div class="form-group">
                       <label for="">Cantidad</label>
-                      <input type="text" class="form-control" name="ingUnidades" id="ingUnidades" placeholder="0" value="0">
+                      <input type="number" class="form-control" name="cantProducto" id="cantProducto" value="0" max="0">
+                      <input type="hidden" name="costoProducto" id="costoProducto">
                     </div>
                   </div>
                   <div class="form-group col-md-1">
                     <label for="">&nbsp;</label>
                     <div class="input-group form-group">
-                      <span class="btn btn-info btn-circle form-control" onclick="agregarCarrito()">
+                      <span class="btn btn-info btn-circle form-control" onclick="agregarCarritoTs()">
                         <i class="fas fa-plus"></i>
                       </span>
                     </div>
@@ -104,7 +102,7 @@
                           <!-- <th>&nbsp;</th> -->
                         </tr>
                       </thead>
-                      <tbody class="text-center" id="listaDetalleNV">
+                      <tbody class="text-center" id="listaDetalleTs">
                       </tbody>
                     </table>
                   </div>
@@ -112,7 +110,7 @@
               </div>
               <!--encabezado de datos para la nota-->
               <div class="col-sm-3">
-               <h5 class="text-primary" style="margin-bottom: 10px;">
+                <h5 class="text-primary" style="margin-bottom: 10px;">
                   <i class="fas fa-store"></i>
                   Detalle
                 </h5>
@@ -156,14 +154,18 @@
                   </div>
                 </div>
 
-                <!-- </div> -->
-                <div class="card-footer text-right">
-                  <button type="button" class="btn btn-default bg-dark" onclick="location.reload();"><i class="fas fa-times"></i> Anular Nota</button>
-                  <a id="btnGuardarNV" class="btn btn-primary" onclick="GuardarNotaVentaOtros()"><i class="fas fa-download"></i> Guardar Nota</a>
-                </div>
-
               </div>
 
+            </div>
+
+            <div class="card-footer">
+              <button type="button" class="btn btn-default bg-dark" onclick="location.reload();">
+                <i class="fas fa-times"></i> Anular
+              </button>
+
+              <button id="btnGuardarTs" class="btn btn-success float-right">
+                <i class="fas fa-download"></i> Guardar
+              </button>
             </div>
 
           </div>

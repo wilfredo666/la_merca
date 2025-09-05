@@ -34,165 +34,184 @@
         </div>
 
         <div class="card-body">
-          <!--datos del cliente-->
-
-          <h5 class="text-primary" style="margin-bottom: 10px;">
-            <i class="fas fa-user-tie"></i>
-            Datos del cliente
-          </h5>
+          <!--Datos producto-->
           <div class="row">
-            <div class="form-group col-md-2">
-              <label for=""># Nota Venta</label>
-              <input type="number" class="form-control" name="numFactura" id="numFactura" readonly>
-            </div>
+            <div class="col-sm-9">
 
-            <div class="form-group col-md-3">
-              <label for="">NIT/CI</label>
-              <div class="input-group">
-                <input type="text" class="form-control" list="listaClientes" name="nitCliente" id="nitCliente" value="0">
-                <input type="hidden" id="idCliente" name="idCliente">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button" onclick="busCliente()">
-                    <i class="fas fa-search"></i>
-                  </button>
+              <h5 class="text-primary" style="margin-bottom: 10px;">
+                <i class="fas fa-box"></i>
+                Productos
+              </h5>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <label for="">Cod. Producto</label>
+                  <div class="input-group form-group">
+                    <input type="text" class="form-control" name="codProducto" id="codProducto" list="listaProductos">
+                    <input type="hidden" name="idProducto" id="idProducto">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" onclick="busProducto()">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+
+                  </div>
+                  <datalist id="listaProductos">
+                    <?php
+                    $productos=ControladorProducto::ctrInfoProductos();
+                    foreach($productos as $value){
+                    ?>
+                    <option value="<?php echo $value["cod_producto"];?>"><?php echo $value["nombre_producto"];?></option>
+                    <?php
+                    }
+                    ?>
+                  </datalist>
                 </div>
+                <input type="hidden" class="form-control" name="stock" id="stock">
+                <input type="hidden" class="form-control" name="conceptoPro" id="conceptoPro" readonly>
+                <input type="hidden" class="form-control" name="cantProducto" id="cantProducto">
+                <input type="hidden" class="form-control" name="uniMedida" id="uniMedida">
+                <input type="hidden" class="form-control" name="preUnitario" id="preUnitario">
+                <input type="hidden" class="form-control" name="2" id="preTotal" readonly>
+                <!--
+
+<div class="form-group col-md-4">
+<label for="">Descripcion</label>
+<div class="input-group form-group">
+
+</div>
+</div>
+
+<div class="form-group col-md-1">
+<label for="">Cantidad</label>
+<div class="input-group form-group">
+
+</div>
+</div>
+
+<div class="form-group col-md-2">
+<label for="">U. Medida</label>
+<div class="input-group form-group">
+
+</div>
+</div>
+
+<div class="form-group col-md-1">
+<label for="">P. Unit</label>
+<div class="input-group form-group">
+
+</div>
+</div>
+
+<div class="form-group col-md-1">
+<label for="">P. Total</label>
+<div class="input-group form-group">
+
+</div>
+</div>
+-->
+
+                <!--<div class="form-group col-md-1">
+<label for="">&nbsp;</label>
+<div class="input-group form-group">
+<span class="btn btn-info btn-circle form-control" onclick="agregarCarrito()">
+<i class="fas fa-plus"></i>
+</span>
+</div>
+</div>-->
+                <!--carrito-->
+                <table class="table table-bordered table-sm">
+                  <thead class="bg-info">
+                    <tr>
+                      <th>Descripcion</th>
+                      <th>Cantidad</th>
+                      <th>U. Medida</th>
+                      <th>P. Unitario</th>
+                      <th>P. Total</th>
+                      <th>&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody id="listaDetalle"></tbody>
+                  <tfooter>
+                    <tr>
+                      <td colspan="3"></td>
+                      <th>TOTAL</th>
+                      <th id="totVenta">0</th>
+                    </tr>
+                  </tfooter>
+                </table>
               </div>
-              <span class="text-danger" style="font-size:14px" id="errNit"></span>
-              <datalist id="listaClientes">
-                <?php
-                $clientes=ControladorCliente::ctrInfoClientes();
-                foreach($clientes as $value){
-                ?>
-                <option value="<?php echo $value["nit_ci_cliente"]?>"><?php echo $value["razon_social_cliente"]?></option>
-                <?php
-                }
-                ?>
-              </datalist>
+
             </div>
 
-            <div class="form-group col-md-3">
-              <label for="">Razon Social</label>
-              <input type="text" class="form-control" name="rsCliente" id="rsCliente" value="Sin Nombre">
-            </div>
+            <div class="col-sm-3">
+              <!--datos del cliente-->
+              <h5 class="text-primary" style="margin-bottom: 10px;">
+                <i class="fas fa-user-tie"></i>
+                Datos del cliente
+              </h5>
 
-            <div class="form-group col-md-4">
-              <label for="">Observacion</label>
-              <input type="text" class="form-control" name="observacion" id="observacion">
+<!--              <div class="form-group">
+                <label for=""># Nota Venta</label>
+                <input type="number" class="form-control" name="numFactura" id="numFactura" readonly>
+              </div>-->
+
+              <div class="form-group">
+                <label for="nitCliente">NIT/CI</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" list="listaClientes" name="nitCliente" id="nitCliente" placeholder="0" onchange="busCliente()">
+                  <input type="hidden" id="idCliente" name="idCliente" value="1">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="busCliente()">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+                <span class="text-danger" style="font-size:14px" id="errNit"></span>
+                <datalist id="listaClientes">
+                  <?php
+                  $clientes=ControladorCliente::ctrInfoClientes();
+                  foreach($clientes as $value){
+                  ?>
+                  <option value="<?php echo $value["nit_ci_cliente"]?>"><?php echo $value["razon_social_cliente"]?></option>
+                  <?php
+                  }
+                  ?>
+                </datalist>
+              </div>
+
+              <div class="form-group">
+                <label for="">Razon Social</label>
+                <input type="text" class="form-control" name="rsCliente" id="rsCliente" value="Sin Nombre">
+              </div>
+
+              <div class="form-group">
+                <label for="">Observacion</label>
+                <textarea class="form-control" name="observacion" id="observacion" cols="3" rows="3"></textarea>
+              </div>
+
+
             </div>
 
           </div>
 
-          <!--carrito-->
-          <h5 class="text-primary" style="margin-bottom: 10px;">
-            <i class="fas fa-box"></i>
-            Productos
-          </h5>
-          <div class="row">
-            <div class="form-group col-md-2">
-              <label for="">Cod. Producto</label>
-              <div class="input-group form-group">
-                <input type="text" class="form-control" name="codProducto" id="codProducto" list="listaProductos">
-                <input type="hidden" name="idProducto" id="idProducto">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button" onclick="busProducto()">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-
-              </div>
-              <datalist id="listaProductos">
-                <?php
-                $productos=ControladorProducto::ctrInfoProductos();
-                foreach($productos as $value){
-                ?>
-                <option value="<?php echo $value["cod_producto"];?>"><?php echo $value["nombre_producto"];?></option>
-                <?php
-                }
-                ?>
-              </datalist>
-            </div>
-
-            <div class="form-group col-md-4">
-              <label for="">Descripcion</label>
-              <div class="input-group form-group">
-                <input type="text" class="form-control" name="conceptoPro" id="conceptoPro" readonly>
-              </div>
-            </div>
-
-            <div class="form-group col-md-1">
-              <label for="">Cantidad</label>
-              <div class="input-group form-group">
-                <input type="text" class="form-control" name="cantProducto" id="cantProducto" value="0" onkeyup="calcularPrePro()">
-              </div>
-            </div>
-
-            <div class="form-group col-md-2">
-              <label for="">U. Medida</label>
-              <div class="input-group form-group">
-                <input type="text" class="form-control" name="uniMedida" id="uniMedida">
-              </div>
-            </div>
-
-            <div class="form-group col-md-1">
-              <label for="">P. Unit</label>
-              <div class="input-group form-group">
-                <input type="text" class="form-control" name="preUnitario" id="preUnitario" onkeyup="calcularPrePro()">
-              </div>
-            </div>
-
-            <div class="form-group col-md-1">
-              <label for="">P. Total</label>
-              <div class="input-group form-group">
-                <input type="text" class="form-control" name="2" id="preTotal" readonly value="0.00">
-              </div>
-            </div>
-
-            <div class="form-group col-md-1">
-              <label for="">&nbsp;</label>
-              <div class="input-group form-group">
-                <span class="btn btn-info btn-circle form-control" onclick="agregarCarrito()">
-                  <i class="fas fa-plus"></i>
-                </span>
-              </div>
-            </div>
-          </div>
 
           <div class="row">
-            <table class="table table-bordered">
-              <thead class="bg-info">
-                <tr>
-                  <th>Descripcion</th>
-                  <th>Cantidad</th>
-                  <th>U. Medida</th>
-                  <th>P. Unitario</th>
-                  <th>P. Total</th>
-                  <th>&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody id="listaDetalle"></tbody>
-              <tfooter>
-                <tr>
-                  <td colspan="3"></td>
-                  <th>TOTAL</th>
-                  <th id="totVenta">0</th>
-                </tr>
-              </tfooter>
-            </table>
+
           </div>
         </div>
 
         <div class="card-footer">
           <div class="row">
-           <div class="col-sm-2">
-             <button class="btn btn-success">Guardar</button>
-           </div>
+            <div class="col-sm-2">
+              <button class="btn btn-success">Vender</button>
+            </div>
             <div class="col-sm-2">
               <div class="custom-control custom-radio">
                 <input class="custom-control-input" type="radio" name="metodoPago" id="efectivo" checked>
                 <label for="efectivo" class="custom-control-label">Efectivo</label>
               </div>
             </div>
-            
+
             <div class="col-sm-2">
               <div class="custom-control custom-radio">
                 <input class="custom-control-input" type="radio" name="metodoPago" id="qr" onclick="mostrarQr()">

@@ -20,7 +20,7 @@ $producto = ControladorProducto::ctrInfoProducto($id);
       <input type="text" class="form-control" id="codProducto" name="codProducto" value="<?php echo $producto["cod_producto"];?>">
       <input type="hidden" name="idProducto" value="<?php echo $producto["id_producto"];?>">
     </div>
-        <div class="form-group col-md-4">
+    <div class="form-group col-md-4">
       <label for="">Categoria</label>
       <select class="form-control select2bs4" name="categoriaProducto" id="categoriaProducto" value="<?php echo $producto["categoria"];?>">
         <option value="">Seleccionar</option>
@@ -45,7 +45,7 @@ $producto = ControladorProducto::ctrInfoProducto($id);
         <option value="UNIDADES" <?php if($producto["unidad_medida"]=="UNIDADES"):?>selected<?php endif;?>>Unidades</option>
       </select>
     </div>
-    
+
     <div class="form-group col-md-6">
       <label for="">Nombre del Producto</label>
       <input type="text" class="form-control" id="nomProducto" name="nomProducto" value="<?php echo $producto["nombre_producto"];?>">
@@ -60,7 +60,14 @@ $producto = ControladorProducto::ctrInfoProducto($id);
     </div>
     <div class="form-group col-md-4">
       <label for="">Precio Producto</label>
-      <input type="number" class="form-control" id="precioProducto" name="precioProducto" placeholder="0.00" value="<?php echo $producto["precio"];?>">
+      <div class="input-group">
+        <input type="number" class="form-control" id="precioProducto" name="precioProducto" placeholder="0.00" value="<?php echo $producto["precio"];?>">
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-info" onclick="precioAdicional(<?php echo $producto["id_producto"];?>)">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="form-group col-md-4">

@@ -132,7 +132,7 @@ function MEliProducto(id) {
         data: obj,
         url: "controlador/productoControlador.php?ctrEliProducto",
         success: function (data) {
-         
+
           if (data == "ok") {
             Swal.fire({
               icon: 'success',
@@ -189,4 +189,176 @@ function previsualizar() {
 
     })
   }
+}
+
+function precioAdicional(id) {
+  $("#modal-lg").modal("show");
+
+  $.ajax({
+    type: "POST",
+    url: "vista/producto/precioAdicional.php?id=" + id,
+    success: function (data) {
+      $("#content-lg").html(data);
+
+      // Esperar a que el DOM se actualice antes de cargar precios
+      setTimeout(() => {
+        cargarPreciosProducto(id);
+      }, 100); // 100ms suele ser suficiente
+    }
+  });
+}
+function guardarPrecioAdicional() {
+  const formData = $("#formPreciosAdicionales").serialize();
+  const idPrecio = $("#formPreciosAdicionales").data("idPrecio") || null;
+
+  // Determinar si es edición o nuevo registro
+  const url = idPrecio
+    ? "controlador/productoControlador.php?ctrActualizarPrecio"
+    : "controlador/productoControlador.php?ctrGuardarPrecio";
+
+  // Si es edición, agregar el idPrecio al formData
+  const finalData = idPrecio ? formData + `&idPrecio=${idPrecio}` : formData;
+
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: finalData,
+    dataType: "json",
+    success: function (response) {
+      if (response.status === "ok") {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'success',
+          title: idPrecio ? 'Precio actualizado correctamente' : 'Precio registrado correctamente',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        });
+
+        const idProducto = $("#formPreciosAdicionales input[name='idProducto']").val();
+        cargarPreciosProducto(idProducto);
+        $("#formPreciosAdicionales")[0].reset();
+        $("#formPreciosAdicionales").removeData("idPrecio"); // limpiar modo edición
+      }
+
+      /* else if (response.status === "duplicado") {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'warning',
+          title: 'Ya existe un precio con ese concepto',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true
+        });
+      } else {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'error',
+          title: 'Error al registrar el precio',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true
+        });
+      } */
+    },
+    error: function () {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: 'Error de conexión con el servidor',
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true
+      });
+    }
+  });
+}
+
+function cargarPreciosProducto(idProducto) {
+  $.ajax({
+    type: "POST",
+    url: "controlador/productoControlador.php?ctrListarPrecios",
+    data: { idProducto: idProducto },
+    dataType: "json",
+    success: function (data) {
+      let tabla = document.getElementById("tablaPreciosProducto");
+      tabla.innerHTML = "";
+
+      data.forEach(precio => {
+        let fila = `<tr>
+<td>${precio.concepto}</td>
+<td>${precio.precio}</td>
+<td>
+  <span class="badge ${precio.estado == 1 ? 'badge-success' : 'badge-danger'}">
+    ${precio.estado == 1 ? 'Activo' : 'Inactivo'}
+  </span>
+</td>
+<td>
+<button class="btn btn-sm btn-secondary" onclick="editarPrecio(${precio.id_precioproducto})"><i class="fas fa-edit"></i></button>
+<button class="btn btn-sm btn-danger" onclick="eliminarPrecio(${precio.id_precioproducto})"><i class="fas fa-trash"></i></button>
+</td>
+</tr>`;
+        tabla.innerHTML += fila;
+      });
+    }
+  });
+}
+
+function eliminarPrecio(idPrecio) {
+  Swal.fire({
+    title: '¿Eliminar este precio?',
+    text: 'Esta acción no se puede deshacer.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "controlador/productoControlador.php?ctrEliminarPrecio",
+        data: { idPrecio: idPrecio },
+        success: function (response) {
+          let res = JSON.parse(response);
+          if (res.status === "ok") {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: 'Precio eliminado',
+              showConfirmButton: false,
+              timer: 2000
+            });
+
+            let idProducto = $("#formPreciosAdicionales input[name='idProducto']").val();
+            cargarPreciosProducto(idProducto);
+          } else {
+            Swal.fire('Error', 'No se pudo eliminar el precio.', 'error');
+          }
+        }
+      });
+    }
+  });
+}
+
+function editarPrecio(idPrecio) {
+  $.ajax({
+    type: "POST",
+    url: "controlador/productoControlador.php?ctrInfoPrecio",
+    data: { idPrecio: idPrecio },
+    dataType: "json",
+    success: function (data) {
+      // Cargar datos en el formulario
+      $("#concepto").val(data.concepto);
+      $("#precioAdicional").val(data.precio);
+      $("#estado").val(data.estado);
+      
+      // Guardar el ID para saber que estamos editando
+      $("#formPreciosAdicionales").data("idPrecio", idPrecio);
+    }
+  });
 }

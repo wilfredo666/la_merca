@@ -71,7 +71,7 @@ function dibujarTablaCarritoNI(){
       botonEliminar.classList.add("btn", "btn-danger", "btn-sm")
       botonEliminar.innerHTML="<i class='fas fa-trash'></i>"
       botonEliminar.onclick=()=>{
-        eliminarCarrito(detalle.codigoProducto)
+        eliminarCarritoNI(detalle.codigoProducto)
       }
 
       tdEliminar.appendChild(botonEliminar)
@@ -80,10 +80,10 @@ function dibujarTablaCarritoNI(){
       listaDetalleNI.appendChild(fila)
     })
 
-  calcularTotal()
+  calcularTotalNI()
 }
 
-function eliminarCarrito(cod){
+function eliminarCarritoNI(cod){
   arregloCarritoNI = arregloCarritoNI.filter((detalle)=>{
     if(cod!=detalle.codigoProducto){
       return detalle
@@ -91,10 +91,10 @@ function eliminarCarrito(cod){
   })
 
   dibujarTablaCarritoNI()
-  calcularTotal()
+  calcularTotalNI()
 }
 
-function calcularTotal(){
+function calcularTotalNI(){
 totalCarritoNI = 0
   for(var i=0; i<arregloCarritoNI.length; i++){
     totalCarritoNI = totalCarritoNI + parseFloat(arregloCarritoNI[i].subtotal)

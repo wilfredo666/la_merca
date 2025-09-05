@@ -272,7 +272,7 @@ function habilitado($idPermiso)
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="" class="nav-link">
+                  <a href="VTraspasos" class="nav-link">
                     <i class="far fa-circle nav-icon text-info"></i>
                     <p>Detalle Traspasos</p>
                   </a>

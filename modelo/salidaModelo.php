@@ -10,24 +10,17 @@ class ModeloSalida{
     return $resul;
   }
 
-  static public function mdlRegNotaVenta(){
-    date_default_timezone_set("America/La_Paz");
+ static public function mdlRegNotaVenta() {
+  date_default_timezone_set("America/La_Paz");
+  if (session_status() === PHP_SESSION_NONE) {
     session_start();
+  }
 
-    $stmt = Conexion::conectar()->prepare("
-  INSERT INTO venta (
-    codigo_venta, id_cliente, detalle_venta, total, descuento, neto,
-    observacion, id_usuario, id_almacen,
-    create_at, update_at
-  ) VALUES (
-    :codigo, :cliente, :detalle, :total, :descuento, :neto,
-    :observacion, :usuario, :almacen,
-    :creado, :actualizado
-  )
-");
+  try {
+    $conn = Conexion::conectar();
+    $conn->beginTransaction();
 
-    $codigo      = "NV-".($_POST["numFactura"] ?? '');
-    $cliente     = $_POST["idCliente"] ?? '';
+    $cliente     = $_POST["idCliente"] ?? 1;
     $detalle     = $_POST["carritoVenta"] ?? '';
     $total       = $_POST["totVenta"] ?? 0;
     $descuento   = $_POST["descuento"] ?? 0;
@@ -38,8 +31,19 @@ class ModeloSalida{
     $creado      = date("Y-m-d H:i:s");
     $actualizado = date("Y-m-d H:i:s");
 
-    // Bind de parámetros seguros
-    $stmt->bindParam(":codigo", $codigo);
+    // Insertar sin código inicial
+    $stmt = $conn->prepare("
+      INSERT INTO venta (
+        id_cliente, detalle_venta, total, descuento, neto,
+        observacion, id_usuario, id_almacen,
+        create_at, update_at
+      ) VALUES (
+        :cliente, :detalle, :total, :descuento, :neto,
+        :observacion, :usuario, :almacen,
+        :creado, :actualizado
+      )
+    ");
+
     $stmt->bindParam(":cliente", $cliente);
     $stmt->bindParam(":detalle", $detalle);
     $stmt->bindParam(":total", $total);
@@ -51,33 +55,70 @@ class ModeloSalida{
     $stmt->bindParam(":creado", $creado);
     $stmt->bindParam(":actualizado", $actualizado);
 
-    // Ejecutar y validar
-    if ($stmt->execute()) {
-      //registrando el detalle de la nota de venta
+    if (!$stmt->execute()) {
+      $conn->rollBack();
+      return "error_insert";
+    }
 
-      $detalle=json_decode($_POST["carritoVenta"], true);
+    // Obtener ID generado y crear código
+    $ultimoId = $conn->lastInsertId();
+    $codigo = "NV-" . $ultimoId;
 
-      for($i=0; $i<count($detalle); $i++){
-        $idProducto=$detalle[$i]["idProducto"];
-        $cantProducto=$detalle[$i]["cantidad"];
-        $preProducto=$detalle[$i]["precioUnitario"];
+    // Actualizar código de venta
+    $stmtCodigo = $conn->prepare("
+      UPDATE venta SET codigo_venta = :codigo WHERE id_venta = :id
+    ");
+    $stmtCodigo->bindParam(":codigo", $codigo);
+    $stmtCodigo->bindParam(":id", $ultimoId);
 
-        $stmtNV=Conexion::conectar()->prepare("INSERT INTO movimiento
+    if (!$stmtCodigo->execute()) {
+      $conn->rollBack();
+      return "error_update_codigo";
+    }
+
+    // Insertar movimientos
+    $detalleArray = json_decode($_POST["carritoVenta"], true) ?? [];
+    if (!is_array($detalleArray) || empty($detalleArray)) {
+      $conn->rollBack();
+      return "error_detalle_vacio";
+    }
+
+    foreach ($detalleArray as $item) {
+      $idProducto   = $item["idProducto"];
+      $cantProducto = $item["cantidad"];
+      $preProducto  = $item["precioUnitario"];
+
+      $stmtNV = $conn->prepare("
+        INSERT INTO movimiento
         (id_almacen, id_producto, codigo, cantidad, tipo, costo, create_at)
         VALUES
-        ($id_almacen,$idProducto,'$codigo','$cantProducto','salida','$preProducto','$creado')");
+        (:almacen, :producto, :codigo, :cantidad, 'salida', :costo, :fecha)
+      ");
 
-        if(!$stmtNV->execute()){
-          return "error";
-        }
+      $stmtNV->bindParam(":almacen", $id_almacen);
+      $stmtNV->bindParam(":producto", $idProducto);
+      $stmtNV->bindParam(":codigo", $codigo);
+      $stmtNV->bindParam(":cantidad", $cantProducto);
+      $stmtNV->bindParam(":costo", $preProducto);
+      $stmtNV->bindParam(":fecha", $creado);
+
+      if (!$stmtNV->execute()) {
+        $conn->rollBack();
+        return "error_movimiento";
       }
-
-      return "ok";
-    } else {
-      return "error";
     }
-  }
 
+    $conn->commit();
+    return ["status" => "ok", "id" => $ultimoId, "codigo" => $codigo];
+
+  } catch (Exception $e) {
+    if (isset($conn)) {
+      $conn->rollBack();
+    }
+    return "error_exception: " . $e->getMessage();
+  }
+}
+  
   static public function mdlInfoFacturas(){
     $stmt=Conexion::conectar()->prepare("SELECT
     id_venta,
@@ -348,4 +389,176 @@ LIMIT 1");
     $stmt = null; // buena práctica cerrar conexión
   }
 
+  static public function mdlRegNotaTraspaso() {
+    date_default_timezone_set("America/La_Paz");
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    try {
+      $conn = Conexion::conectar();
+      $conn->beginTransaction();
+
+      // Insertar sin código inicial
+      $stmt = $conn->prepare("
+            INSERT INTO traspaso 
+            (id_almacen_origen, id_almacen_destino, detalle_traspaso, observacion_traspaso, id_usuario, create_at, update_at) 
+            VALUES (:almacenOrigen, :almacenDestino, :detalle, :observacion, :usuario, :creado, :actualizado)
+        ");
+
+      $id_almacen_origen  = $_POST["almacen_origen"] ?? 0;
+      $id_almacen_destino = $_POST["almacen_destino"] ?? 0;
+      $detalle            = $_POST["carritoTraspaso"] ?? '';
+      $observacion        = $_POST["observacion"] ?? '';
+      $id_usuario         = $_SESSION["idUsuario"] ?? 0;
+      $creado             = date("Y-m-d H:i:s");
+      $actualizado        = date("Y-m-d H:i:s");
+
+      $stmt->bindParam(":almacenOrigen", $id_almacen_origen);
+      $stmt->bindParam(":almacenDestino", $id_almacen_destino);
+      $stmt->bindParam(":detalle", $detalle);
+      $stmt->bindParam(":observacion", $observacion);
+      $stmt->bindParam(":usuario", $id_usuario);
+      $stmt->bindParam(":creado", $creado);
+      $stmt->bindParam(":actualizado", $actualizado);
+
+      if (!$stmt->execute()) {
+        $conn->rollBack();
+        return "error_insert";
+      }
+
+      // Obtener ID generado
+      $ultimoId = $conn->lastInsertId();
+      $codigo = "NT-" . $ultimoId;
+
+      // Actualizar código de traspaso
+      $stmtCodigo = $conn->prepare("
+            UPDATE traspaso 
+            SET cod_traspaso = :codigo 
+            WHERE id_traspaso = :id
+        ");
+      $stmtCodigo->bindParam(":codigo", $codigo);
+      $stmtCodigo->bindParam(":id", $ultimoId);
+
+      if (!$stmtCodigo->execute()) {
+        $conn->rollBack();
+        return "error_update_codigo";
+      }
+
+      // Insertar detalle de productos
+      $detalleArray = json_decode($_POST["carritoTraspaso"], true) ?? [];
+      if (!is_array($detalleArray) || empty($detalleArray)) {
+        $conn->rollBack();
+        return "error_detalle_vacio";
+      }
+
+      foreach ($detalleArray as $item) {
+        $idProducto   = $item["idProducto"];
+        $cantProducto = $item["cantidad"];
+        $preProducto  = $item["costo"];
+
+        // Salida - origen
+        $stmtSalida = $conn->prepare("
+                INSERT INTO movimiento 
+                (id_almacen, id_producto, codigo, cantidad, tipo, costo, create_at)
+                VALUES (:almacen, :producto, :codigo, :cantidad, 'salida', :costo, :fecha)
+            ");
+        $stmtSalida->bindParam(":almacen", $id_almacen_origen);
+        $stmtSalida->bindParam(":producto", $idProducto);
+        $stmtSalida->bindParam(":codigo", $codigo);
+        $stmtSalida->bindParam(":cantidad", $cantProducto);
+        $stmtSalida->bindParam(":costo", $preProducto);
+        $stmtSalida->bindParam(":fecha", $creado);
+
+        if (!$stmtSalida->execute()) {
+          $conn->rollBack();
+          return "error_salida";
+        }
+
+        // Ingreso - destino
+        $stmtIngreso = $conn->prepare("
+                INSERT INTO movimiento 
+                (id_almacen, id_producto, codigo, cantidad, tipo, costo, create_at)
+                VALUES (:almacen, :producto, :codigo, :cantidad, 'ingreso', :costo, :fecha)
+            ");
+        $stmtIngreso->bindParam(":almacen", $id_almacen_destino);
+        $stmtIngreso->bindParam(":producto", $idProducto);
+        $stmtIngreso->bindParam(":codigo", $codigo);
+        $stmtIngreso->bindParam(":cantidad", $cantProducto);
+        $stmtIngreso->bindParam(":costo", $preProducto);
+        $stmtIngreso->bindParam(":fecha", $creado);
+
+        if (!$stmtIngreso->execute()) {
+          $conn->rollBack();
+          return "error_ingreso";
+        }
+      }
+
+      $conn->commit();
+      return ["status" => "ok", "id" => $ultimoId, "codigo" => $codigo];
+
+    } catch (Exception $e) {
+      if (isset($conn)) {
+        $conn->rollBack();
+      }
+      return "error_exception: " . $e->getMessage();
+    }
+  }
+
+  static public function mdlInfoTraspasos(){
+    $stmt=Conexion::conectar()->prepare("SELECT
+    t.id_traspaso,
+    t.cod_traspaso,
+    ao.nombre_almacen AS NomAlmacenOrigen,
+    ao.descripcion AS descAlmacenOrigen,
+    ad.nombre_almacen AS NomAlmacenDestino,
+    ad.descripcion AS descAlmacenDestino,
+    u.nombre AS Usuario,
+    t.create_at
+FROM traspaso t
+JOIN usuario u ON u.id_usuario = t.id_usuario
+JOIN almacen ao ON ao.id_almacen = t.id_almacen_origen
+JOIN almacen ad ON ad.id_almacen = t.id_almacen_destino;
+");
+    $stmt->execute();
+    $resul = $stmt->fetchAll();
+    $stmt->closeCursor();
+    return $resul;
+  }
+  
+  static public function mdlInfoTraspaso($id){
+    $stmt=Conexion::conectar()->prepare("SELECT
+    t.id_traspaso,
+    t.cod_traspaso,
+    t.detalle_traspaso,
+    t.observacion_traspaso,
+    t.estado_traspaso,
+    ao.nombre_almacen AS NomAlmacenOrigen,
+    ao.descripcion AS descAlmacenOrigen,
+    ad.nombre_almacen AS NomAlmacenDestino,
+    ad.descripcion AS descAlmacenDestino,
+    u.nombre AS Usuario,
+    t.create_at
+FROM traspaso t
+JOIN usuario u ON u.id_usuario = t.id_usuario
+JOIN almacen ao ON ao.id_almacen = t.id_almacen_origen
+JOIN almacen ad ON ad.id_almacen = t.id_almacen_destino
+WHERE id_traspaso=$id
+");
+    $stmt->execute();
+    $resul = $stmt->fetch();
+    $stmt->closeCursor();
+    return $resul;
+  }
+  
+  static public function mdlEliNotaTraspaso($id){
+    $stmt=Conexion::conectar()->prepare("DELETE FROM traspaso WHERE id_traspaso= $id");
+
+    if($stmt->execute()){
+      $stmt->closeCursor();
+      return "ok";
+    }else{
+      return "error";
+    }
+  }
 }

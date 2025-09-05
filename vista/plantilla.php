@@ -103,6 +103,7 @@ session_start();
           "VOtrosIngresos",
           "FormOtrasSalidas",
           "VOtrasSalidas",
+          "VTraspasos",
         ];
 
         if (in_array($_GET["ruta"], $rutas_validas)) {

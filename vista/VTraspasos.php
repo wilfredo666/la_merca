@@ -19,7 +19,7 @@
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Lista de Ventas</h3>
+        <h3 class="card-title">Lista de Traspasos</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -35,51 +35,35 @@
           <thead>
             <tr>
               <th>Codigo</th>
-              <th>Cliente</th>
-              <th>Total</th>
-              <th>Fecha</th>
               <th>Usuario</th>
-              <th>Estado</th>
-              <td><a href="FormVenta" type="button" class="btn btn-block btn-primary btn-xs">Nuevo</a></td>
+              <th>Almacen Origen</th>
+              <th>Almacen Destino</th>
+              <th>Fecha</th>
+              <td><a href="FormTraspaso" type="button" class="btn btn-block btn-primary btn-xs">Nuevo</a></td>
             </tr>
           </thead>
           <tbody>
             <?php
-            $ventas=ControladorSalida::ctrInfoFacturas();
-            foreach($ventas as $value){
+            $salidas=ControladorSalida::ctrInfoTraspasos();
+            foreach($salidas as $value){
             ?>
             <tr>
-              <td><?php echo $value["codigo_venta"];?></td>
-              <td><?php echo $value["razon_social_cliente"];?></td>
-              <td><?php echo $value["total"];?></td>
+              <td><?php echo $value["cod_traspaso"];?></td>
+              <td><?php echo $value["Usuario"];?></td>
+              <td><?php echo $value["NomAlmacenOrigen"]." - ".$value["descAlmacenOrigen"];?></td>
+              <td><?php echo $value["NomAlmacenDestino"]." - ".$value["descAlmacenDestino"];?></td>
               <td><?php echo $value["create_at"];?></td>
-              <td><?php echo $value["nombre"];?></td>
-              <td>
-                <?php if($value["estado_venta"]==1){
-                ?>
 
-                <span class="badge bg-success">Emitido</span>
-                <?php
-            }else{
-                ?>
-                <span class="badge bg-danger">Anulada</span>
-                <?php
-            }?>
-
-              </td>
               <td>
                 <div class="btn-group">
-                  <button class="btn btn-sm btn-info btn-xs" onclick="MVerNotaVenta(<?php echo $value["id_venta"]?>)">
+                  <button class="btn btn-sm btn-info btn-xs" onclick="MVerNotaTraspaso(<?php echo $value["id_traspaso"]?>)">
                     <i class="fas fa-eye"></i>
                   </button>
 
-                  <button class="btn btn-sm btn-danger btn-xs" onclick="MEliFactura(<?php echo $value["id_venta"]?>)">
+                  <button class="btn btn-sm btn-danger btn-xs" onclick="MEliNotaTraspaso(<?php echo $value["id_traspaso"]?>)">
                     <i class="fas fa-trash"></i>
                   </button>
 
-                  <a class="btn btn-sm btn-success btn-xs" href="vista/venta/ImpFactura.php?id=<?php echo $value["id_venta"]?>" target="_blank">
-                    <i class="fas fa-print"></i>
-                  </a>
                 </div>
               </td>
             </tr>

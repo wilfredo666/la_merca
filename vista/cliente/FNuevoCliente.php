@@ -23,7 +23,7 @@
     <div class="row">
       <div class="form-group col-md-6">
         <label for="">País</label>
-        <input type="text" name="paisCliente" id="paisCliente" class="form-control">
+        <input type="text" name="paisCliente" id="paisCliente" class="form-control" value="Bolivia" readonly>
         </div>
       <div class="form-group col-md-6">
         <label for="">Ciudad</label>
@@ -112,7 +112,4 @@
 
   })
 
-  $('.select2bs4').select2({
-    theme: 'bootstrap4'
-  })
 </script>

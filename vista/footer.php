@@ -219,9 +219,7 @@ seccion de modals
     $(document).ready(function() {
       $("#FormNotaVenta").validate({
         rules: {
-          nitCliente: {
-            required: true
-          },
+
           rsCliente: {
             required: true,
           }
@@ -306,6 +304,38 @@ seccion de modals
       }
     });
   });
+  
+    // Validación para Nota de Traspaso
+  $(function() {
+    $("#FNotaTraspaso").validate({
+      rules: {
+        almacen_origen: { required: true },
+        almacen_destino: { required: true }
+      },
+      errorElement: 'span',
+      errorPlacement: function(error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function(element) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function(element) {
+        $(element).removeClass('is-invalid');
+      },
+      submitHandler: function() {
+        if (arregloCarritoTs.length === 0) {
+          if (!$("#tablaError").length) {
+            $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
+              .appendTo("#listaDetalleTs");
+          }
+          return false;
+        }
+        RegTraspaso();
+      }
+    });
+  });
+
 
 </script>
 

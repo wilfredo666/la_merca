@@ -129,7 +129,7 @@ GROUP BY
       }
     }
   }
-  
+
   static public function mdlCantidadProductos(){
     $stmt=Conexion::conectar()->prepare("select count(*) as producto from producto");
     $stmt->execute();
@@ -140,8 +140,29 @@ GROUP BY
     return $resultado;
   }
 
-    static public function mdlBusProducto($cod){
-    $stmt=Conexion::conectar()->prepare("SELECT * FROM producto WHERE cod_producto='$cod'");
+  static public function mdlBusProducto($cod, $idAlmacen){
+    $stmt=Conexion::conectar()->prepare("SELECT
+    p.id_producto,
+    p.cod_producto,
+    p.nombre_producto,
+    p.descripcion_prod,
+    p.unidad_medida,
+    p.precio,
+    p.costo,
+    COALESCE(
+        SUM(
+            CASE 
+                WHEN m.id_almacen = $idAlmacen AND m.tipo = 'ingreso' THEN m.cantidad
+                WHEN m.id_almacen = $idAlmacen AND m.tipo = 'salida'  THEN -m.cantidad
+                ELSE 0
+            END
+        ), 0
+    ) AS stock
+FROM producto p
+LEFT JOIN movimiento m ON p.id_producto = m.id_producto
+WHERE p.cod_producto = '$cod'
+GROUP BY p.id_producto, p.cod_producto, p.imagen_producto, 
+         p.nombre_producto, p.descripcion_prod, p.categoria, p.precio;");
     $stmt->execute();
 
     $respuesta = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -150,4 +171,106 @@ GROUP BY
 
     return $respuesta;
   }
+
+  static public function mdlBusProductoTs($cod, $idAlmacen){
+    $stmt=Conexion::conectar()->prepare("SELECT
+    p.id_producto,
+    p.cod_producto,
+    p.nombre_producto,
+    p.descripcion_prod,
+    p.precio,
+    p.costo,
+    COALESCE(
+        SUM(
+            CASE 
+                WHEN m.id_almacen = $idAlmacen AND m.tipo = 'ingreso' THEN m.cantidad
+                WHEN m.id_almacen = $idAlmacen AND m.tipo = 'salida'  THEN -m.cantidad
+                ELSE 0
+            END
+        ), 0
+    ) AS stock
+FROM producto p
+LEFT JOIN movimiento m ON p.id_producto = m.id_producto
+WHERE p.cod_producto = '$cod'
+GROUP BY p.id_producto, p.cod_producto, p.imagen_producto, 
+         p.nombre_producto, p.descripcion_prod, p.categoria, p.precio;");
+    $stmt->execute();
+
+    $respuesta = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt->closeCursor();
+
+    return $respuesta;
+  }
+
+  static public function mdlListarPrecios($idProducto){
+    try {
+      $stmt = Conexion::conectar()->prepare("
+        SELECT id_precioproducto, precio, concepto, estado
+        FROM precio_producto
+        WHERE id_producto = :idProducto
+        ORDER BY id_precioproducto DESC
+      ");
+      $stmt->bindParam(":idProducto", $idProducto, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      return []; // o podés retornar un mensaje de error si querés
+    }
+
+  }
+
+  /*  static public function mdlExisteConcepto($idProducto, $concepto) {
+    $stmt = Conexion::conectar()->prepare("
+      SELECT COUNT(*) FROM precio_producto
+      WHERE id_producto = :id AND concepto = :concepto
+    ");
+    $stmt->bindParam(":id", $idProducto, PDO::PARAM_INT);
+    $stmt->bindParam(":concepto", $concepto, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchColumn() > 0;
+  }*/
+
+  static public function mdlGuardarPrecio($idProducto, $concepto, $precio) {
+    $stmt = Conexion::conectar()->prepare("
+      INSERT INTO precio_producto (id_producto, precio, concepto)
+      VALUES (:id, :precio, :concepto)");
+    $stmt->bindParam(":id", $idProducto, PDO::PARAM_INT);
+    $stmt->bindParam(":precio", $precio);
+    $stmt->bindParam(":concepto", $concepto);
+    return $stmt->execute(); //devuelve true o false
+  }
+
+  static public function mdlEliminarPrecio($idPrecio) {
+    $stmt = Conexion::conectar()->prepare("
+    DELETE FROM precio_producto WHERE id_precioproducto = :id
+  ");
+    $stmt->bindParam(":id", $idPrecio, PDO::PARAM_INT);
+    return $stmt->execute();
+  }
+
+  static public function mdlInfoPrecio($idPrecio) {
+    $stmt = Conexion::conectar()->prepare("
+    SELECT concepto, precio, estado
+    FROM precio_producto
+    WHERE id_precioproducto = :id
+  ");
+    $stmt->bindParam(":id", $idPrecio, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  
+  static public function mdlActualizarPrecio($idPrecio, $concepto, $precio, $estado) {
+  $stmt = Conexion::conectar()->prepare("
+    UPDATE precio_producto
+    SET concepto = :concepto, precio = :precio, estado = :estado
+    WHERE id_precioproducto = :id
+  ");
+  $stmt->bindParam(":concepto", $concepto);
+  $stmt->bindParam(":precio", $precio);
+  $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
+  $stmt->bindParam(":id", $idPrecio, PDO::PARAM_INT);
+  return $stmt->execute();
+}
+
 }

@@ -33,7 +33,7 @@
               <div class="col-md-8">
                 <div class="form-group">
                   <label>Concepto de Salida</label>
-                  <select class="form-control select2bs4" name="concepto_salida" id="concepto_salida">
+                  <select class="form-control" name="concepto_salida" id="concepto_salida">
                     <option value="">-- Seleccionar concepto de salida --</option>
                     <option value="Promocion">Promocion</option>
                     <option value="Regalo">Regalo</option>

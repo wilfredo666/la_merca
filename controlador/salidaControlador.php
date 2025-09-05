@@ -10,6 +10,8 @@ if(isset($ruta["query"])){
      $ruta["query"] == "ctrRegNotaSalida" ||
      $ruta["query"] == "ctrEliNotaSalida" ||
      $ruta["query"] == "ctrEditQr" ||
+     $ruta["query"] == "ctrRegNotaTraspaso" ||
+     $ruta["query"] == "ctrEliNotaTraspaso" ||
      $ruta["query"] == "ctrReporteVentas"){
 
     $metodo = $ruta["query"];
@@ -30,7 +32,7 @@ class ControladorSalida{
 
     $respuesta=ModeloSalida::mdlRegNotaVenta();
 
-    echo $respuesta;
+    echo $respuesta["status"];
   }
 
   static public function ctrInfoFactura($id){
@@ -95,7 +97,7 @@ class ControladorSalida{
   static public function ctrEliNotaSalida(){
     require_once "../modelo/salidaModelo.php";
 
-    $id =$_POST["id"];
+    
     $respuesta=ModeloSalida::mdlEliNotaSalida($id);
 
     echo $respuesta;
@@ -136,7 +138,30 @@ class ControladorSalida{
     }
   }
 
+  static public function ctrRegNotaTraspaso(){
+    require_once "../modelo/salidaModelo.php";
 
+    $respuesta=ModeloSalida::mdlRegNotaTraspaso();
+
+    echo $respuesta["status"];
+  }
+
+  static public function ctrInfoTraspasos(){
+    $respuesta=ModeloSalida::mdlInfoTraspasos();
+    return $respuesta;
+  }
+
+  static public function ctrInfoTraspaso($id){
+    $respuesta=ModeloSalida::mdlInfoTraspaso($id);
+    return $respuesta;
+  }
+
+  static public function ctrEliNotaTraspaso(){
+    require_once "../modelo/salidaModelo.php";
+    $id =$_POST["id"];
+    $respuesta=ModeloSalida::mdlEliNotaTraspaso($id);
+    echo $respuesta;
+  }
 }
 
 
