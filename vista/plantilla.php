@@ -104,6 +104,7 @@ session_start();
           "FormOtrasSalidas",
           "VOtrasSalidas",
           "VTraspasos",
+          "VCategoria"
         ];
 
         if (in_array($_GET["ruta"], $rutas_validas)) {

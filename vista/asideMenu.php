@@ -204,7 +204,22 @@ function habilitado($idPermiso)
                 <p>
                   Productos
                 </p>
+                <i class="right fas fa-angle-left"></i>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="VProducto" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Lista de Productos</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="VCategoria" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Categorias</p>
+                  </a>
+                </li>
+              </ul>
             </li>
 
 

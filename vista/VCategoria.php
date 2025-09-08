@@ -26,7 +26,7 @@
         ?>
           <tr>
             <td><?php echo $value["id_categoria"]; ?></td>
-            <td><?php echo $value["desc_categoria"]; ?></td>
+            <td><?php echo $value["descripcion_cat"]; ?></td>
             <td>
               <div class="btn-group">
                 <button class="btn btn-sm btn-secondary" onclick="MEditCategoria(<?php echo $value['id_categoria']; ?>)">

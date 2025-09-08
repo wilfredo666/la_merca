@@ -15,7 +15,7 @@ $categoria = ControladorCategoria::ctrInfoCategoria($id);
   <div class="modal-body">
     <div class="form-group">
       <label for="">Descripción de la Categoría</label>
-      <input type="text" class="form-control" id="desCategoria" name="desCategoria" value="<?php echo $categoria["desc_categoria"]; ?>">
+      <input type="text" class="form-control" id="desCategoria" name="desCategoria" value="<?php echo $categoria["descripcion_cat"]; ?>">
       <input type="hidden" name="idCategoria" id="idCategoria" value="<?php echo $id; ?>">
     </div>
   </div>

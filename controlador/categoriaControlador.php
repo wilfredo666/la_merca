@@ -5,7 +5,7 @@ if(isset($ruta["query"])){
   if($ruta["query"]=="ctrRegistrarCategoria"||
      $ruta["query"]=="ctrEditCategoria"||
      $ruta["query"]=="ctrEliCategoria"||
-     $ruta["query"]=="ctrBusCategoria"){
+     $ruta["query"]=="ctrInfoCategoria"){
     $metodo=$ruta["query"];
     $categoria=new ControladorCategoria();
     $categoria->$metodo();
@@ -62,16 +62,4 @@ class ControladorCategoria{
 
   }
 
-  static public function ctrBusCategoria(){
-    require "../modelo/categoriaModelo.php";
-    $nitCategoria=$_POST["nitCategoria"];
-
-    $respuesta=ModeloCategoria::mdlBusCategoria($nitCategoria);
-    echo json_encode($respuesta);
-  }
-
-  static public function ctrCantidadCategorias(){
-    $respuesta=ModeloCategoria::mdlCantidadCategorias();
-    return $respuesta;
-  }
 }
