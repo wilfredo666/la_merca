@@ -11,7 +11,6 @@
       Lista de Productos
     </h5>
     <table id="DataTable_producto" class="table table-bordered table-striped">
-
       <thead>
         <tr>
           <th>Cod. Producto</th>

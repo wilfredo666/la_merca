@@ -362,3 +362,17 @@ function editarPrecio(idPrecio) {
     }
   });
 }
+
+function MCatalogoProductos(){
+  $("#modal-lg").modal("show");
+
+  var obj = ""
+  $.ajax({
+    type: "POST",
+    url: "vista/producto/MCatalogoProductos.php",
+    data: obj,
+    success: function (data) {
+      $("#content-lg").html(data)
+    }
+  })
+}

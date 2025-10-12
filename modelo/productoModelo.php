@@ -273,4 +273,17 @@ GROUP BY p.id_producto, p.cod_producto, p.imagen_producto,
   return $stmt->execute();
 }
 
+static public function mdlProductosPorCategoria($categoria) {
+    if ($categoria === 'todos') {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM producto");
+    } else {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM producto WHERE categoria = :categoria");
+        $stmt->bindParam(":categoria", $categoria, PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = null;
+    return $resultado;
+  }
+
 }

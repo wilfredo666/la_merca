@@ -13,6 +13,7 @@ $producto = ControladorProducto::ctrInfoProducto($id);
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <form action="" id="FormEditProducto" enctype="multipart/form-data">
   <div class="modal-body row">
     <div class="form-group col-md-4">
@@ -97,7 +98,6 @@ $producto = ControladorProducto::ctrInfoProducto($id);
     <button type="submit" class="btn btn-primary" id="guardar">Guardar</button>
   </div>
 </form>
-
 
 <script>
   $(function() {

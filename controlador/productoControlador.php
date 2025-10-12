@@ -200,4 +200,9 @@ class ControladorProducto
     }
   }
 
+  static public function ctrProductosPorCategoria($categoria) {
+    $respuesta = ModeloProducto::mdlProductosPorCategoria($categoria);
+    return $respuesta;
+  }
+
 }

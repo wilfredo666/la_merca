@@ -123,34 +123,61 @@ seccion de modals
     }).buttons().container().appendTo('#DataTable_wrapper .col-md-6:eq(0)');
     $('#DataTable td').css('padding', '5px');
     //$('#DataTable td').css('text-align', 'center'); 
-  });
-
+  })
+  
+  //dataTable producto
   $(function() {
     $("#DataTable_producto").DataTable({
+      "dom": 'Bfrtip',
+      "buttons": [
+        "copy", "csv", "excel", "pdf", "print",
+        {
+          text: 'Catalogo',
+          className: 'btn-success',
+          attr:{
+            id:'btnCatalogo'
+          },
+          action: function (e, dt, node, config) {
+            // Abre el modal con id 'modal-default'
+            MCatalogoProductos();
+          }
+        }
+      ],
       "processing": true,
       ajax: {
         url: "vista/producto/ajaxProducto.php",
         dataSrc: "data"
       },
-      columns:[
-        {data: 'cod_producto'},
+      columns: [{
+          data: 'cod_producto'
+        },
         {
           data: 'imagen_producto',
           render: function(data, type, row) {
 
-            if(data==""){
+            if (data == "") {
               return `<img src="assest/dist/img/producto/product_default.png" alt="Imagen" style="width: 50px; height: auto;">`;
-            }else{
+            } else {
               return `<img src="assest/dist/img/producto/${data}" alt="Imagen" style="width: 50px; height: auto;">`;
             }
           }
         },
-        {data: 'nombre_producto'},
-        {data: 'descripcion_prod'},
-        {data: 'categoria'},
-        {data: 'precio'},
-        {data: 'stock'},
-        { 
+        {
+          data: 'nombre_producto'
+        },
+        {
+          data: 'descripcion_prod'
+        },
+        {
+          data: 'categoria'
+        },
+        {
+          data: 'precio'
+        },
+        {
+          data: 'stock'
+        },
+        {
           data: 'id_producto',
           render: function(data, type, row) {
             return `<div class="btn-group">
@@ -173,10 +200,8 @@ seccion de modals
       "responsive": true,
       "lengthChange": false,
       "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print"],
       language: {
         "decimal": "",
-        "emptyTable": "No hay información",
         "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
         "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
         "infoFiltered": "(Filtrado de _MAX_ total entradas)",
@@ -194,11 +219,10 @@ seccion de modals
           "previous": "Anterior"
         }
       }
-    }).buttons().container().appendTo('#DataTable_producto_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#DataTable_producto_wrapper .row .col-md-6:eq(0)');
     $('#DataTable_producto td').css('padding', '5px');
 
   });
-
 </script>
 
 
@@ -208,7 +232,7 @@ seccion de modals
     $.validator.setDefaults({
 
       submitHandler: function() {
-        if(arregloCarrito.length === 0){
+        if (arregloCarrito.length === 0) {
           $("<span id='tablaError' style='font-size:12px' class='text-danger'>Debe agregar al menos un detalle</span>")
             .appendTo("#listaDetalle");
           return false;
@@ -247,8 +271,12 @@ seccion de modals
   $(function() {
     $("#FIngresoOtros").validate({
       rules: {
-        conceptoNI: { required: true },
-        almacen_destino: { required: true }
+        conceptoNI: {
+          required: true
+        },
+        almacen_destino: {
+          required: true
+        }
       },
       errorElement: 'span',
       errorPlacement: function(error, element) {
@@ -278,8 +306,12 @@ seccion de modals
   $(function() {
     $("#FSalidaOtros").validate({
       rules: {
-        conceptoNS: { required: true },
-        almacen_origen: { required: true }
+        conceptoNS: {
+          required: true
+        },
+        almacen_origen: {
+          required: true
+        }
       },
       errorElement: 'span',
       errorPlacement: function(error, element) {
@@ -304,13 +336,17 @@ seccion de modals
       }
     });
   });
-  
-    // Validación para Nota de Traspaso
+
+  // Validación para Nota de Traspaso
   $(function() {
     $("#FNotaTraspaso").validate({
       rules: {
-        almacen_origen: { required: true },
-        almacen_destino: { required: true }
+        almacen_origen: {
+          required: true
+        },
+        almacen_destino: {
+          required: true
+        }
       },
       errorElement: 'span',
       errorPlacement: function(error, element) {
@@ -335,9 +371,8 @@ seccion de modals
       }
     });
   });
-
-
 </script>
 
 </body>
+
 </html>
