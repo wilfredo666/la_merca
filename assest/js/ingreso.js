@@ -144,7 +144,7 @@ function MVerNotaIngreso(id) {
   var obj = ""
   $.ajax({
     type: "POST",
-    url: "vista/ingreso/MverNotaIngreso.php?id=" + id,
+    url: "vista/ingreso/MVerNotaIngreso.php?id=" + id,
     data: obj,
     success: function (data) {
       $("#content-xl").html(data)
