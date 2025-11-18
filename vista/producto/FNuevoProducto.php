@@ -4,6 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <form action="" id="FormRegProducto" enctype="multipart/form-data">
   <div class="modal-body row">
     <div class="form-group col-md-4">
@@ -50,7 +51,14 @@
     </div>
     <div class="form-group col-md-4">
       <label for="">Precio Producto</label>
-      <input type="number" class="form-control" id="precioProducto" name="precioProducto" placeholder="0.00">
+      <div class="input-group">
+        <input type="number" class="form-control" id="precioProducto" name="precioProducto" placeholder="0.00">
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-info" onclick="precioAdicionalNP()">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="form-group col-md-4">
@@ -73,7 +81,6 @@
     <button type="submit" class="btn btn-primary" id="guardar">Guardar</button>
   </div>
 </form>
-
 
 <script>
   $(function() {
@@ -116,6 +123,21 @@
 
       })
     })
+
+    // Inicializar Select2 para el campo categoría
+    $('#categoriaProducto').select2({
+      theme: 'bootstrap4',
+      placeholder: 'Seleccione una categoría',
+      width: '100%',
+      language: {
+        noResults: function() {
+          return "No se encontraron resultados";
+        },
+        searching: function() {
+          return "Buscando...";
+        }
+      }
+    });
 
   })
 </script>

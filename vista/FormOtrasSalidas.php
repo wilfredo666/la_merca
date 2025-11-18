@@ -3,7 +3,6 @@
   </section>
   <section class="content">
     <style>
-
       .card-header {
         background-color: transparent;
         border-bottom: 1px solid rgba(0, 0, 0, 0.125);
@@ -44,8 +43,10 @@
                     <div class="input-group form-group">
                       <input type="text" class="form-control form-control-sm" name="codProducto" id="codProducto" list="listaProductos">
                       <input type="hidden" name="idProducto" id="idProducto">
+                      <input type="hidden" name="categoria" id="categoria">
+                      <input type="hidden" name="imagen" id="imagen">
                       <div class="input-group-append">
-                        <button class="btn btn-outline-secondary btn-sm" type="button" onclick="busProductoIngreso()">
+                        <button class="btn btn-outline-secondary btn-sm" type="button" onclick="busProductoNS()">
                           <i class="fas fa-search"></i>
                         </button>
                       </div>
@@ -53,19 +54,25 @@
                     </div>
                     <datalist id="listaProductos">
                       <?php
-                      $productos=ControladorProducto::ctrInfoProductos();
-                      foreach($productos as $value){
+                      $productos = ControladorProducto::ctrInfoProductos();
+                      foreach ($productos as $value) {
                       ?>
-                      <option value="<?php echo $value["cod_producto"];?>"><?php echo $value["nombre_producto"];?></option>
+                        <option value="<?php echo $value["cod_producto"]; ?>"><?php echo $value["nombre_producto"]; ?></option>
                       <?php
                       }
                       ?>
                     </datalist>
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-5">
                     <label for="">Nombre del Producto</label>
                     <div class="input-group form-group">
                       <input type="text" class="form-control form-control-sm" name="conceptoPro" id="conceptoPro" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="form-group">
+                      <label for="">Stock</label>
+                      <input type="number" class="form-control form-control-sm" name="stock" id="stock" placeholder="0" value="0" readonly>
                     </div>
                   </div>
                   <div class="col-md-1">
@@ -91,18 +98,27 @@
 
                   <div class="col-md-12">
                     <table class="table table-bordered table-sm" id="detalleNE">
-                      <thead class="text-center">
+                      <thead class="text-center bg-info">
                         <tr>
+                          <th>Imagen</th>
+                          <th>Codigo</th>
                           <th>Nombre del Producto</th>
+                          <th>Categoria</th>
                           <th>Costo</th>
                           <th>Cantidad</th>
                           <th>Sub Total</th>
                           <th></th>
-                          <!-- <th>&nbsp;</th> -->
                         </tr>
                       </thead>
                       <tbody class="text-center" id="listaDetalleNS">
                       </tbody>
+                      <tfooter>
+                        <tr>
+                          <td colspan="5"></td>
+                          <th>TOTAL</th>
+                          <th id="totSalida">0.00</th>
+                        </tr>
+                      </tfooter>
                     </table>
                   </div>
                 </div>
@@ -130,10 +146,10 @@
                       <option value=""></option>
 
                       <?php
-                      $almacen=ControladorAlmacen::ctrMostrarRegistros();
-                      foreach($almacen as $value){
+                      $almacen = ControladorAlmacen::ctrMostrarRegistros();
+                      foreach ($almacen as $value) {
                       ?>
-                      <option value="<?php echo $value["id_almacen"];?>"><?php echo $value["nombre_almacen"]." - ".$value["descripcion"];?></option>
+                        <option value="<?php echo $value["id_almacen"]; ?>"><?php echo $value["nombre_almacen"] . " - " . $value["descripcion"]; ?></option>
                       <?php
                       }
                       ?>

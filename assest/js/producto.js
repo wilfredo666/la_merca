@@ -16,6 +16,11 @@ function RegProducto() {
 
   var formData = new FormData($("#FormRegProducto")[0])
 
+  // Agregar precios adicionales del carrito si existen
+  if (preciosAdicionalesNP.length > 0) {
+    formData.append("preciosCarrito", JSON.stringify(preciosAdicionalesNP));
+  }
+
   $.ajax({
     type: "POST",
     url: "controlador/productoControlador.php?ctrRegProducto",
@@ -25,6 +30,9 @@ function RegProducto() {
     processData: false,
     success: function (data) {
       if (data == "ok") {
+       // Limpiar carrito de precios adicionales después del registro exitoso
+        preciosAdicionalesNP = [];
+
         Swal.fire({
           icon: 'success',
           showConfirmButton: false,
@@ -38,15 +46,13 @@ function RegProducto() {
         Swal.fire({
           icon: 'error',
           title: 'Error!',
-          text: 'Erro de registro!!!',
+          text: 'Error de registro!!!',
           showConfirmButton: false,
           timer: 1500
         })
       }
     }
   })
-
-
 }
 
 function MEditProducto(id) {
@@ -109,7 +115,7 @@ function MVerProducto(id) {
     data: obj,
     success: function (data) {
       $("#content-lg").html(data)
-      /* console.log(data); */
+
     }
   })
 }
@@ -154,9 +160,6 @@ function MEliProducto(id) {
           }
         }
       })
-
-
-
     }
   })
 }
@@ -191,6 +194,11 @@ function previsualizar() {
   }
 }
 
+
+/*=============================================
+ Precios Adicionales en edicion de producto
+ ============================================*/
+
 function precioAdicional(id) {
   $("#modal-lg").modal("show");
 
@@ -207,6 +215,7 @@ function precioAdicional(id) {
     }
   });
 }
+
 function guardarPrecioAdicional() {
   const formData = $("#formPreciosAdicionales").serialize();
   const idPrecio = $("#formPreciosAdicionales").data("idPrecio") || null;
@@ -242,27 +251,7 @@ function guardarPrecioAdicional() {
         $("#formPreciosAdicionales").removeData("idPrecio"); // limpiar modo edición
       }
 
-      /* else if (response.status === "duplicado") {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          icon: 'warning',
-          title: 'Ya existe un precio con ese concepto',
-          showConfirmButton: false,
-          timer: 2500,
-          timerProgressBar: true
-        });
-      } else {
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          icon: 'error',
-          title: 'Error al registrar el precio',
-          showConfirmButton: false,
-          timer: 2500,
-          timerProgressBar: true
-        });
-      } */
+
     },
     error: function () {
       Swal.fire({
@@ -356,7 +345,7 @@ function editarPrecio(idPrecio) {
       $("#concepto").val(data.concepto);
       $("#precioAdicional").val(data.precio);
       $("#estado").val(data.estado);
-      
+
       // Guardar el ID para saber que estamos editando
       $("#formPreciosAdicionales").data("idPrecio", idPrecio);
     }
@@ -375,4 +364,214 @@ function MCatalogoProductos(){
       $("#content-lg").html(data)
     }
   })
+}
+
+/*=============================================
+ Precios Adicionales en nuevo producto
+ ============================================*/
+
+function precioAdicionalNP() {
+  // Cargar el modal independiente si no existe
+  if ($("#modalPreciosNuevoProducto").length === 0) {
+    $.ajax({
+      type: "POST",
+      url: "vista/producto/precioAdicionalNP.php",
+      success: function (data) {
+        // Agregar el modal al body
+        $("body").append(data);
+
+        // Mostrar el modal después de agregarlo
+        $("#modalPreciosNuevoProducto").modal("show");
+
+        // Cargar precios del carrito
+        setTimeout(() => {
+          mostrarCarritoPreciosNP();
+        }, 200);
+      }
+    });
+  } else {
+    // Si ya existe, simplemente mostrarlo
+    $("#modalPreciosNuevoProducto").modal("show");
+    mostrarCarritoPreciosNP();
+  }
+}
+
+//carrito de precios adicionales en nuevo producto
+var preciosAdicionalesNP = [];
+
+function agregarPrecioAdicionalNP() {
+  var concepto = $("#conceptoNP").val().trim();
+  var precio = parseFloat($("#precioAdicionalNP").val());
+  var estado = $("#estadoNP").val();
+
+  // Validaciones
+  if (concepto === "") {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'El concepto es requerido.'
+    });
+    return;
+  }
+
+  if (isNaN(precio) || precio <= 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'El precio debe ser mayor a 0.'
+    });
+    return;
+  }
+
+  // Verificar si ya existe el concepto
+  const conceptoExiste = preciosAdicionalesNP.some(item => item.concepto.toLowerCase() === concepto.toLowerCase());
+
+  if (conceptoExiste) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Advertencia',
+      text: 'Ya existe un precio con ese concepto.'
+    });
+    return;
+  }
+
+  // Agregar nuevo precio al carrito
+  var nuevoPrecio = {
+    id: Date.now(), // ID temporal único
+    concepto: concepto,
+    precio: precio.toFixed(2),
+    estado: estado
+  };
+
+  preciosAdicionalesNP.push(nuevoPrecio);
+
+  Swal.fire({
+    toast: true,
+    position: 'top-end',
+    icon: 'success',
+    title: 'Precio Adicional Agregado',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true
+  });
+
+  // Limpiar formulario y actualizar vista
+  $("#formPreciosAdicionalesNP")[0].reset();
+  mostrarCarritoPreciosNP();
+}
+
+function mostrarCarritoPreciosNP() {
+  let tabla = document.getElementById("tablaPreciosProductoNP");
+  tabla.innerHTML = "";
+
+  preciosAdicionalesNP.forEach(precio => {
+    let fila = `<tr>
+      <td>${precio.concepto}</td>
+      <td>${precio.precio}</td>
+      <td>
+        <span class="badge ${precio.estado == 1 ? 'badge-success' : 'badge-danger'}">
+          ${precio.estado == 1 ? 'Activo' : 'Inactivo'}
+        </span>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-secondary" onclick="editarPrecioNP(${precio.id})"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-sm btn-danger" onclick="eliminarPrecioDelCarritoNP(${precio.id})"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>`;
+    tabla.innerHTML += fila;
+  });
+}
+
+function eliminarPrecioDelCarritoNP(id) {
+  Swal.fire({
+    title: '¿Eliminar este precio?',
+    text: 'Esta acción no se puede deshacer.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Filtrar el precio a eliminar
+      preciosAdicionalesNP = preciosAdicionalesNP.filter(precio => precio.id !== id);
+
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Precio eliminado',
+        showConfirmButton: false,
+        timer: 2000
+      });
+
+      mostrarCarritoPreciosNP();
+    }
+  });
+}
+
+function editarPrecioNP(id) {
+  // Encontrar el precio en el carrito
+  const precio = preciosAdicionalesNP.find(item => item.id === id);
+
+  if (precio) {
+    // Cargar datos en el formulario
+    $("#conceptoNP").val(precio.concepto);
+    $("#precioAdicionalNP").val(precio.precio);
+    $("#estadoNP").val(precio.estado);
+
+    // Eliminar el precio del carrito para que se pueda actualizar
+    preciosAdicionalesNP = preciosAdicionalesNP.filter(item => item.id !== id);
+    mostrarCarritoPreciosNP();
+  }
+}
+
+function verPreciosAdicionales(idProducto) {
+  const panel = document.getElementById('panelPreciosAdicionales');
+  const boton = document.getElementById('verPreciosAdicionales');
+  const icono = boton.querySelector('i');
+
+  if (panel.style.display === 'none' || panel.style.display === '') {
+    // Cargar y mostrar precios adicionales
+    $.ajax({
+      type: "POST",
+      url: "controlador/productoControlador.php?ctrPreciosAdicionales",
+      data: { idProducto: idProducto },
+      dataType: "json",
+      success: function(data) {
+        let html = '';
+        if (data && data.length > 0) {
+          data.forEach(function(precio) {
+            html += `
+              <tr>
+                <td class="text-center">${precio.concepto}</td>
+                <td class="text-center font-weight-bold text-info">${parseFloat(precio.precio).toFixed(2)} Bs.</td>
+              </tr>
+            `;
+          });
+        } else {
+          html = `
+            <tr>
+              <td colspan="2" class="text-center text-muted py-3">
+                <i class="fas fa-info-circle mr-1"></i>
+                No hay precios adicionales registrados
+              </td>
+            </tr>
+          `;
+        }
+
+        document.getElementById('listaPreciosAdicionales').innerHTML = html;
+        panel.style.display = 'block';
+        icono.className = 'fas fa-chevron-up';
+        boton.title = 'Ocultar precios adicionales';
+      },
+      error: function() {
+        alert("Error al cargar los precios adicionales");
+      }
+    });
+  } else {
+    // Ocultar panel
+    panel.style.display = 'none';
+    icono.className = 'fas fa-list';
+    boton.title = 'Ver precios adicionales';
+  }
 }

@@ -68,7 +68,9 @@ $productos = json_decode($notaIngreso["detalle_oi"], true);
     <div class="col-sm-6">
       <table class="table">
         <thead class="bg-gradient-dark">
-          <th>Producto</th>
+          <th>#</th>
+          <th>Codigo</th>
+          <th>Nombre</th>
           <th>Cantidad</th>
           <th>Precio U.</th>
           <th>Total</th>
@@ -76,9 +78,12 @@ $productos = json_decode($notaIngreso["detalle_oi"], true);
         <tbody>
           <?php
           $total = 0;
+          $contador = 1;
           foreach ($productos as $value) {
           ?>
             <tr>
+              <td><?php echo $contador++; ?></td>
+              <td><?php echo $value["codigoProducto"]; ?></td>
               <td><?php echo $value["descripcion"]; ?></td>
               <td><?php echo $value["cantidad"]; ?></td>
               <td><?php echo $value["precioUnitario"]; ?></td>
@@ -89,7 +94,7 @@ $productos = json_decode($notaIngreso["detalle_oi"], true);
           }
           ?>
           <tr>
-            <td colspan="3"><b>Total</b></td>
+            <td colspan="5"><b>Total</b></td>
             <td><?php echo $total; ?></td>
           </tr>
 

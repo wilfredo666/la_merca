@@ -44,6 +44,8 @@
                     <div class="input-group form-group">
                       <input type="text" class="form-control" name="codProducto" id="codProducto" list="listaProductos">
                       <input type="hidden" name="idProducto" id="idProducto">
+                      <input type="hidden" name="categoria" id="categoria">
+                      <input type="hidden" name="imagen" id="imagen">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" onclick="busProductoTs()">
                           <i class="fas fa-search"></i>
@@ -95,11 +97,12 @@
                     <table class="table" id="detalleNE">
                       <thead class="text-center">
                         <tr>
+                          <th>Imagen</th>
                           <th>Codigo</th>
                           <th>Nombre del Producto</th>
+                          <th>Categoria</th>
                           <th>Cantidad de Traspaso</th>
                           <th></th>
-                          <!-- <th>&nbsp;</th> -->
                         </tr>
                       </thead>
                       <tbody class="text-center" id="listaDetalleTs">

@@ -46,6 +46,7 @@
 <script src="assest/js/reporte.js"></script>
 <script src="assest/js/salida.js"></script>
 <script src="assest/js/ingreso.js"></script>
+<script src="assest/js/caja.js"></script>
 
 <!--===============
 seccion de modals
@@ -92,6 +93,8 @@ seccion de modals
 <!-- SweetAlert2 -->
 <script src="assest/plugins/sweetalert2/sweetalert2.min.js"></script>
 
+<!-- Select2 -->
+<script src="assest/plugins/select2/js/select2.full.min.js"></script>
 <script>
   /*dataTable generico*/
   $(function() {
@@ -124,7 +127,7 @@ seccion de modals
     $('#DataTable td').css('padding', '5px');
     //$('#DataTable td').css('text-align', 'center'); 
   })
-  
+
   //dataTable producto
   $(function() {
     $("#DataTable_producto").DataTable({
@@ -134,10 +137,10 @@ seccion de modals
         {
           text: 'Catalogo',
           className: 'btn-success',
-          attr:{
-            id:'btnCatalogo'
+          attr: {
+            id: 'btnCatalogo'
           },
-          action: function (e, dt, node, config) {
+          action: function(e, dt, node, config) {
             // Abre el modal con id 'modal-default'
             MCatalogoProductos();
           }
@@ -223,6 +226,7 @@ seccion de modals
     $('#DataTable_producto td').css('padding', '5px');
 
   });
+
 </script>
 
 
@@ -371,6 +375,7 @@ seccion de modals
       }
     });
   });
+
 </script>
 
 </body>

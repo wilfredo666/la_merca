@@ -15,7 +15,10 @@ function busProductoIngreso(){
       document.getElementById("idProducto").value = data["id_producto"]
       document.getElementById("conceptoPro").value = data["nombre_producto"]
       document.getElementById("preUnitario").value = data["costo"]
+      document.getElementById("stock").value = data["stock"] || 0
       document.getElementById("cantProducto").value = 1
+      document.getElementById("categoria").value = data["categoria"] || ''
+      document.getElementById("imagen").value = data["imagen_producto"] || ''
 
     }
   })
@@ -32,6 +35,8 @@ function agregarCarritoNI(){
   let conceptoPro = document.getElementById("conceptoPro").value
   let cantProducto = parseInt(document.getElementById("cantProducto").value)
   let preUnitario = parseFloat(document.getElementById("preUnitario").value)
+  let categoria = document.getElementById("categoria").value || ""
+  let imagen = document.getElementById("imagen").value || ""
   let preTotal = parseFloat(cantProducto * preUnitario)
 
   let objetoDetalle = {
@@ -40,6 +45,8 @@ function agregarCarritoNI(){
     descripcion:conceptoPro,
     cantidad:cantProducto,
     precioUnitario:preUnitario,
+    categoria:categoria,
+    imagen:imagen,
     subtotal:preTotal
   }
 
@@ -52,6 +59,8 @@ function agregarCarritoNI(){
   document.getElementById("conceptoPro").value=""
   document.getElementById("cantProducto").value=0
   document.getElementById("preUnitario").value=""
+  document.getElementById("categoria").value=""
+  document.getElementById("imagen").value=""
 }
 
 function dibujarTablaCarritoNI(){
@@ -61,10 +70,17 @@ function dibujarTablaCarritoNI(){
     (detalle)=>{
       let fila=document.createElement("tr")
 
-      fila.innerHTML='<td>'+detalle.descripcion+'</td>'+
-        '<td>'+detalle.precioUnitario+'</td>'+
-        '<td>'+detalle.cantidad+'</td>'+
-        '<td>'+detalle.subtotal+'</td>'
+      let imagenHtml = detalle.imagen && detalle.imagen !== "" 
+        ? `<img src="assest/dist/img/producto/${detalle.imagen}" alt="Imagen" style="width: 50px; height: 50px; object-fit: cover;" class="img-thumbnail">`
+        : `<div class="text-center text-muted" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px dashed #ccc;"><small>Sin imagen</small></div>`;
+
+      fila.innerHTML = `<td class="text-center">${imagenHtml}</td>` +
+        `<td>${detalle.codigoProducto}</td>` +
+        `<td>${detalle.descripcion}</td>` +
+        `<td>${detalle.categoria}</td>` +
+        `<td>${detalle.precioUnitario}</td>` +
+        `<td>${detalle.cantidad}</td>` +
+        `<td>${detalle.subtotal}</td>`
 
       let tdEliminar = document.createElement("td")
       let botonEliminar = document.createElement("button")
@@ -95,10 +111,13 @@ function eliminarCarritoNI(cod){
 }
 
 function calcularTotalNI(){
-totalCarritoNI = 0
+  totalCarritoNI = 0
   for(var i=0; i<arregloCarritoNI.length; i++){
     totalCarritoNI = totalCarritoNI + parseFloat(arregloCarritoNI[i].subtotal)
   }
+  
+  // Actualizar el total mostrado en la tabla
+  document.getElementById("totIngreso").innerHTML = totalCarritoNI.toFixed(2);
 }
 
 function RegNotaIngreso(){

@@ -69,62 +69,21 @@
                 <input type="hidden" class="form-control" name="stock" id="stock">
                 <input type="hidden" class="form-control" name="conceptoPro" id="conceptoPro" readonly>
                 <input type="hidden" class="form-control" name="cantProducto" id="cantProducto">
-                <input type="hidden" class="form-control" name="uniMedida" id="uniMedida">
+                <input type="hidden" class="form-control" name="imagen" id="imagen">
+                <input type="hidden" class="form-control" name="categoria" id="categoria">
                 <input type="hidden" class="form-control" name="preUnitario" id="preUnitario">
                 <input type="hidden" class="form-control" name="2" id="preTotal" readonly>
-                <!--
-
-<div class="form-group col-md-4">
-<label for="">Descripcion</label>
-<div class="input-group form-group">
-
-</div>
-</div>
-
-<div class="form-group col-md-1">
-<label for="">Cantidad</label>
-<div class="input-group form-group">
-
-</div>
-</div>
-
-<div class="form-group col-md-2">
-<label for="">U. Medida</label>
-<div class="input-group form-group">
-
-</div>
-</div>
-
-<div class="form-group col-md-1">
-<label for="">P. Unit</label>
-<div class="input-group form-group">
-
-</div>
-</div>
-
-<div class="form-group col-md-1">
-<label for="">P. Total</label>
-<div class="input-group form-group">
-
-</div>
-</div>
--->
-
-                <!--<div class="form-group col-md-1">
-<label for="">&nbsp;</label>
-<div class="input-group form-group">
-<span class="btn btn-info btn-circle form-control" onclick="agregarCarrito()">
-<i class="fas fa-plus"></i>
-</span>
-</div>
-</div>-->
+                
                 <!--carrito-->
                 <table class="table table-bordered table-sm">
                   <thead class="bg-info">
                     <tr>
+                      <th>Imagen</th>
+                      <th>Codigo</th>
                       <th>Descripcion</th>
+                      <th>Categoria</th>
                       <th>Cantidad</th>
-                      <th>U. Medida</th>
+                      <th>Stock</th>
                       <th>P. Unitario</th>
                       <th>P. Total</th>
                       <th>&nbsp;</th>
@@ -133,9 +92,10 @@
                   <tbody id="listaDetalle"></tbody>
                   <tfooter>
                     <tr>
-                      <td colspan="3"></td>
+                      <td colspan="6"></td>
                       <th>TOTAL</th>
                       <th id="totVenta">0</th>
+                      <td></td>
                     </tr>
                   </tfooter>
                 </table>
@@ -149,11 +109,6 @@
                 <i class="fas fa-user-tie"></i>
                 Datos del cliente
               </h5>
-
-<!--              <div class="form-group">
-                <label for=""># Nota Venta</label>
-                <input type="number" class="form-control" name="numFactura" id="numFactura" readonly>
-              </div>-->
 
               <div class="form-group">
                 <label for="nitCliente">NIT/CI</label>

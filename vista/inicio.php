@@ -145,32 +145,31 @@ $producto=ControladorProducto::ctrCantidadProductos();
               <h3 class="card-title">Productos más vendidos</h3>
             </div>
 
-
             <div class="card-body table-responsive p-0">
               <table class="table table-head-fixed text-nowrap">
                 <tahead>
                   <tr>
                     <th>Cod. Producto</th>
                     <th>Producto</th>
-                    <th>Precio</th>
+                    <th>Precio (Bs)</th>
                     <th>Cantidad</th>
-                    <th>Total en Ventas</th>
+                    <th>Total en Ventas (Bs)</th>
                   </tr>
                 </tahead>
                 <tbody>
                   <?php
-                  /*  $mayorVenta=ControladorProducto::ctrMasVendidos();
-              foreach($mayorVenta as $value){ */            
+                    $mayorVenta=ControladorProducto::ctrMasVendidos();
+              foreach($mayorVenta as $value){           
                   ?>
                   <tr>
-                    <td><?php //echo //$value["cod_producto"]?></td>
-                    <td><?php //echo //$value["nombre_producto"]?></td>
-                    <td><?php //echo //$value["precio_producto"]?></td>
-                    <td><?php //echo //$value["cantidad_egreso"]?></td>
-                    <td><?php //echo //$value["cantidad_egreso"] * $value["precio_producto"]?></td>
+                    <td><?php echo $value["cod_producto"]?></td>
+                    <td><?php echo $value["nombre_producto"]?></td>
+                    <td><?php echo $value["precio"]?></td>
+                    <td><?php echo $value["total_vendido"]?></td>
+                    <td><?php echo $value["total_vendido"] * $value["precio"]?></td>
                   </tr>
                   <?php
-                  //}
+                  }
                   ?>
                 </tbody>
               </table>
@@ -180,24 +179,24 @@ $producto=ControladorProducto::ctrCantidadProductos();
         <div class="col-sm-4">
           <div class="card card-success card-outline">
             <div class="card-body box-profile">
-              <h3 class="profile-username text-center">Caja Chica</h3>
-              <p class="text-muted text-center">Ventas diarias</p>
+              <h3 class="profile-username text-center">Total en Caja</h3>
+              <p class="text-muted text-center">Caja chica + ventas; Hoy <?php echo date("Y-m-d"); ?></p>
               <ul class="lista-group list-group-unbordered mb-3">
                 <?php
-                //$cajaChica=ControladorFactura::ctrInfoCajaChica();
+                $cajaChica=ControladorSalida::ctrInfoCajaChica();
                 ?>
 
                 <li class="list-group-item">
-                  <b>INICIAL (Bs.)</b>
-                  <span class="float-right">0</span>
+                  <b>CAJA CHICA (Bs)</b>
+                  <span class="float-right"><?php echo $cajaChica["total_ingresos_caja"];?></span>
                 </li>
                 <li class="list-group-item">
-                  <b>VENTAS (Bs.)</b>
-                  <span class="float-right"><?php //echo //$cajaChica["total_venta"];?></span>
+                  <b>VENTAS (Bs)</b>
+                  <span class="float-right"><?php echo $cajaChica["total_venta"];?></span>
                 </li>
                 <li class="list-group-item">
-                  <b>TOTAL EN CAJA (Bs.)</b>
-                  <span class="float-right"><?php //echo //$cajaChica["total_venta"]+300;?></span>
+                  <b>TOTAL (Bs)</b>
+                  <span class="float-right"><?php echo $cajaChica["saldo_final"]+$cajaChica["total_ingresos_caja"];?></span>
                 </li>
               </ul>
             </div>

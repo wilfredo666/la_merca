@@ -34,12 +34,12 @@ $productos = json_decode($notaTraspaso["detalle_traspaso"], true);
 
         <tr>
           <th>Almace de Origen</th>
-          <td><?php echo $notaTraspaso["NomAlmacenOrigen"]." - ".$notaTraspaso["descAlmacenOrigen"]; ?></td>
+          <td><?php echo $notaTraspaso["NomAlmacenOrigen"] . " - " . $notaTraspaso["descAlmacenOrigen"]; ?></td>
         </tr>
 
         <tr>
           <th>Almace de Destino</th>
-          <td><?php echo $notaTraspaso["NomAlmacenDestino"]." - ".$notaTraspaso["descAlmacenDestino"]; ?></td>
+          <td><?php echo $notaTraspaso["NomAlmacenDestino"] . " - " . $notaTraspaso["descAlmacenDestino"]; ?></td>
         </tr>
 
         <tr>
@@ -55,15 +55,15 @@ $productos = json_decode($notaTraspaso["detalle_traspaso"], true);
         <tr>
           <th>Estado</th>
           <td><?php
-            if ($notaTraspaso["estado_traspaso"] == 0) {
-            ?>
-            <span class="badge badge-danger">Anulado</span>
+              if ($notaTraspaso["estado_traspaso"] == 0) {
+              ?>
+              <span class="badge badge-danger">Anulado</span>
             <?php
-            } else {
+              } else {
             ?>
-            <span class="badge badge-success">Emitido</span>
+              <span class="badge badge-success">Emitido</span>
             <?php
-            } ?>
+              } ?>
           </td>
         </tr>
 
@@ -73,20 +73,22 @@ $productos = json_decode($notaTraspaso["detalle_traspaso"], true);
     <div class="col-sm-6">
       <table class="table">
         <thead class="bg-gradient-dark">
-          <th>Producto</th>
+          <th>#</th>
+          <th>Codigo</th>
+          <th>Nombre</th>
           <th>Cantidad</th>
-          <th>Precio U.</th>
         </thead>
         <tbody>
           <?php
-
+          $contador = 1;
           foreach ($productos as $value) {
           ?>
-          <tr>
-            <td><?php echo $value["codigoProducto"]; ?></td>
-            <td><?php echo $value["descripcion"]; ?></td>
-            <td><?php echo $value["cantidad"]; ?></td>
-          </tr>
+            <tr>
+              <td><?php echo $contador++; ?></td>
+              <td><?php echo $value["codigoProducto"]; ?></td>
+              <td><?php echo $value["descripcion"]; ?></td>
+              <td><?php echo $value["cantidad"]; ?></td>
+            </tr>
           <?php
           }
           ?>

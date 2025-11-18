@@ -136,5 +136,20 @@ $producto = ControladorProducto::ctrInfoProducto($id);
       })
     })
 
+    // Inicializar Select2 para el campo categoría
+    $('#categoriaProducto').select2({
+      theme: 'bootstrap4',
+      placeholder: 'Seleccione una categoría',
+      width: '100%',
+      language: {
+        noResults: function() {
+          return "No se encontraron resultados";
+        },
+        searching: function() {
+          return "Buscando...";
+        }
+      }
+    });
+
   })
 </script>

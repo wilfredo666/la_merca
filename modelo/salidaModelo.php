@@ -199,18 +199,138 @@ WHERE id_venta=$id");
     }
   }
 
-  static public function mdlInfoCajaChica(){
-
+static public function mdlInfoCajaChica(){
+  try {
     date_default_timezone_set("America/La_Paz");
-    $fecha=date("Y-m-d");
+    $fecha = date("Y-m-d");
+    $fechaInicio = $fecha . " 00:00:00";
+    $fechaFin = $fecha . " 23:59:59";
 
-    $stmt=Conexion::conectar()->prepare("SELECT SUM(total) AS total_venta FROM factura WHERE fecha_emision BETWEEN '$fecha 00:01:00' AND '$fecha 23:59:00'");
+    // Primera consulta: Total de ventas del día
+    $stmt = Conexion::conectar()->prepare("
+      SELECT SUM(total) AS total_venta 
+      FROM venta 
+      WHERE create_at BETWEEN :fechaInicio AND :fechaFin 
+      AND estado_venta = 1
+    ");
 
+    $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $stmt->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
     $stmt->execute();
-    $respuesta= $stmt->fetch();
+    
+    $ventas = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
-    return $respuesta;
+    
+    // Segunda consulta: Total de movimientos de caja del día
+    $stmtCaja = Conexion::conectar()->prepare("
+      SELECT 
+        SUM(CASE WHEN tipo = 'ingreso' THEN cantidad ELSE 0 END) AS total_ingresos_caja,
+        SUM(CASE WHEN tipo = 'egreso' THEN cantidad ELSE 0 END) AS total_egresos_caja,
+        SUM(cantidad) AS total_movimientos_caja
+      FROM caja 
+      WHERE create_at BETWEEN :fechaInicio AND :fechaFin 
+      AND estado_caja = 1
+    ");
 
+    $stmtCaja->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $stmtCaja->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    $stmtCaja->execute();
+    
+    $caja = $stmtCaja->fetch(PDO::FETCH_ASSOC);
+    $stmtCaja->closeCursor();
+    
+    // Combinar resultados
+    return [
+      'total_venta' => $ventas['total_venta'] ?? 0,
+      'total_ingresos_caja' => $caja['total_ingresos_caja'] ?? 0,
+      'total_egresos_caja' => $caja['total_egresos_caja'] ?? 0,
+      'total_movimientos_caja' => $caja['total_movimientos_caja'] ?? 0,
+      'saldo_final' => ($ventas['total_venta'] ?? 0) + ($caja['total_ingresos_caja'] ?? 0) - ($caja['total_egresos_caja'] ?? 0)
+    ];
+    
+  } catch (Exception $e) {
+    return [
+      'total_venta' => 0,
+      'total_ingresos_caja' => 0,
+      'total_egresos_caja' => 0,
+      'total_movimientos_caja' => 0,
+      'saldo_final' => 0,
+      'error' => $e->getMessage()
+    ];
+  }
+}
+  // Método mejorado para obtener resumen completo de caja del día
+  static public function mdlResumenCajaDiaria($fecha = null){
+    try {
+      date_default_timezone_set("America/La_Paz");
+      $fecha = $fecha ?: date("Y-m-d");
+      $fechaInicio = $fecha . " 00:00:00";
+      $fechaFin = $fecha . " 23:59:59";
+
+      // Obtener ventas del día
+      $stmtVentas = Conexion::conectar()->prepare("
+        SELECT COALESCE(SUM(total), 0) AS total_ventas
+        FROM venta 
+        WHERE create_at BETWEEN :fechaInicio AND :fechaFin 
+        AND estado_venta = 1
+      ");
+      $stmtVentas->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+      $stmtVentas->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+      $stmtVentas->execute();
+      $ventas = $stmtVentas->fetch(PDO::FETCH_ASSOC);
+      $stmtVentas->closeCursor();
+
+      // Obtener movimientos de caja (ingresos y egresos)
+      $stmtCaja = Conexion::conectar()->prepare("
+        SELECT 
+          tipo,
+          COALESCE(SUM(cantidad), 0) AS total
+        FROM caja 
+        WHERE create_at BETWEEN :fechaInicio AND :fechaFin 
+        AND estado_caja = 1
+        GROUP BY tipo
+      ");
+      $stmtCaja->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+      $stmtCaja->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+      $stmtCaja->execute();
+      $movimientosCaja = $stmtCaja->fetchAll(PDO::FETCH_ASSOC);
+      $stmtCaja->closeCursor();
+
+      // Procesar movimientos de caja
+      $ingresos_extra = 0;
+      $egresos = 0;
+      
+      foreach($movimientosCaja as $movimiento) {
+        if($movimiento['tipo'] == 'ingreso') {
+          $ingresos_extra += $movimiento['total'];
+        } else if($movimiento['tipo'] == 'egreso') {
+          $egresos += $movimiento['total'];
+        }
+      }
+
+      $total_ingresos = $ventas['total_ventas'] + $ingresos_extra;
+      $saldo_final = $total_ingresos - $egresos;
+
+      return [
+        'total_ventas' => $ventas['total_ventas'],
+        'ingresos_extra' => $ingresos_extra,
+        'total_ingresos' => $total_ingresos,
+        'egresos' => $egresos,
+        'saldo_final' => $saldo_final,
+        'fecha' => $fecha
+      ];
+
+    } catch (Exception $e) {
+      return [
+        'total_ventas' => 0,
+        'ingresos_extra' => 0,
+        'total_ingresos' => 0,
+        'egresos' => 0,
+        'saldo_final' => 0,
+        'fecha' => $fecha ?: date("Y-m-d"),
+        'error' => $e->getMessage()
+      ];
+    }
   }
 
   static public function mdlReporteVentas($fechaInicial, $fechaFinal){

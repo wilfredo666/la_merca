@@ -113,6 +113,19 @@ function habilitado($idPermiso)
               </ul>
             </li>
             <?php } ?>
+
+            <?php if (habilitado(1) != null) {
+            ?>
+            <li class="nav-item">
+              <a href="VCaja" class="nav-link">
+                <i class="nav-icon fas fa-wallet"></i>
+                <p>
+                  Caja chica
+                </p>
+              </a>
+            </li>
+            <?php } ?>
+
             <?php if (habilitado(2) != null) {
             ?>
             <li class="nav-header text-info">COMERCIAL</li>

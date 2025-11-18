@@ -12,6 +12,7 @@ if (isset($ruta["query"])) {
     $ruta["query"] == "ctrEliminarPrecio" ||
     $ruta["query"] == "ctrInfoPrecio" ||
     $ruta["query"] == "ctrActualizarPrecio" ||
+    $ruta["query"] == "ctrPreciosAdicionales" ||
     $ruta["query"] == "ctrEliProducto"
   ) {
     $metodo = $ruta["query"];
@@ -64,13 +65,35 @@ class ControladorProducto
       "update_at" => $fecha . " " . $hora
     );
 
-    $respuesta = ModeloProducto::mdlRegProducto($data);
+    // DEBUG: Registrar información recibida
+    error_log("=== DEBUG PRODUCTO ===");
+    error_log("POST completo: " . print_r($_POST, true));
+    error_log("FILES: " . print_r($_FILES, true));
+    
+    // Obtener precios adicionales del carrito si existen
+    $preciosAdicionales = isset($_POST["preciosCarrito"]) ? json_decode($_POST["preciosCarrito"], true) : array();
+    
+    error_log("Precios adicionales recibidos: " . print_r($preciosAdicionales, true));
+    error_log("Data del producto: " . print_r($data, true));
+    
+    $respuesta = ModeloProducto::mdlRegProducto($data, $preciosAdicionales);
+    
+    error_log("Respuesta del modelo: " . $respuesta);
+    error_log("=== FIN DEBUG ===");
+    
     echo $respuesta;
   }
 
   static public function ctrInfoProducto($id){
     $respuesta = ModeloProducto::mdlInfoProducto($id);
     return $respuesta;
+  }
+
+  static public function ctrPreciosAdicionales(){
+    require "../modelo/productoModelo.php";
+    $id = $_POST["idProducto"];
+    $respuesta = ModeloProducto::mdlPreciosAdicionales($id);
+    echo json_encode($respuesta);
   }
 
   static public function ctrEditProducto(){
@@ -202,6 +225,11 @@ class ControladorProducto
 
   static public function ctrProductosPorCategoria($categoria) {
     $respuesta = ModeloProducto::mdlProductosPorCategoria($categoria);
+    return $respuesta;
+  }
+
+  static public function ctrMasVendidos(){
+    $respuesta=ModeloProducto::mdlMasVendidos();
     return $respuesta;
   }
 

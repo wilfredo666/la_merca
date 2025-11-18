@@ -39,6 +39,9 @@ session_start();
     <link rel="stylesheet" href="<?php echo $base_url; ?>assest/plugins/dropzone/min/dropzone.min.css">
     <!--icono-->
     <link rel="icon" href="<?php echo $base_url; ?>assest/dist/img/logotipo.png">
+      <!-- Select2 -->
+  <link rel="stylesheet" href="assest/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="assest/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/fontawesome-4.7@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- daterange picker -->
@@ -104,7 +107,8 @@ session_start();
           "FormOtrasSalidas",
           "VOtrasSalidas",
           "VTraspasos",
-          "VCategoria"
+          "VCategoria",
+          "VCaja"
         ];
 
         if (in_array($_GET["ruta"], $rutas_validas)) {

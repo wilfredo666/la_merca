@@ -12,8 +12,8 @@ class ModeloIngreso{
 
       // Insertar sin código_oi
       $stmt = $conn->prepare("
-            INSERT INTO otros_ingresos(id_usuario, id_almacen, detalle_oi, total_oi, observacion_oi, concepto_oi, create_at, update_at)
-            VALUES (:usuario, :almacen, :detalle, :total, :observacion, :concepto, :creado, :actualizado)
+            INSERT INTO otros_ingresos(id_usuario, id_almacen, detalle_oi, total_oi, observacion_oi, concepto_oi, id_proveedor, create_at, update_at)
+            VALUES (:usuario, :almacen, :detalle, :total, :observacion, :concepto, :proveedor, :creado, :actualizado)
         ");
 
       $detalle     = $_POST["carritoNI"] ?? '';
@@ -22,6 +22,7 @@ class ModeloIngreso{
       $concepto    = $_POST["conceptoNI"] ?? '';
       $id_usuario  = $_SESSION["idUsuario"] ?? 0;
       $id_almacen  = $_POST["almacen_destino"] ?? 0;
+      $id_proveedor = $_POST["proveedorNI"] ?? 0;
       $creado      = date("Y-m-d H:i:s");
       $actualizado = date("Y-m-d H:i:s");
 
@@ -32,6 +33,7 @@ class ModeloIngreso{
       $stmt->bindParam(":concepto", $concepto);
       $stmt->bindParam(":usuario", $id_usuario);
       $stmt->bindParam(":almacen", $id_almacen);
+      $stmt->bindParam(":proveedor", $id_proveedor);
       $stmt->bindParam(":creado", $creado);
       $stmt->bindParam(":actualizado", $actualizado);
 
