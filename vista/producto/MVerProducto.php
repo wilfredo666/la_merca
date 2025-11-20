@@ -2,8 +2,8 @@
 require "../../controlador/productoControlador.php";
 require "../../modelo/productoModelo.php";
 
-$id=$_GET["id"];
-$producto=ControladorProducto::ctrInfoProducto($id);
+$id = $_GET["id"];
+$producto = ControladorProducto::ctrInfoProducto($id);
 
 ?>
 <div class="modal-header bg-dark text-white">
@@ -50,9 +50,9 @@ $producto=ControladorProducto::ctrInfoProducto($id);
             <th scope="row">Disponibilidad</th>
             <td>
               <?php if ($producto["disponible"] == 1): ?>
-              <span class="badge badge-success px-3 py-1">Disponible</span>
+                <span class="badge badge-success px-3 py-1">Disponible</span>
               <?php else: ?>
-              <span class="badge badge-danger px-3 py-1">No disponible</span>
+                <span class="badge badge-danger px-3 py-1">No disponible</span>
               <?php endif; ?>
             </td>
           </tr>
@@ -62,28 +62,27 @@ $producto=ControladorProducto::ctrInfoProducto($id);
     <!-- Imagen  -->
     <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
       <div class="border rounded p-2 bg-light mb-3">
-        <img 
-             src="assest/dist/img/producto/<?= $producto["imagen_producto"] ?: 'product_default.png'; ?>" 
-             alt="Imagen del producto" 
-             class="img-fluid rounded shadow-sm" 
-             style="max-width: 100%; height: auto; max-height: 300px;"
-             >
+        <img
+          src="assest/dist/img/producto/<?= $producto["imagen_producto"] ?: 'product_default.png'; ?>"
+          alt="Imagen del producto"
+          class="img-fluid rounded shadow-sm"
+          style="max-width: 100%; height: auto; max-height: 300px;">
       </div>
 
       <!-- Precio y Costo -->
       <div class="text-center">
         <div class="mb-2">
           <i class="fas fa-dollar-sign text-muted"></i>
-          <strong>Costo:</strong> 
-          <span id="costoValue" class="text-primary"><?= number_format($producto["costo"], 2); ?> Bs.</span>
-          <span id="costoHidden" class="text-muted font-weight-bold" style="display: none;">***</span>
+          <strong>Costo:</strong>
+          <span id="costoValue" class="text-primary">***</span>
+          <span id="costoHidden" class="text-muted font-weight-bold" style="display: none;"><?= number_format($producto["costo"], 2); ?> Bs.</span>
           <button type="button" class="btn btn-sm btn-outline-secondary ml-2" id="toggleCosto" onclick="toggleVisibility('costo')">
             <i class="fas fa-eye" id="iconCosto"></i>
           </button>
         </div>
         <div>
           <i class="fas fa-tags text-muted"></i>
-          <strong>Precio:</strong> 
+          <strong>Precio:</strong>
           <span id="precioValue" class="text-success"><?= number_format($producto["precio"], 2); ?> Bs.</span>
           <span id="precioHidden" class="text-muted font-weight-bold" style="display: none;">***</span>
           <button type="button" class="btn btn-sm btn-outline-secondary ml-2" id="togglePrecio" onclick="toggleVisibility('precio')">
@@ -93,7 +92,7 @@ $producto=ControladorProducto::ctrInfoProducto($id);
             <i class="fas fa-list"></i>
           </button>
         </div>
-        
+
         <!-- Panel para mostrar precios adicionales -->
         <div id="panelPreciosAdicionales" class="mt-3" style="display: none;">
           <div class="card">
@@ -127,66 +126,64 @@ $producto=ControladorProducto::ctrInfoProducto($id);
 </div>
 
 <script>
-function toggleVisibility(tipo) {
-  const valueElement = document.getElementById(tipo + 'Value');
-  const hiddenElement = document.getElementById(tipo + 'Hidden');
-  const iconElement = document.getElementById('icon' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
-  
-  if (valueElement.style.display === 'none') {
-    // Mostrar valor
-    valueElement.style.display = 'inline';
-    hiddenElement.style.display = 'none';
-    iconElement.className = 'fas fa-eye';
-  } else {
-    // Ocultar valor
-    valueElement.style.display = 'none';
-    hiddenElement.style.display = 'inline';
-    iconElement.className = 'fas fa-eye-slash';
+  function toggleVisibility(tipo) {
+    const valueElement = document.getElementById(tipo + 'Value');
+    const hiddenElement = document.getElementById(tipo + 'Hidden');
+    const iconElement = document.getElementById('icon' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
+
+    if (valueElement.style.display === 'none') {
+      // Mostrar valor
+      valueElement.style.display = 'inline';
+      hiddenElement.style.display = 'none';
+      iconElement.className = 'fas fa-eye';
+    } else {
+      // Ocultar valor
+      valueElement.style.display = 'none';
+      hiddenElement.style.display = 'inline';
+      iconElement.className = 'fas fa-eye-slash';
+    }
   }
-}
-
-
 </script>
 
 <style>
-.btn-outline-secondary {
-  border-color: #6c757d;
-  color: #6c757d;
-}
+  .btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+  }
 
-.btn-outline-secondary:hover {
-  background-color: #6c757d;
-  color: white;
-}
+  .btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+  }
 
-.btn-outline-info {
-  border-color: #17a2b8;
-  color: #17a2b8;
-}
+  .btn-outline-info {
+    border-color: #17a2b8;
+    color: #17a2b8;
+  }
 
-.btn-outline-info:hover {
-  background-color: #17a2b8;
-  color: white;
-}
+  .btn-outline-info:hover {
+    background-color: #17a2b8;
+    color: white;
+  }
 
-.btn-sm {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
 
-#panelPreciosAdicionales .card {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+  #panelPreciosAdicionales .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-#tablaPreciosAdicionales th {
-  background-color: #f8f9fa;
-  font-size: 0.875rem;
-  padding: 0.5rem;
-}
+  #tablaPreciosAdicionales th {
+    background-color: #f8f9fa;
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
 
-#tablaPreciosAdicionales td {
-  padding: 0.5rem;
-  font-size: 0.875rem;
-}
+  #tablaPreciosAdicionales td {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
 </style>

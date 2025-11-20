@@ -10,7 +10,7 @@ if(isset($ruta["query"])){
      $ruta["query"] == "ctrReporteNI"){
 
     $metodo = $ruta["query"];
-    $Ingreso= new Controladoringreso();
+    $Ingreso= new ControladorIngreso();
     $Ingreso -> $metodo();
   }
 }
