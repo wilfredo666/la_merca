@@ -48,6 +48,14 @@
 <script src="assest/js/ingreso.js"></script>
 <script src="assest/js/caja.js"></script>
 
+<!-- Script condicional para Kardex -->
+<script>
+  // Solo cargar kardex.js si estamos en la página de Kardex
+  if ($('#DataTable_KxProducto').length > 0) {
+    $.getScript('assest/js/kardex.js');
+  }
+</script>
+
 <!--===============
 seccion de modals
 =================-->
@@ -184,16 +192,16 @@ seccion de modals
           data: 'id_producto',
           render: function(data, type, row) {
             return `<div class="btn-group">
-<button class="btn btn-sm btn-info" onclick="MVerProducto(${row.id_producto})">
-<i class="fas fa-eye"></i>
-  </button>
-<button class="btn btn-sm btn-secondary" onclick="MEditProducto(${row.id_producto})">
-<i class="fas fa-edit"></i>
-  </button>
-<button class="btn btn-sm btn-danger" onclick="MEliProducto(${row.id_producto})">
-<i class="fas fa-trash"></i>
-  </button>
-  </div>`;
+        <button class="btn btn-sm btn-info" onclick="MVerProducto(${row.id_producto})">
+        <i class="fas fa-eye"></i>
+          </button>
+        <button class="btn btn-sm btn-secondary" onclick="MEditProducto(${row.id_producto})">
+        <i class="fas fa-edit"></i>
+          </button>
+        <button class="btn btn-sm btn-danger" onclick="MEliProducto(${row.id_producto})">
+        <i class="fas fa-trash"></i>
+        </button>
+        </div>`;
           }
         }
       ],
@@ -227,6 +235,78 @@ seccion de modals
 
   });
 
+  //dataTable Kardex de Productos
+  $(function() {
+    if ($('#DataTable_KxProducto').length > 0) {
+      window.kardexTable = $("#DataTable_KxProducto").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print"],
+        "pageLength": 25,
+        "ordering": true,
+        "order": [[0, "desc"]], // Ordenar por fecha descendente
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+          "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        }
+      }).buttons().container().appendTo('#DataTable_KxProducto_wrapper .col-md-6:eq(0)');
+      $('#DataTable_KxProducto td').css('padding', '5px');
+    }
+  });
+
+  //dataTable Kardex de Proveedores
+  $(function() {
+    if ($('#DataTable_KxProveedor').length > 0) {
+      window.kardexTable = $("#DataTable_KxProveedor").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print"],
+        "pageLength": 25,
+        "ordering": true,
+        "order": [[0, "desc"]], // Ordenar por fecha descendente
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+          "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        }
+      }).buttons().container().appendTo('#DataTable_KxProveedor_wrapper .col-md-6:eq(0)');
+      $('#DataTable_KxProveedor td').css('padding', '5px');
+    }
+  });
+  
 </script>
 
 
@@ -375,7 +455,6 @@ seccion de modals
       }
     });
   });
-
 </script>
 
 </body>

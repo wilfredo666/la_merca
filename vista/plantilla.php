@@ -108,6 +108,8 @@ session_start();
           "VOtrasSalidas",
           "VTraspasos",
           "VCategoria",
+          "KxProducto",
+          "KxProveedor",
           "VCaja"
         ];
 

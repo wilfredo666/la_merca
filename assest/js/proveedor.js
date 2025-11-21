@@ -181,3 +181,90 @@ function previsualizarUP(){
     })
   }
 }
+
+/*=============================================
+Funciones para el kardex por proveedor
+==============================================*/
+$(document).ready(function() {
+
+  // Date Range Picker para Kardex Proveedor
+  $('#daterange-kardex-proveedor').daterangepicker({
+    locale: {
+      format: 'YYYY-MM-DD',
+      separator: ' - ',
+      applyLabel: 'Aplicar',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      customRangeLabel: 'Personalizado',
+      weekLabel: 'S',
+      daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+      firstDay: 1
+    },
+    opens: 'center',
+    autoUpdateInput: false
+  });
+
+  // Evento aplicar rango de fechas
+  $('#daterange-kardex-proveedor').on('apply.daterangepicker', function(ev, picker) {
+    $(this).find('span').html(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+    $('#fechaInicialKardexProveedor').val(picker.startDate.format('YYYY-MM-DD'));
+    $('#fechaFinalKardexProveedor').val(picker.endDate.format('YYYY-MM-DD'));
+    //cargarKardexProveedor();
+  });
+
+  // Evento cancelar rango de fechas
+  $('#daterange-kardex-proveedor').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).find('span').html('Seleccionar fecha');
+    $('#fechaInicialKardexProveedor').val('');
+    $('#fechaFinalKardexProveedor').val('');
+    cargarKardexProveedor();
+  });
+
+  // Evento click para el botón Buscar
+  $('#btnBuscarProveedor').on('click', function() {
+    cargarKardexProveedor();
+  });
+
+});
+
+function cargarKardexProveedor() {
+  var id_proveedor = $('#filtroProveedor').val();
+  var fecha_inicial = $('#fechaInicialKardexProveedor').val();
+  var fecha_final = $('#fechaFinalKardexProveedor').val();
+  $.ajax({
+    type: "POST",
+    url: "controlador/proveedorControlador.php?ctrKardexProveedor",
+    data: {
+      id_proveedor: id_proveedor,
+      fecha_inicial: fecha_inicial,
+      fecha_final: fecha_final
+    },
+    dataType: "json",
+    success: function(response) {
+      // Limpiar el cuerpo de la tabla antes de agregar nuevos datos
+      $('#cuerpoKardexProveedor').empty();
+      // Recorrer la respuesta y agregar filas a la tabla
+      response.forEach(function(item) {
+        var fila = '<tr>' +
+          '<td>' + item.create_at + '</td>' +
+          '<td>' + item.nombre_empresa + '</td>' +
+          '<td>' + item.codigo_oi + '</td>' +
+          '<td>' + item.total_oi + '</td>' +
+          '<td>' + item.nombre_almacen +' - '+ item.descripcion + '</td>' +
+          //boton para detalle
+          
+          '<td>' +
+            '<button class="btn btn-sm btn-info" onclick="MVerNotaIngreso(' + item.id_otros_ingresos + ')">' +
+                 '<i class="fas fa-eye"></i>' +
+              '</button>' +'</td>' +
+          '</tr>';
+        $('#cuerpoKardexProveedor').append(fila);
+      });
+    },
+    error: function() {
+      tablaKardexProveedor.clear().draw();
+    }
+  });
+}

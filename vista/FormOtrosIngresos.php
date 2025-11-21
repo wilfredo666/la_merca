@@ -195,7 +195,7 @@
                 <i class="fas fa-times"></i> Anular
               </button>
 
-              <button id="btnGuardarNI" class="btn btn-success float-right">
+              <button type="submit" class="btn btn-success float-right">
                 <i class="fas fa-download"></i> Guardar
               </button>
             </div>

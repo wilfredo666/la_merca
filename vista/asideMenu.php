@@ -23,10 +23,10 @@ function habilitado($idPermiso)
           <a class="nav-link" href="inicio" role="button">Inicio</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <b class="nav-link"><b><?php echo $_SESSION["nomAlmacen"]." - ".$_SESSION["descAlmacen"];?></b></b>
+          <b class="nav-link"><b><?php echo $_SESSION["nomAlmacen"] . " - " . $_SESSION["descAlmacen"]; ?></b></b>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <b class="nav-link"><i class="fas fa-calendar me-2 text-danger"></i> <?php echo $fechaActual;?></b>
+          <b class="nav-link"><i class="fas fa-calendar me-2 text-danger"></i> <?php echo $fechaActual; ?></b>
         </li>
       </ul>
 
@@ -48,7 +48,7 @@ function habilitado($idPermiso)
       <!-- Brand Logo -->
       <a href="inicio" class="brand-link">
         <img src="<?php echo $base_url; ?>assest/dist/img/logotipo.png"
-             class="brand-image img-circle elevation-3" style="opacity: .8" style="width:300px">
+          class="brand-image img-circle elevation-3" style="opacity: .8" style="width:300px">
         <span class="brand-text font-weight-light">Sitema</span>
       </a>
 
@@ -58,7 +58,7 @@ function habilitado($idPermiso)
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
             <img src="<?php echo $base_url; ?>assest/dist/img/user_default.png"
-                 class="img-circle elevation-2" alt="User Image">
+              class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
             <a href="#" class="d-block" id="usuarioLogin"><?php echo $_SESSION['nombre']; ?></a>
@@ -68,136 +68,136 @@ function habilitado($idPermiso)
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-              data-accordion="false">
+            data-accordion="false">
 
             <li class="nav-header text-info">ADMINISTRACION</li>
 
             <?php if (habilitado(1) != null) {
             ?>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-user"></i>
-                <p>
-                  Usuarios
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?php echo $base_url; ?>VUsuario" class="nav-link">
-                    <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Lista de usuarios</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-user"></i>
+                  <p>
+                    Usuarios
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?php echo $base_url; ?>VUsuario" class="nav-link">
+                      <i class="far fa-circle nav-icon text-info"></i>
+                      <p>Lista de usuarios</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             <?php } ?>
 
             <?php if (habilitado(2) != null) {
             ?>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-street-view"></i>
-                <p>
-                  Personal
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="VPersonal" class="nav-link">
-                    <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Lista de Personal</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-street-view"></i>
+                  <p>
+                    Personal
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="VPersonal" class="nav-link">
+                      <i class="far fa-circle nav-icon text-info"></i>
+                      <p>Lista de Personal</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             <?php } ?>
 
             <?php if (habilitado(1) != null) {
             ?>
-            <li class="nav-item">
-              <a href="VCaja" class="nav-link">
-                <i class="nav-icon fas fa-wallet"></i>
-                <p>
-                  Caja chica
-                </p>
-              </a>
-            </li>
+              <li class="nav-item">
+                <a href="VCaja" class="nav-link">
+                  <i class="nav-icon fas fa-wallet"></i>
+                  <p>
+                    Caja chica
+                  </p>
+                </a>
+              </li>
             <?php } ?>
 
             <?php if (habilitado(2) != null) {
             ?>
-            <li class="nav-header text-info">COMERCIAL</li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cash-register"></i>
-                <p>
-                  Ventas
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="FormVenta" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Emitir venta</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="VVentas" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Lista Ventas</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <span class="nav-link" onclick="FormQrPago()" style="cursor:pointer">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>QR de Venta</p>
-                  </span>
-                </li>
+              <li class="nav-header text-info">COMERCIAL</li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-cash-register"></i>
+                  <p>
+                    Ventas
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="FormVenta" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Emitir venta</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="VVentas" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Lista Ventas</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <span class="nav-link" onclick="FormQrPago()" style="cursor:pointer">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>QR de Venta</p>
+                    </span>
+                  </li>
 
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-user-tie"></i>
-                <p>
-                  Clientes
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="VCliente" class="nav-link">
-                    <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Lista de clientes</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-user-tie"></i>
+                  <p>
+                    Clientes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="VCliente" class="nav-link">
+                      <i class="far fa-circle nav-icon text-info"></i>
+                      <p>Lista de clientes</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             <?php } ?>
 
 
             <?php if (habilitado(6) != null) {
             ?>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-handshake"></i>
-                <p>
-                  Proveedores
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="VProveedor" class="nav-link">
-                    <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Lista de Proveedores</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa fa-handshake"></i>
+                  <p>
+                    Proveedores
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="VProveedor" class="nav-link">
+                      <i class="far fa-circle nav-icon text-info"></i>
+                      <p>Lista de Proveedores</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             <?php } ?>
 
 
@@ -311,29 +311,36 @@ function habilitado($idPermiso)
 
 
 
-            <!--<li class="nav-header text-info">OTROS</li>
+            <li class="nav-header text-info">OTROS</li>
 
-<li class="nav-item">
-<a href="#" class="nav-link">
-<i class="nav-icon fas fa-file-alt"></i>
-<p>
-Reportes
-<i class="right fas fa-angle-left"></i>
-</p>
-</a>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-file-alt"></i>
+                <p>
+                  Reportes
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
 
 
-<ul class="nav nav-treeview">
+              <ul class="nav nav-treeview">
 
-<li class="nav-item">
-<a href="#" class="nav-link">
-<i class="far fa-circle nav-icon text-info"></i>
-<p>Reporte 1</p>
-</a>
-</li>
+                <li class="nav-item">
+                  <a href="KxProducto" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Kardex Productos</p>
+                  </a>
+                </li>
 
-</ul>
-</li>-->
+                <li class="nav-item">
+                  <a href="KxProveedor" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Por Proveedor</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
 
             <li class="nav-item">
               <a href="salir" class="nav-link text-cyan">

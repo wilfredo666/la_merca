@@ -13,7 +13,8 @@ if (isset($ruta["query"])) {
     $ruta["query"] == "ctrInfoPrecio" ||
     $ruta["query"] == "ctrActualizarPrecio" ||
     $ruta["query"] == "ctrPreciosAdicionales" ||
-    $ruta["query"] == "ctrEliProducto"
+    $ruta["query"] == "ctrEliProducto" ||
+    $ruta["query"] == "ctrReporteKardex"
   ) {
     $metodo = $ruta["query"];
     $Producto = new ControladorProducto();
@@ -231,6 +232,18 @@ class ControladorProducto
   static public function ctrMasVendidos(){
     $respuesta=ModeloProducto::mdlMasVendidos();
     return $respuesta;
+  }
+
+  static public function ctrReporteKardex(){
+    require "../modelo/productoModelo.php";
+    
+    $fechaInicial = $_POST["fechaInicial"] ?? '';
+    $fechaFinal = $_POST["fechaFinal"] ?? '';
+    $idProducto = $_POST["idProducto"] ?? '';
+    $tipo = $_POST["tipo"] ?? '';
+    
+    $respuesta = ModeloProducto::mdlReporteKardex($fechaInicial, $fechaFinal, $idProducto, $tipo);
+    echo json_encode($respuesta);
   }
 
 }

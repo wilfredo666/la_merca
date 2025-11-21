@@ -405,4 +405,68 @@ static public function mdlProductosPorCategoria($categoria) {
     return $resultado;
   }
 
+  static public function mdlReporteKardex($fechaInicial, $fechaFinal, $idProducto = '', $tipo = '') {
+    try {
+      session_start();
+      $idAlmacen = $_SESSION["idAlmacen"] ?? 1;
+      
+      // Construir la consulta base
+      $sql = "SELECT 
+                m.create_at,
+                m.tipo,
+                m.cantidad,
+                m.codigo as referencia,
+                m.costo,
+                p.id_producto,
+                p.cod_producto,
+                p.nombre_producto,
+                p.precio,
+                p.costo,
+                a.descripcion as almacen
+              FROM movimiento m
+              INNER JOIN producto p ON m.id_producto = p.id_producto
+              INNER JOIN almacen a ON m.id_almacen = a.id_almacen
+              WHERE m.id_almacen = :idAlmacen
+                AND DATE(m.create_at) BETWEEN :fechaInicial AND :fechaFinal";
+      
+      // Agregar filtros opcionales
+      if (!empty($idProducto)) {
+        $sql .= " AND m.id_producto = :idProducto";
+      }
+      
+      if (!empty($tipo)) {
+        $sql .= " AND m.tipo = :tipo";
+      }
+      
+      $sql .= " ORDER BY m.create_at ASC, m.id_movimiento ASC";
+      
+      $conexion = Conexion::conectar();
+      $stmt = $conexion->prepare($sql);
+      
+      // Bind de parámetros
+      $stmt->bindParam(":idAlmacen", $idAlmacen, PDO::PARAM_INT);
+      $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
+      $stmt->bindParam(":fechaFinal", $fechaFinal, PDO::PARAM_STR);
+      
+      if (!empty($idProducto)) {
+        $stmt->bindParam(":idProducto", $idProducto, PDO::PARAM_INT);
+      }
+      
+      if (!empty($tipo)) {
+        $stmt->bindParam(":tipo", $tipo, PDO::PARAM_STR);
+      }
+      
+      $stmt->execute();
+      $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $stmt->closeCursor();
+      $stmt = null;
+      
+      return $resultado;
+      
+    } catch (Exception $e) {
+      error_log("Error en mdlReporteKardex: " . $e->getMessage());
+      return [];
+    }
+  }
+
 }
