@@ -147,6 +147,7 @@ JOIN usuario as u ON u.id_usuario = venta.id_usuario");
     estado_venta,
     u.nombre,
     c.razon_social_cliente,
+    nit_ci_cliente,
     detalle_venta,
     observacion
 FROM

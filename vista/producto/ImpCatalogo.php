@@ -68,17 +68,39 @@ foreach ($productos as $producto) {
     $x = 10 + ($currentColumn * 100); // separación horizontal entre columnas
     $y = $yStart + ($currentRow * $rowHeight);
 
-    // Imagen
+    // ********** Imagen ***********
+    // Configuración
+    $basePath = '../../assest/dist/img/producto/';
+    $defaultImage = $basePath . 'product_default.png';
+  
+    //poscicion
     $imgX = $x + 25;
     $imgY = $y;
-    $imgFile = !empty($producto['imagen_producto']) ? '../../assest/dist/img/producto/' . $producto['imagen_producto'] : '';
-    if ($imgFile !== '' && file_exists($imgFile)) {
-        $pdf->Image($imgFile, $imgX, $imgY, 35, 35);
-    } elseif (file_exists('../../assest/dist/img/producto/product_default.png')) {
-        $pdf->Image('../../assest/dist/img/producto/product_default.png', $imgX, $imgY, 35, 35);
-    } else {
-        $pdf->Rect($imgX, $imgY, 35, 35);
-    }
+  
+  // Obtener nombre de imagen desde BD
+    $nombreImagen = trim($producto['imagen_producto'] ?? '');
+  // Ruta final de imagen
+    $rutaImagen = $basePath . $nombreImagen;
+  
+    // Validación final
+if (!empty($nombreImagen) && file_exists($rutaImagen)) {
+    
+    // Caso ideal: existe en BD y en disco
+    $pdf->Image($rutaImagen, $imgX, $imgY, 35, 35);
+
+} elseif (file_exists($defaultImage)) {
+    
+    // Caso fallback: usar imagen por defecto
+    $pdf->Image($defaultImage, $imgX, $imgY, 35, 35);
+
+} else {
+    
+    // Caso extremo: no hay nada
+    $pdf->Rect($imgX, $imgY, 35, 35);
+    $pdf->SetXY($imgX, $imgY + 15);
+    $pdf->SetFont('Arial', 'I', 8);
+    $pdf->Cell(35, 5, 'Sin imagen', 0, 0, 'C');
+}
 
     // Datos del producto
     $pdf->SetXY($x, $y + 40);
