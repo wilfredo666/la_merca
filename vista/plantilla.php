@@ -7,7 +7,7 @@ session_start();
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sistema</title>
+    <title>La Merca</title>
     <link rel="shortcut icon" href="#">
     <!-- Base URL dinámica -->
     <?php $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/'; ?>
@@ -38,7 +38,7 @@ session_start();
     <!-- dropzonejs -->
     <link rel="stylesheet" href="<?php echo $base_url; ?>assest/plugins/dropzone/min/dropzone.min.css">
     <!--icono-->
-    <link rel="icon" href="<?php echo $base_url; ?>assest/dist/img/logotipo.png">
+    <link rel="icon" href="<?php echo $base_url; ?>assest/dist/img/icon.jpg">
       <!-- Select2 -->
   <link rel="stylesheet" href="assest/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="assest/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">

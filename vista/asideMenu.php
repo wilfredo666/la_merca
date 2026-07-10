@@ -47,9 +47,9 @@ function habilitado($idPermiso)
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="inicio" class="brand-link">
-        <img src="<?php echo $base_url; ?>assest/dist/img/logotipo.png"
-          class="brand-image img-circle elevation-3" style="opacity: .8" style="width:300px">
-        <span class="brand-text font-weight-light">Sitema</span>
+       <span class="brand-text font-weight-light">&nbsp</span>
+        <img src="<?php echo $base_url; ?>assest/dist/img/logodb.jpg"
+          class="brand-image elevation-3" style="opacity: .8" style="width:300px">
       </a>
 
       <!-- Sidebar -->
