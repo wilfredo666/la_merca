@@ -200,13 +200,13 @@ function previsualizar() {
  ============================================*/
 
 function precioAdicional(id) {
-  $("#modal-lg").modal("show");
+  $("#modal-precios").modal("show");
 
   $.ajax({
     type: "POST",
     url: "vista/producto/precioAdicional.php?id=" + id,
     success: function (data) {
-      $("#content-lg").html(data);
+      $("#content-precios").html(data);
 
       // Esperar a que el DOM se actualice antes de cargar precios
       setTimeout(() => {

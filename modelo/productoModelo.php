@@ -22,7 +22,8 @@ LEFT JOIN
     movimiento m ON p.id_producto = m.id_producto
 GROUP BY
     p.id_producto, p.cod_producto, p.imagen_producto, p.nombre_producto,
-    p.descripcion_prod, p.categoria, p.precio");
+    p.descripcion_prod, p.categoria, p.precio
+    ORDER BY p.id_producto DESC");
     $stmt->execute();
 
     $resultado= $stmt->fetchAll();

@@ -126,12 +126,14 @@ class ModeloSalida{
     total,
     create_at,
     estado_venta,
+    metodo_pago,
     u.nombre,
     c.razon_social_cliente
 FROM
     venta
 JOIN cliente as c ON c.id_cliente = venta.id_cliente
-JOIN usuario as u ON u.id_usuario = venta.id_usuario");
+JOIN usuario as u ON u.id_usuario = venta.id_usuario
+ORDER BY id_venta DESC");
     $stmt->execute();
     $resul = $stmt->fetchAll();
     $stmt->closeCursor();
@@ -145,6 +147,7 @@ JOIN usuario as u ON u.id_usuario = venta.id_usuario");
     total,
     create_at,
     estado_venta,
+    metodo_pago,
     u.nombre,
     c.razon_social_cliente,
     nit_ci_cliente,
@@ -200,7 +203,7 @@ WHERE id_venta=$id");
     }
   }
 
-static public function mdlInfoCajaChica(){
+  static public function mdlInfoCajaChica(){
   try {
     date_default_timezone_set("America/La_Paz");
     $fecha = date("Y-m-d");

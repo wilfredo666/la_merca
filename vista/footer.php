@@ -81,6 +81,18 @@ seccion de modals
 </div>
 <!-- /.modal -->
 
+<!-- modal exclusivo para editar precios-->
+<div class="modal fade" id="modal-precios">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" id="content-precios">
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <div class="modal fade" id="modal-xl">
   <div class="modal-dialog modal-xl">
     <div class="modal-content" id="content-xl">
@@ -107,6 +119,9 @@ seccion de modals
   /*dataTable generico*/
   $(function() {
     $("#DataTable").DataTable({
+      "paging": true,
+      "ordering": false,
+      "pageLength": 15,
       "responsive": true,
       "lengthChange": false,
       "autoWidth": false,
@@ -135,8 +150,56 @@ seccion de modals
     $('#DataTable td').css('padding', '5px');
     //$('#DataTable td').css('text-align', 'center'); 
   })
+  
+  /*dataTable lista de ventas*/
+$(function () {
 
-  //dataTable producto
+    var tabla = $("#DataTableVentas").DataTable({
+        paging: true,
+        ordering: false,
+        pageLength: 15,
+        responsive: true,
+        lengthChange: false,
+        autoWidth: false,
+        buttons: ["copy", "csv", "excel", "pdf", "print"],
+        language: {
+            decimal: "",
+            emptyTable: "No hay información",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+            infoFiltered: "(Filtrado de _MAX_ total entradas)",
+            thousands: ",",
+            lengthMenu: "Mostrar _MENU_ Entradas",
+            loadingRecords: "Cargando...",
+            processing: "Procesando...",
+            search: "Buscar:",
+            zeroRecords: "Sin resultados encontrados",
+            paginate: {
+                first: "Primero",
+                last: "Ultimo",
+                next: "Siguiente",
+                previous: "Anterior"
+            }
+        }
+    });
+
+    tabla.buttons().container().appendTo('#DataTableVentas_wrapper .col-md-6:eq(0)');
+
+    // Actualizar badge
+    function actualizarBadge() {
+        let total = tabla.rows({ search: 'applied' }).count();
+        $("#totalVentas").text(total);
+    }
+
+    // Al cargar la tabla
+    actualizarBadge();
+
+    // Cada vez que se redibuja (buscar, cambiar página, etc.)
+    tabla.on('draw', actualizarBadge);
+
+});
+
+  //dataTable lista de productos
   $(function() {
     $("#DataTable_producto").DataTable({
       "dom": 'Bfrtip',
@@ -165,12 +228,13 @@ seccion de modals
         {
           data: 'imagen_producto',
           render: function(data, type, row) {
+            let imagen = data ? data: "product_default.png"
+            
+            return `<img src="assest/dist/img/producto/${data}"
+                    alt="Imagen"
+                    style="width: 50px; height: auto;"
+                    onerror="this.onerror=null; this.src='assest/dist/img/producto/product_default.png';">`;
 
-            if (data == "") {
-              return `<img src="assest/dist/img/producto/product_default.png" alt="Imagen" style="width: 50px; height: auto;">`;
-            } else {
-              return `<img src="assest/dist/img/producto/${data}" alt="Imagen" style="width: 50px; height: auto;">`;
-            }
           }
         },
         {

@@ -18,20 +18,30 @@
 
     <!-- Default box -->
     <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Lista de Ventas</h3>
+      <div class="card-header bg-gradient-info">
+
+        <h3 class="card-title">
+          <i class="fas fa-shopping-cart mr-2"></i>
+          Lista de Ventas
+
+          <span class="badge badge-light ml-2" id="totalVentas">0</span>
+        </h3>
 
         <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+
+          <button type="button" class="btn btn-tool text-white" data-card-widget="collapse" title="Contraer">
             <i class="fas fa-minus"></i>
           </button>
-          <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+
+          <button type="button" class="btn btn-tool text-white" data-card-widget="remove" title="Cerrar">
             <i class="fas fa-times"></i>
           </button>
+
         </div>
+
       </div>
       <div class="card-body">
-        <table id="DataTable" class="table table-bordered table-striped">
+        <table id="DataTableVentas" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Codigo</th>
@@ -40,6 +50,7 @@
               <th>Fecha</th>
               <th>Usuario</th>
               <th>Estado</th>
+              <th>Metodo de Pago</th>
               <td><a href="FormVenta" type="button" class="btn btn-block btn-primary btn-xs">Nuevo</a></td>
             </tr>
           </thead>
@@ -63,6 +74,19 @@
             }else{
                 ?>
                 <span class="badge bg-danger">Anulada</span>
+                <?php
+            }?>
+
+              </td>
+              <td>
+                <?php if($value["metodo_pago"]=="EFECTIVO"){
+                ?>
+
+                <span class="badge bg-warning">EFECTIVO</span>
+                <?php
+            }else{
+                ?>
+                <span class="badge bg-secondary">QR</span>
                 <?php
             }?>
 

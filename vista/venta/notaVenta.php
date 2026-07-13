@@ -19,7 +19,7 @@ $productos = json_decode($factura["detalle_venta"], true);
 </div>
 <div class="modal-body">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
 
       <table class="table">
         <tr>
@@ -56,11 +56,25 @@ $productos = json_decode($factura["detalle_venta"], true);
               } ?>
           </td>
         </tr>
+        
+        <tr>
+          <th>Metodo de Pago</th>
+          <td><?php if($factura["metodo_pago"]=="EFECTIVO"){
+                ?>
+
+                <span class="badge bg-warning">EFECTIVO</span>
+                <?php
+            }else{
+                ?>
+                <span class="badge bg-secondary">QR</span>
+                <?php
+            }?></td>
+        </tr>
 
       </table>
 
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <table class="table">
         <thead class="bg-gradient-dark">
           <th>#</th>

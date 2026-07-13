@@ -89,7 +89,7 @@ $producto = ControladorProducto::ctrInfoProducto($id);
     </div>
 
     <div class="form-group col-md-4" style="text-align: center;">
-      <img src="assest/dist/img/producto/<?= $producto["imagen_producto"] ?: 'product_default.png'; ?>" class="img-thumbnail previsualizar" width="200">
+      <img src="assest/dist/img/producto/<?= $producto["imagen_producto"] ?: 'product_default.png'; ?>" class="img-thumbnail previsualizar" width="200" onerror="this.onerror=null; this.src='assest/dist/img/producto/product_default.png';">
     </div>
   </div>
 

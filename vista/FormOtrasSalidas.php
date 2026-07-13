@@ -17,7 +17,7 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="card">
-            <div class="card-header bg-info">
+            <div class="card-header bg-danger">
               <h4 class="card-title" style="font-size:20px;"><i class="fas fa-arrow-right"></i> NOTA DE SALIDA</h4>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

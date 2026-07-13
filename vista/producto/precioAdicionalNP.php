@@ -1,7 +1,9 @@
 <!-- Modal completo e independiente para precios adicionales de producto nuevo -->
 <div class="modal fade" id="modalPreciosNuevoProducto" tabindex="-1" role="dialog" aria-labelledby="modalPreciosNuevoProductoLabel" aria-hidden="true">
+ 
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+     
       <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="modalPreciosNuevoProductoLabel">
           <i class="fas fa-tags"></i> Precios Adicionales para Producto Nuevo
