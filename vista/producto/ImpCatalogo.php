@@ -20,7 +20,7 @@ class PDF extends FPDF
         }
 
         // Logo
-        $this->Image('../../assest/dist/img/logo_pos.png', 10, 8, 20);
+        $this->Image('../../assest/dist/img/logo.jpg', 10, 8, 20);
         // Arial bold 15
         $this->SetFont('Arial', 'B', 15);
         // Movernos a la derecha
