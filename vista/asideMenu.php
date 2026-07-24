@@ -328,14 +328,21 @@ function habilitado($idPermiso)
                 <li class="nav-item">
                   <a href="KxProducto" class="nav-link">
                     <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Kardex Productos</p>
+                    <p>Movimientos de Productos</p>
                   </a>
                 </li>
 
                 <li class="nav-item">
                   <a href="KxProveedor" class="nav-link">
                     <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Por Proveedor</p>
+                    <p>Movimientos de Proveedores</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="KxProductoProveedor" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
+                    <p>Movimientos de Productos por Proveedor</p>
                   </a>
                 </li>
 

@@ -38,6 +38,7 @@ function numFactura(){
   })
 }
 
+/*
 function busProducto(){
   let codProducto = document.getElementById("codProducto").value
 
@@ -109,6 +110,82 @@ function busProducto(){
       limpiarCamposProducto();
     }
   })
+}
+*/
+
+// funcion para buscar productos para Nota de Venta
+function busProducto(codProducto){
+
+  var obj={
+    codProducto:codProducto
+  }
+
+  $.ajax({
+    type:"POST",
+    url:"controlador/productoControlador.php?ctrBusProducto",
+    data:obj,
+    dataType:"json",
+    success:function(data){
+      
+      // Verificar si se encontró el producto
+      if (data && data["id_producto"]) {
+        
+        document.getElementById("idProducto").value = data["id_producto"]
+        document.getElementById("codProducto").value = codProducto
+        document.getElementById("conceptoPro").value = data["nombre_producto"]
+        document.getElementById("preUnitario").value = data["precio"]
+        document.getElementById("cantProducto").value=1
+        document.getElementById("stock").value=data["stock"]
+        document.getElementById("categoria").value = data["categoria"] || ''
+        document.getElementById("imagen").value = data["imagen_producto"] || ''
+        
+        // Validar stock antes de permitir agregar al carrito
+        let stock = parseInt(data["stock"]) || 0;
+        
+        if (stock >= 1) {
+          // Stock disponible - permitir agregar al carrito automáticamente
+          agregarCarrito();
+        } else {
+          // No hay stock - mostrar alert y limpiar campos
+          Swal.fire({
+            icon: 'warning',
+            title: 'Stock Insuficiente',
+            text: `El producto "${data["nombre_producto"]}" no tiene stock disponible.`,
+            confirmButtonText: 'Entendido'
+          });
+          
+          // Limpiar campos del producto
+          limpiarCamposProducto();
+        }
+        
+      } else {
+        // Producto no encontrado
+        Swal.fire({
+          icon: 'error',
+          title: 'Producto No Encontrado',
+          text: `No se encontró un producto con el código "${codProducto}".`,
+          confirmButtonText: 'Entendido'
+        });
+        
+        // Limpiar campos del producto
+        limpiarCamposProducto();
+      }
+
+    },
+    error: function() {
+      // Error en la petición AJAX
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de Conexión',
+        text: 'No se pudo conectar con el servidor. Intente nuevamente.',
+        confirmButtonText: 'Entendido'
+      });
+      
+      // Limpiar campos del producto
+      limpiarCamposProducto();
+    }
+  })
+  
 }
 
 //calculo precio
@@ -273,9 +350,7 @@ onchange="actualizarCantidad(${index}, this.value)">`;
       `<td class="text-center">${imagenHtml}</td>` +
       `<td>${detalle.codigoProducto}</td>` +
       `<td>${detalle.descripcion}</td>` +
-      `<td>${detalle.categoria}</td>` +
       `<td>${inputCantidad}</td>` +
-      `<td>${detalle.stock}</td>` +
       `<td>${inputPrecio}</td>` +
       `<td>${detalle.subtotal}</td>`;
 

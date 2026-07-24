@@ -42,7 +42,7 @@
                   <div class="form-group col-md-3">
                     <label for="">Cod. Producto</label>
                     <div class="input-group form-group">
-                      <input type="text" class="form-control form-control-sm" name="codProducto" id="codProducto" list="listaProductos">
+                      <input type="text" class="form-control form-control-sm" name="codProducto" id="codProducto" list="listaProductos" onchange="busProductoIngreso()">
                       <input type="hidden" name="idProducto" id="idProducto">
                       <input type="hidden" name="categoria" id="categoria">
                       <input type="hidden" name="imagen" id="imagen">

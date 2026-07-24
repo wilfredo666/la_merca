@@ -135,4 +135,46 @@ class ModeloProveedor
 
     return $result;
   }
+
+  static public function mdlKardexProductoProveedor($id_proveedor = null, $fecha_inicial = null, $fecha_final = null, $id_producto = null)
+  {
+    // Iniciar la consulta base
+    $sql = "SELECT oi.id_otros_ingresos, mv.id_producto, oi.id_almacen, cantidad, mv.costo, id_proveedor, mv.create_at, mv.codigo
+          FROM movimiento AS mv
+          JOIN otros_ingresos AS oi ON oi.codigo_oi = mv.codigo
+          WHERE 1=1";
+
+    // Agregar condiciones solo si existen
+  if ($id_producto) {
+    $sql .= " AND mv.id_producto = :id_producto";
+  }
+  if ($id_proveedor) {
+    $sql .= " AND oi.id_proveedor = :id_proveedor";
+  }
+  if ($fecha_inicial && $fecha_final) {
+    $sql .= " AND mv.create_at BETWEEN :fecha_inicial AND :fecha_final";
+  }
+
+
+    // Preparar la consulta
+    $stmt = Conexion::conectar()->prepare($sql);
+
+    // Vincular solo los parámetros que existen
+  if ($id_producto) {
+    $stmt->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+  }
+  if ($id_proveedor) {
+    $stmt->bindParam(':id_proveedor', $id_proveedor, PDO::PARAM_INT);
+  }
+  if ($fecha_inicial && $fecha_final) {
+    $stmt->bindParam(':fecha_inicial', $fecha_inicial);
+    $stmt->bindParam(':fecha_final', $fecha_final);
+  }
+
+  $stmt->execute();
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $stmt = null;
+
+  return $result;
+  }
 }

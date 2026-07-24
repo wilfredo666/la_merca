@@ -20,7 +20,7 @@ require_once "../../modelo/cajaModelo.php";
           <select class="form-control" id="tipo" name="tipo" required>
             <option value="">Seleccione...</option>
             <option value="ingreso">Ingreso</option>
-            <option value="salida">Salida</option>
+            <option value="egreso">Salida</option>
           </select>
         </div>
       </div>

@@ -6,7 +6,8 @@ if (isset($ruta["query"])) {
     $ruta["query"] == "ctrRegProveedor" ||
     $ruta["query"] == "ctrEditProveedor" ||
     $ruta["query"] == "ctrEliProveedor" ||
-    $ruta["query"] == "ctrKardexProveedor"
+    $ruta["query"] == "ctrKardexProveedor"||
+    $ruta["query"] == "ctrKardexProductoProveedor"
   ) {
     $metodo = $ruta["query"];
     $Proveedor = new ControladorProveedor();
@@ -86,6 +87,20 @@ class ControladorProveedor
     $fecha_inicial = $_POST["fecha_inicial"];
     $fecha_final = $_POST["fecha_final"];
     $respuesta = ModeloProveedor::mdlKardexProveedor($id_proveedor, $fecha_inicial, $fecha_final);
+    echo json_encode($respuesta);
+  }
+
+  static public function ctrKardexProductoProveedor()
+  {
+
+    require "../modelo/proveedorModelo.php";
+
+    // Obtener los parámetros enviados desde la solicitud AJAX
+    $id_proveedor = $_POST["id_proveedor"];
+    $fecha_inicial = $_POST["fecha_inicial"];
+    $fecha_final = $_POST["fecha_final"];
+    $id_producto = $_POST["id_producto"];
+    $respuesta = ModeloProveedor::mdlKardexProductoProveedor($id_proveedor, $fecha_inicial, $fecha_final, $id_producto);
     echo json_encode($respuesta);
   }
 

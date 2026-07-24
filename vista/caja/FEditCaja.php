@@ -22,7 +22,7 @@ $caja = ControladorCaja::ctrInfoCaja($id);
           <select class="form-control" id="tipo" name="tipo" required>
             <option value="">Seleccione...</option>
             <option value="ingreso" <?php echo ($caja["tipo"] == "ingreso") ? "selected" : ""; ?>>Ingreso</option>
-            <option value="salida" <?php echo ($caja["tipo"] == "salida") ? "selected" : ""; ?>>Salida</option>
+            <option value="egreso" <?php echo ($caja["tipo"] == "egreso") ? "selected" : ""; ?>>Salida</option>
           </select>
         </div>
       </div>

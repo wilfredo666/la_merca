@@ -110,6 +110,7 @@ session_start();
           "VCategoria",
           "KxProducto",
           "KxProveedor",
+          "KxProductoProveedor",
           "VCaja"
         ];
 

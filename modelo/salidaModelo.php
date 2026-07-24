@@ -26,6 +26,7 @@ class ModeloSalida{
     $descuento   = $_POST["descuento"] ?? 0;
     $neto        = $total - $descuento;
     $observacion = $_POST["observacion"] ?? '';
+    $metodoPago = $_POST["metodoPago"] ?? 'EFECTIVO';
     $id_usuario  = $_SESSION["idUsuario"] ?? 0;
     $id_almacen  = $_SESSION["idAlmacen"] ?? 0;
     $creado      = date("Y-m-d H:i:s");
@@ -35,11 +36,11 @@ class ModeloSalida{
     $stmt = $conn->prepare("
       INSERT INTO venta (
         id_cliente, detalle_venta, total, descuento, neto,
-        observacion, id_usuario, id_almacen,
+        observacion, metodo_pago, id_usuario, id_almacen,
         create_at, update_at
       ) VALUES (
         :cliente, :detalle, :total, :descuento, :neto,
-        :observacion, :usuario, :almacen,
+        :observacion, :metodoPago, :usuario, :almacen,
         :creado, :actualizado
       )
     ");
@@ -50,6 +51,7 @@ class ModeloSalida{
     $stmt->bindParam(":descuento", $descuento);
     $stmt->bindParam(":neto", $neto);
     $stmt->bindParam(":observacion", $observacion);
+    $stmt->bindParam(":metodoPago", $metodoPago);
     $stmt->bindParam(":usuario", $id_usuario);
     $stmt->bindParam(":almacen", $id_almacen);
     $stmt->bindParam(":creado", $creado);

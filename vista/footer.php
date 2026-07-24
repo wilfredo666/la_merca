@@ -116,6 +116,16 @@ seccion de modals
 <!-- Select2 -->
 <script src="assest/plugins/select2/js/select2.full.min.js"></script>
 <script>
+  $(function() {
+    if ($.fn.select2 && $('#filtroProducto, #filtroProveedor').length) {
+      $('#filtroProducto, #filtroProveedor').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Seleccione una opción',
+        allowClear: true
+      });
+    }
+  });
+
   /*dataTable generico*/
   $(function() {
     $("#DataTable").DataTable({
@@ -296,6 +306,92 @@ $(function () {
       }
     }).buttons().container().appendTo('#DataTable_producto_wrapper .row .col-md-6:eq(0)');
     $('#DataTable_producto td').css('padding', '5px');
+
+  });
+
+    //dataTable lista de productos para formulario de venta
+  $(function() {
+    $("#DataTable_proFormVenta").DataTable({
+      "processing": true,
+      ajax: {
+        url: "vista/producto/ajaxProducto.php",
+        dataSrc: "data"
+      },
+      columns: [{
+          data: 'cod_producto'
+        },
+        {
+          data: 'imagen_producto',
+          render: function(data, type, row) {
+            let imagen = data ? data: "product_default.png"
+            
+            return `<img src="assest/dist/img/producto/${data}"
+                    alt="Imagen"
+                    style="width: 50px; height: auto;"
+                    onerror="this.onerror=null; this.src='assest/dist/img/producto/product_default.png';">`;
+
+          }
+        },
+        {
+          data: 'nombre_producto'
+        },
+
+        {
+          data: 'categoria'
+        },
+        {
+          data: 'precio'
+        },
+        {
+          data: 'stock'
+        },
+        {
+          data: 'cod_producto',
+          render: function(data, type, row) {
+            return `<div class="btn-group">
+        <button type="button" class="btn btn-sm btn-primary" onclick="busProducto('${data}')">
+        <i class="fas fa-plus"></i>
+        </button>
+        </div>`;
+          }
+        }
+      ],
+      "paging": true,
+      scrollCollapse: true,
+      scrollY: '200px',
+      "ordering": false,
+      "pageLength": 8,
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+      language: {
+        "decimal": "",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+          "first": "Primero",
+          "last": "Ultimo",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+      }
+    }).buttons().container().appendTo('#DataTable_proFormVenta_wrapper .row .col-md-6:eq(0)');
+
+    $("#DataTable_proFormVenta_wrapper .row .col-md-6").first()
+    .css({
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%'
+  })
+    .prepend('<span class="text-primary font-weight-bold" style="font-size:20px"> <i class="fas fa-box"></i> Productos</span>');
 
   });
 
