@@ -349,7 +349,7 @@ $(function () {
           data: 'cod_producto',
           render: function(data, type, row) {
             return `<div class="btn-group">
-        <button type="button" class="btn btn-sm btn-primary" onclick="busProducto('${data}')">
+        <button type="button" class="btn btn-sm btn-primary" onclick="busProductoNV('${data}')">
         <i class="fas fa-plus"></i>
         </button>
         </div>`;
