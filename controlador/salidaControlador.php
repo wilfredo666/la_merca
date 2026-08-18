@@ -162,6 +162,17 @@ class ControladorSalida{
     $respuesta=ModeloSalida::mdlEliNotaTraspaso($id);
     echo $respuesta;
   }
+  
+  /* Sitio Web*/
+  static public function ctrInfoVentasWeb(){
+    $respuesta=ModeloSalida::mdlVentasWeb();
+    return $respuesta;
+  }
+  
+  static public function ctrInfoVentaWeb($id){
+    $respuesta=ModeloSalida::mdlInfoVentaWeb($id);
+    return $respuesta;
+  }
 }
 
 

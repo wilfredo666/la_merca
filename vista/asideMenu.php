@@ -159,6 +159,19 @@ function habilitado($idPermiso)
 
                 </ul>
               </li>
+              
+              <?php if (habilitado(16) != null) {
+            ?>
+              <li class="nav-item">
+                <a href="VVentasWeb" class="nav-link">
+                  <i class="nav-icon fa fa-shopping-cart"></i>
+                  <p>
+                    Ventas Sitio Web
+                  </p>
+                </a>
+              </li>
+            <?php } ?>
+             
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-user-tie"></i>

@@ -111,7 +111,8 @@ session_start();
           "KxProducto",
           "KxProveedor",
           "KxProductoProveedor",
-          "VCaja"
+          "VCaja",
+          "VVentasWeb"
         ];
 
         if (in_array($_GET["ruta"], $rutas_validas)) {

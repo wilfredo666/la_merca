@@ -1005,9 +1005,20 @@ function MEliNotaTraspaso(id){
           }
         }
       })
+    }
+  })
+}
 
-
-
+/*sitio web*/
+function MVerNotaVentaWeb(id){
+    $("#modal-xl").modal("show")
+  var obj = ""
+  $.ajax({
+    type: "POST",
+    url: "vista/venta/notaVentaWeb.php?id=" + id,
+    data: obj,
+    success: function (data) {
+      $("#content-xl").html(data)
     }
   })
 }

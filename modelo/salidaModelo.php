@@ -687,4 +687,52 @@ WHERE id_traspaso=$id
       return "error";
     }
   }
+  
+  /*sitio web*/
+  static public function mdlVentasWeb(){
+    $stmt=Conexion::conectar()->prepare("SELECT
+    id_venta_tienda,
+    cod_venta_tienda,
+    total_venta_tienda,
+    create_at,
+    estado_venta_tienda,
+    metodo_pago_tienda,
+    c.nombre_cliente,
+    c.razon_social_cliente
+FROM
+    venta_tienda
+JOIN cliente as c ON c.id_cliente = venta_tienda.id_usuario_tienda
+ORDER BY id_venta_tienda DESC");
+    $stmt->execute();
+    $resul = $stmt->fetchAll();
+    $stmt->closeCursor();
+    return $resul;
+  }
+  
+  static public function mdlInfoVentaWeb($id){
+    $stmt=Conexion::conectar()->prepare("SELECT
+    id_venta_tienda,
+    cod_venta_tienda,
+    total_venta_tienda,
+    create_at,
+    estado_venta_tienda,
+    metodo_pago_tienda,
+    detalle_venta_tienda,
+    detalle_datos_factura,
+    c.nombre_cliente,
+    c.razon_social_cliente,
+    c.nit_ci_cliente,
+    c.pais_cliente,
+    c.ciudad_cliente,
+    c.direccion_cliente,
+    c.telefono_cliente
+FROM
+    venta_tienda
+JOIN cliente as c ON c.id_cliente = venta_tienda.id_usuario_tienda
+WHERE id_venta_tienda=$id");
+    $stmt->execute();
+    $resul = $stmt->fetch();
+    $stmt->closeCursor();
+    return $resul;
+  }
 }
